@@ -1,0 +1,22 @@
+# macOS
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+
+# Linux
+.fuse_hidden*
+.Trash-*
+
+
+# IDEs
+.idea
+.project
+
+
+# Dart
+.packages
+pubspec.lock
+.dart_tool/
+/doc/api

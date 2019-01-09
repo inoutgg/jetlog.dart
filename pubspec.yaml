@@ -1,0 +1,18 @@
+name: structlog
+version: 0.1.0
+license: MIT
+description: >
+  Compact and robust structured logger for Dart.
+
+  This library provides a strongly typed APIs for logging records
+  with structured data.
+
+author: Roman Vanesyan <romain.vanesyan@gmail.com>
+homepage: https://github.com/vanesyan/structlog.dart
+
+dependencies:
+  meta: ^1.1.6
+
+dev_dependencies:
+  test: ^1.5.1
+  analyzer: ^0.34.1
