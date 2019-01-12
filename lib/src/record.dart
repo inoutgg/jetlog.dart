@@ -1,4 +1,4 @@
-import 'package:structlog/src/field.dart' show FieldSet;
+import 'package:structlog/src/field.dart' show Field;
 import 'package:structlog/src/level.dart';
 import 'package:structlog/src/logger.dart';
 
@@ -26,5 +26,5 @@ abstract class Record {
   DateTime get time;
 
   /// A set of fields bound to the logging context.
-  FieldSet get fields;
+  Iterable<Field> get fields;
 }

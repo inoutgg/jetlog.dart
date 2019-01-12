@@ -24,5 +24,5 @@ class RecordImpl implements Record {
   final DateTime time;
 
   @override
-  final FieldSet fields;
+  final Iterable<Field> fields;
 }

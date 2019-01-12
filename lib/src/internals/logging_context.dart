@@ -1,17 +1,16 @@
 import 'package:structlog/src/field.dart';
-import 'package:structlog/src/level.dart';
 import 'package:structlog/src/interface.dart';
-import 'package:structlog/src/tracer.dart';
-import 'package:structlog/src/internals/fieldset.dart';
-import 'package:structlog/src/internals/tracer.dart';
-import 'package:structlog/src/internals/record.dart';
 import 'package:structlog/src/internals/logger.dart';
+import 'package:structlog/src/internals/record.dart';
+import 'package:structlog/src/internals/tracer.dart';
+import 'package:structlog/src/level.dart';
+import 'package:structlog/src/tracer.dart';
 
 class LoggingContext implements Interface {
   LoggingContext(this._logger, [this._fields]);
 
   final LoggerImpl _logger;
-  final FieldSet _fields;
+  final Set<Field> _fields;
 
   @override
   void log(Level level, String message) {
@@ -44,17 +43,11 @@ class LoggingContext implements Interface {
   void fatal(String message) => log(Level.fatal, message);
 
   @override
-  Interface bind(FieldSetCollectorCallback collect) {
-    final builder = FieldSetBuilder();
+  Interface bind(Iterable<Field> fields) {
+    final newFields = Set<Field>.from(fields);
 
-    collect(builder);
+    if (_fields != null) newFields.addAll(_fields);
 
-    final fields = builder.build();
-
-    if (_fields != null) {
-      fields.addAll(_fields);
-    }
-
-    return LoggingContext(_logger, fields);
+    return LoggingContext(_logger, newFields);
   }
 }

@@ -1,6 +1,7 @@
-import 'package:structlog/src/tracer.dart';
-import 'package:structlog/src/level.dart';
+import 'package:structlog/src/field.dart' show Dur;
 import 'package:structlog/src/interface.dart';
+import 'package:structlog/src/level.dart';
+import 'package:structlog/src/tracer.dart';
 
 class TracerImpl implements Tracer {
   TracerImpl(this._context) : _timer = Stopwatch() {
@@ -19,7 +20,7 @@ class TracerImpl implements Tracer {
     }
 
     _context
-        .bind((collector) => collector.addDuration('duration', _timer.elapsed))
+        .bind([Dur('duration', _timer.elapsed)])
         .log(Level.trace, message);
   }
 }

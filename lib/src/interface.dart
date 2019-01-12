@@ -1,4 +1,4 @@
-import 'package:structlog/src/field.dart' show FieldSetCollector;
+import 'package:structlog/src/field.dart' show Field;
 import 'package:structlog/src/level.dart';
 import 'package:structlog/src/logger.dart';
 import 'package:structlog/src/record.dart' show RecordLevelError;
@@ -32,7 +32,7 @@ abstract class Interface {
   /// Emits a record with [message] and [Level.fatal] severity level.
   void fatal(String message);
 
-  /// Creates and returns a new logging context with collected field set
+  /// Creates and returns a new logging context with bound [fields]
   /// added to existing one.
-  Interface bind(void collect(FieldSetCollector collector));
+  Interface bind(Iterable<Field> fields);
 }

@@ -1,13 +1,14 @@
 import 'dart:async' show Stream, StreamController;
-import 'package:structlog/src/field.dart' show FieldSetCollectorCallback;
+
+import 'package:structlog/src/field.dart' show Field;
 import 'package:structlog/src/filter.dart';
 import 'package:structlog/src/handler.dart';
-import 'package:structlog/src/level.dart';
 import 'package:structlog/src/interface.dart';
+import 'package:structlog/src/internals/logging_context.dart';
+import 'package:structlog/src/level.dart';
+import 'package:structlog/src/logger.dart';
 import 'package:structlog/src/record.dart';
 import 'package:structlog/src/tracer.dart';
-import 'package:structlog/src/internals/logging_context.dart';
-import 'package:structlog/src/logger.dart';
 
 class LoggerImpl extends Filterer implements Logger {
   LoggerImpl([this.name])
@@ -85,8 +86,7 @@ class LoggerImpl extends Filterer implements Logger {
   void fatal(String message) => _context.fatal(message);
 
   @override
-  Interface bind(FieldSetCollectorCallback collector) =>
-      _context.bind(collector);
+  Interface bind(Iterable<Field> fields) => _context.bind(fields);
 
   @override
   String toString() {
