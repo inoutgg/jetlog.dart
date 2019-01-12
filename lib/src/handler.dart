@@ -1,4 +1,5 @@
 import 'dart:async' show StreamSubscription;
+
 import 'package:structlog/src/filter.dart' show Filterer;
 import 'package:structlog/src/logger.dart' show Logger;
 import 'package:structlog/src/record.dart' show Record;
@@ -32,6 +33,6 @@ abstract class Handler extends Filterer {
   ///
   /// Override this if additional operations are needed to free allot
   /// resources.
-  void close() =>
+  Future<void> close() =>
       _subscription?.cancel()?.then((dynamic _) => _subscription = null);
 }
