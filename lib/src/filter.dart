@@ -1,6 +1,6 @@
-import 'package:structlog/src/record.dart';
-import 'package:structlog/src/logger.dart';
 import 'package:structlog/src/handler.dart';
+import 'package:structlog/src/logger.dart';
+import 'package:structlog/src/record.dart';
 
 /// [Filter] allows [Logger]s and [Handler]s to filter [Record]s by
 /// criterias defined in [Filter.filter].
@@ -25,7 +25,7 @@ abstract class Filterer {
   ///
   /// The [Filterer.filter] will immediately return `false` if one of
   /// the filters return `false`; if none of the filters returns `false`
-  /// the [record] will be processed.
+  /// it returns `true`.
   bool filter(Record record) {
     if (_filters.isNotEmpty) {
       for (final f in _filters) {
