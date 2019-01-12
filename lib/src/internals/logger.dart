@@ -93,13 +93,12 @@ class LoggerImpl extends Filterer implements Logger {
     final builder = StringBuffer();
 
     builder
-      ..write('<Logger')
-      ..write(' ')
-      ..write('level=')
-      ..write(_level)
-      ..write(', ')
+      ..write('<Logger ')
       ..write('name=')
       ..write(name)
+      ..write(', ')
+      ..write('level=')
+      ..write(_level)
       ..write('>');
 
     return builder.toString();
