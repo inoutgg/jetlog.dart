@@ -1,10 +1,10 @@
 library structlog;
 
-export 'src/field.dart';
-export 'src/filter.dart';
-export 'src/handler.dart';
-export 'src/interface.dart';
-export 'src/level.dart';
-export 'src/logger.dart';
-export 'src/record.dart';
-export 'src/tracer.dart';
+export 'package:structlog/src/field.dart';
+export 'package:structlog/src/filter.dart';
+export 'package:structlog/src/handler.dart';
+export 'package:structlog/src/interface.dart';
+export 'package:structlog/src/level.dart';
+export 'package:structlog/src/logger.dart';
+export 'package:structlog/src/record.dart';
+export 'package:structlog/src/tracer.dart';
