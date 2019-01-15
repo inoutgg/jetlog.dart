@@ -4,7 +4,7 @@ import 'package:structlog/src/field.dart' show Field;
 import 'package:structlog/src/filter.dart';
 import 'package:structlog/src/handler.dart';
 import 'package:structlog/src/interface.dart';
-import 'package:structlog/src/internals/logging_context.dart';
+import 'package:structlog/src/internals/logger_context.dart';
 import 'package:structlog/src/level.dart';
 import 'package:structlog/src/logger.dart';
 import 'package:structlog/src/record.dart';
@@ -14,31 +14,41 @@ class LoggerImpl extends Filterer implements Logger {
   LoggerImpl([this.name])
       : _level = Level.info,
         _handlers = Set(),
-        _stream = StreamController.broadcast() {
-    _context = LoggingContext(this);
-  }
-
-  factory LoggerImpl.getLogger(String name) {
-    final logger = LoggerImpl(name);
-
-    return logger;
+        _stream = StreamController.broadcast(),
+        // TODO: initialize `children` to `null` when logger is detached.
+        children = Set() {
+    _context = LoggerContext(this);
   }
 
   final StreamController<Record> _stream;
   final Set<Handler> _handlers;
-  LoggingContext _context;
+  LoggerContext _context;
   Level _level;
 
   Stream<Record> get _onRecord => _stream.stream;
+
+  final Set<LoggerImpl> children;
+  LoggerImpl parent;
 
   @override
   final String name;
 
   @override
-  set level(Level level) => _level = level;
+  set level(Level level) {
+    if (level == null) {
+      throw ArgumentError.value(level, 'Level cannot be set to a `null`!');
+    }
+
+    _level = level;
+  }
+
+  @override
+  Level get level => _level;
 
   void add(Record record) {
     _stream.add(record);
+
+    if (parent != null) parent.add(record);
   }
 
   @override
