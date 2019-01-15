@@ -6,8 +6,8 @@ import 'package:structlog/src/internals/tracer.dart';
 import 'package:structlog/src/level.dart';
 import 'package:structlog/src/tracer.dart';
 
-class LoggingContext implements Interface {
-  LoggingContext(this._logger, [this._fields]);
+class LoggerContext implements Interface {
+  LoggerContext(this._logger, [this._fields]);
 
   final LoggerImpl _logger;
   final Set<Field> _fields;
@@ -48,6 +48,6 @@ class LoggingContext implements Interface {
 
     if (_fields != null) newFields.addAll(_fields);
 
-    return LoggingContext(_logger, newFields);
+    return LoggerContext(_logger, newFields);
   }
 }
