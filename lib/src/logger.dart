@@ -1,10 +1,39 @@
 import 'package:structlog/src/filter.dart';
 import 'package:structlog/src/handler.dart';
-import 'package:structlog/src/level.dart';
 import 'package:structlog/src/interface.dart';
 import 'package:structlog/src/internals/logger.dart';
+import 'package:structlog/src/internals/logger_manager.dart';
+import 'package:structlog/src/internals/noop_logger.dart';
+import 'package:structlog/src/level.dart';
+
+final _root = LoggerImpl('ROOT_LOGGER');
+final _loggers = LoggerManager(_root);
 
 abstract class Logger implements Filterer, Interface {
+  /// Creates a new logger.
+  ///
+  /// Created logger has no parent and any children and is not a part of
+  /// the logger hierarchy.
+  ///
+  /// Typically, this should be used if short-living logger is necessary,
+  /// which may be GC'ed later.
+  factory Logger([String name]) => LoggerImpl(name);
+
+  /// Creates a new noop logger, it never writes out any logs and never
+  /// delegates records to handlers.
+  factory Logger.noop([String name]) => NoopLoggerImpl(name);
+
+  /// Retrieves a logger with [name]. If the logger already exists, then it will
+  /// be returned, otherwise a new logger is created.
+  ///
+  /// Returned logger inherits [Logger.level] of it's parent.
+  factory Logger.getLogger(String name) => _loggers.get(name);
+
+  /// The root logger represents a topmost logger in loggers hierarchy.
+  ///
+  /// The severity level of the root logger is default to [Level.info].
+  static Logger get root => _root;
+
   /// Name of this logger.
   String get name;
 
