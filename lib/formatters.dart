@@ -1,1 +1,3 @@
-export 'src/formatters/formatter.dart';
+library structlog.formatters;
+
+export 'package:structlog/src/formatters/formatter.dart';
