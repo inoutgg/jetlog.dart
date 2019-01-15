@@ -17,6 +17,9 @@ abstract class Logger implements Filterer, Interface {
   /// or [Level.fatal] will be emitted by this logger.
   set level(Level level);
 
+  /// Retrieves this logger severity level.
+  Level get level;
+
   /// Tests whether record with severity [level] will be emitted by this logger.
   bool isEnabledFor(Level level);
 
