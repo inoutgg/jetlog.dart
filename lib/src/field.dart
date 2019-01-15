@@ -103,14 +103,14 @@ class DTM extends Field<DateTime> {
 
 /// A field with value of custom type (i.e. class that implements
 /// [Loggable]).
-class Obj extends Field<Loggable> {
+class Obj extends Field<Iterable<Field>> {
   Obj(String name, Loggable value)
-      : super(name: name, value: value, kind: FieldKind.object);
+      : super(name: name, value: value.toFields(), kind: FieldKind.object);
 }
 
 /// [Loggable] provides the ability to be logged as part of logging context
 /// field set.
 abstract class Loggable {
   /// Marshals this class to a field set.
-  Iterable<Field<Object>> toFieldSet();
+  Iterable<Field> toFields();
 }
