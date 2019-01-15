@@ -54,8 +54,7 @@ class LoggerImpl extends Filterer implements Logger {
   @override
   void addHandler(Handler handler) {
     if (_handlers.contains(handler)) {
-      throw HandlerRegisterError(
-          'The same instance of a handler was registered for the logger twice!');
+      throw HandlerRegisterError('Handler is already added!');
     }
 
     handler.subscription =
