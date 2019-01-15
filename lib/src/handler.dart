@@ -34,5 +34,6 @@ abstract class Handler extends Filterer {
   /// Override this if additional operations are needed to free allot
   /// resources.
   Future<void> close() =>
+      // ignore: avoid_annotating_with_dynamic
       _subscription?.cancel()?.then((dynamic _) => _subscription = null);
 }
