@@ -1,7 +1,7 @@
-import 'fieldset_test.dart' as fieldset_test;
 import 'level_test.dart' as level_test;
+import 'logger_test.dart' as logger_test;
 
 void main() {
-  fieldset_test.main();
   level_test.main();
+  logger_test.main();
 }
