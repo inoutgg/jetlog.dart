@@ -45,7 +45,7 @@ class Level implements Comparable<Level> {
   int compareTo(Level otherLevel) => value - otherLevel.value;
 
   @override
-  String toString() => name;
+  String toString() => '<Level name=$name>';
 
   /// Special level value to allow records with any severity level to be emitted
   /// by logger.
