@@ -12,8 +12,7 @@ import 'package:structlog/src/tracer.dart';
 
 class LoggerImpl extends Filterer implements Logger {
   LoggerImpl([this.name])
-      : _level = Level.info,
-        _handlers = Set(),
+      : _handlers = Set(),
         _stream = StreamController.broadcast(),
         // TODO: initialize `children` to `null` when logger is detached.
         children = Set() {
@@ -34,16 +33,16 @@ class LoggerImpl extends Filterer implements Logger {
   final String name;
 
   @override
-  set level(Level level) {
-    if (level == null) {
-      throw ArgumentError.value(level, 'Level cannot be set to a `null`!');
-    }
-
-    _level = level;
-  }
+  set level(Level level) => _level = level;
 
   @override
-  Level get level => _level;
+  Level get level {
+    if (_level != null) return _level;
+    if (parent != null) return parent.level;
+
+    // Defaults to `Level.info`.
+    return Level.info;
+  }
 
   void add(Record record) {
     _stream.add(record);
