@@ -1,5 +1,7 @@
 import 'package:test/test.dart';
-import 'package:structlog/structlog.dart' show Logger, Level;
+import 'package:structlog/structlog.dart'
+    show Logger, Level, RecordLevelError, HandlerRegisterError;
+import 'package:structlog/handlers.dart' show MemoryHandler;
 import 'package:structlog/src/internals/logger.dart' show LoggerImpl;
 
 void main() {
@@ -25,8 +27,9 @@ void main() {
         expect(a1, same((b as LoggerImpl).parent));
       });
 
-      test('Name cannot start with a `.`', () {
+      test('Name cannot start or end with a `.`', () {
         expect(() => Logger.getLogger('.a'), throwsArgumentError);
+        expect(() => Logger.getLogger('a.'), throwsArgumentError);
       });
     });
 
@@ -61,16 +64,28 @@ void main() {
     });
 
     group('Logger#level', () {
-      test('cannot set level to `null`', () {
-        final logger = Logger('logger');
+      test(
+          'when `Logger#level` set to `null` inherits level '
+          'from parent (HIERARCHY)', () {
+        final a = Logger.getLogger('a');
+        final b = Logger.getLogger('a.b');
 
-        expect(() => logger.level = null, throwsArgumentError);
+        expect(a.level, same(Logger.root.level));
+
+        b.level = Level.danger;
+
+        expect(b.level, same(Level.danger));
+
+        a.level = Level.all;
+        b.level = null; // explicitly set to null.
+
+        expect(b.level, same(a.level));
       });
 
       test('inherits parent logger severity level (HIERARCHY)', () {
         final e = Logger.getLogger('e');
 
-        expect(e.level, Logger.root.level);
+        expect(e.level, same(Logger.root.level));
 
         e.level = Level.all;
         final f = Logger.getLogger('e.f');
@@ -81,6 +96,59 @@ void main() {
         final g = Logger.getLogger('e.f.g');
 
         expect(g.level, same(f.level));
+      });
+
+      test('defaults to `Level.info`', () {
+        final logger1 = Logger.getLogger('logger1');
+        final logger2 = Logger('logger2');
+
+        expect(logger1.level, same(Level.info));
+        expect(logger2.level, same(Level.info));
+      });
+    });
+
+    group('Logger#isEnabledFor', () {
+      test('works correctly', () {
+        final a = Logger.getLogger('a')..level = Level.all;
+        final b = Logger.getLogger('a.b')..level = Level.off;
+        final c = Logger.getLogger('a.b.c')..level = Level.info;
+
+        expect(a.isEnabledFor(Level.debug), isTrue);
+        expect(a.isEnabledFor(Level.info), isTrue);
+        expect(a.isEnabledFor(Level.fatal), isTrue);
+
+        expect(b.isEnabledFor(Level.trace), isFalse);
+        expect(b.isEnabledFor(Level.warning), isFalse);
+        expect(b.isEnabledFor(Level.danger), isFalse);
+
+        expect(c.isEnabledFor(Level.info), isTrue);
+        expect(c.isEnabledFor(Level.warning), isTrue);
+        expect(c.isEnabledFor(Level.debug), isFalse);
+      });
+
+      test('throws error if special `Level` is provided', () {
+        final logger1 = Logger.getLogger('logger1');
+        final logger2 = Logger('logger2');
+
+        expect(() => logger1.isEnabledFor(Level.off),
+            throwsA(const TypeMatcher<RecordLevelError>()));
+        expect(() => logger1.isEnabledFor(Level.all),
+            throwsA(const TypeMatcher<RecordLevelError>()));
+        expect(() => logger2.isEnabledFor(Level.off),
+            throwsA(const TypeMatcher<RecordLevelError>()));
+        expect(() => logger2.isEnabledFor(Level.all),
+            throwsA(const TypeMatcher<RecordLevelError>()));
+      });
+    });
+
+    group('Logger#addHandler', () {
+      test('throws error when register the same handler twice a time', () {
+        final handler = MemoryHandler();
+        final logger = Logger.getLogger('logger');
+
+        expect(() => logger.addHandler(handler), returnsNormally);
+        expect(() => logger.addHandler(handler),
+            throwsA(const TypeMatcher<HandlerRegisterError>()));
       });
     });
   });
