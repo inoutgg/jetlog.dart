@@ -2,6 +2,15 @@ import 'package:structlog/src/handler.dart';
 import 'package:structlog/src/logger.dart';
 import 'package:structlog/src/record.dart';
 
+/// An error thrown when the same instance of [Filter] is registered twice a
+/// time for the same [Filterer].
+class FilterRegisterError extends Error {
+  FilterRegisterError(this.message);
+
+  /// This error message.
+  final String message;
+}
+
 /// [Filter] allows [Logger]s and [Handler]s to filter [Record]s by
 /// criterias defined in [Filter.filter].
 abstract class Filter {
@@ -15,7 +24,13 @@ abstract class Filterer {
   final Set<Filter> _filters = Set();
 
   /// Adds a [filter] to the filter list.
-  void addFilter(Filter filter) => _filters.add(filter);
+  void addFilter(Filter filter) {
+    if (_filters.contains(filter)) {
+      throw FilterRegisterError('Filter is already added!');
+    }
+
+    _filters.add(filter);
+  }
 
   /// Removes a [filter] from the filter list.
   void removeFilter(Filter filter) => _filters.remove(filter);
