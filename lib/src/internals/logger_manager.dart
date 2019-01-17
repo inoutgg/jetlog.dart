@@ -7,7 +7,7 @@ class LoggerManager {
   final LoggerImpl root;
 
   LoggerImpl get(String name) {
-    if (name.startsWith('.')) {
+    if (name.startsWith('.') || name.endsWith('.')) {
       throw ArgumentError.value(
           name, 'Logger name must not start with a `.\'!');
     }
@@ -26,7 +26,6 @@ class LoggerManager {
         ? root
         : get(name.substring(0, lastIndexOfDot));
 
-    logger.level = parent.level;
     logger.parent = parent;
     parent.children.add(logger);
 
