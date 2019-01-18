@@ -105,7 +105,7 @@ class DTM extends Field<DateTime> {
 /// [Loggable]).
 class Obj extends Field<Iterable<Field>> {
   Obj(String name, Loggable value)
-      : super(name: name, value: value.toFields(), kind: FieldKind.object);
+      : super(name: name, value: value?.toFields(), kind: FieldKind.object);
 }
 
 /// [Loggable] provides the ability to be logged as part of logging context
