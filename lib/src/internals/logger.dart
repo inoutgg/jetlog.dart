@@ -45,9 +45,11 @@ class LoggerImpl extends Filterer implements Logger {
   }
 
   void add(Record record) {
-    _stream.add(record);
+    if (filter(record)) {
+      _stream.add(record);
 
-    if (parent != null) parent.add(record);
+      if (parent != null) parent.add(record);
+    }
   }
 
   @override
