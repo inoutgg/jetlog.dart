@@ -19,8 +19,6 @@ class TracerImpl implements Tracer {
       throw TracerStoppedError('Tracer has been already stopped!');
     }
 
-    _context
-        .bind([Dur('duration', _timer.elapsed)])
-        .log(Level.trace, message);
+    _context.bind([Dur('duration', _timer.elapsed)]).log(Level.trace, message);
   }
 }

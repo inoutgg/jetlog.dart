@@ -50,7 +50,9 @@ void main() {
       test('works correctly', () {
         final filter1 = _TestFilter1();
         final filter2 = _TestFilter2();
-        final filterer = _TestFilterer()..addFilter(filter1)..addFilter(filter2);
+        final filterer = _TestFilterer()
+          ..addFilter(filter1)
+          ..addFilter(filter2);
         final record1 = RecordImpl(
             name: 'Test', level: Level.info, message: 'Test', fields: []);
         final record2 = RecordImpl(
