@@ -60,44 +60,44 @@ class Field<V> {
 
 /// A field with value of a [Duration] type.
 class Dur extends Field<Duration> {
-  Dur(String name, Duration value)
+  const Dur(String name, Duration value)
       : super(name: name, value: value, kind: FieldKind.duration);
 }
 
 /// A field with value of a [double] type.
 class Double extends Field<double> {
-  Double(String name, double value)
+  const Double(String name, double value)
       : super(name: name, value: value, kind: FieldKind.double);
 }
 
 /// A field with value of [num] type.
 class Num extends Field<num> {
-  Num(String name, num value)
+  const Num(String name, num value)
       : super(name: name, value: value, kind: FieldKind.number);
 }
 
 /// A field with value of [int] type.
 class Int extends Field<int> {
-  Int(String name, int value)
+  const Int(String name, int value)
       : super(name: name, value: value, kind: FieldKind.integer);
 }
 
 /// A field with value of [String] type.
 class Str extends Field<String> {
-  Str(String name, String value)
+  const Str(String name, String value)
       : super(name: name, value: value, kind: FieldKind.string);
 }
 
 /// A field with value of [bool] type.
 class Bool extends Field<bool> {
   // ignore: avoid_positional_boolean_parameters
-  Bool(String name, bool value)
+  const Bool(String name, bool value)
       : super(name: name, value: value, kind: FieldKind.boolean);
 }
 
 /// A field with value of [DateTime] type.
 class DTM extends Field<DateTime> {
-  DTM(String name, DateTime value)
+  const DTM(String name, DateTime value)
       : super(name: name, value: value, kind: FieldKind.dateTime);
 }
 
