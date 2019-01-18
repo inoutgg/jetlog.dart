@@ -3,14 +3,14 @@ import 'package:structlog/structlog.dart'
     show Filterer, Filter, FilterRegisterError, Level, Record;
 import 'package:structlog/src/internals/record.dart';
 
-class TestFilterer extends Filterer {}
+class _TestFilterer extends Filterer {}
 
-class Test1Filter extends Filter {
+class _TestFilter1 extends Filter {
   @override
   bool filter(Record record) => record.name == 'Test';
 }
 
-class Test2Filter extends Filter {
+class _TestFilter2 extends Filter {
   @override
   bool filter(Record record) => record.message == 'Test';
 }
@@ -19,8 +19,8 @@ void main() {
   group('Filterer', () {
     group('Filterer#addFilter', () {
       test('throws error when register the same filter twice a time', () {
-        final filter1 = Test1Filter();
-        final filterer = TestFilterer();
+        final filter1 = _TestFilter1();
+        final filterer = _TestFilterer();
 
         expect(() => filterer.addFilter(filter1), returnsNormally);
         expect(() => filterer.addFilter(filter1),
@@ -30,9 +30,9 @@ void main() {
 
     group('Filterer#filter', () {
       test('works correctly', () {
-        final filterer = TestFilterer()
-          ..addFilter(Test1Filter())
-          ..addFilter(Test2Filter());
+        final filterer = _TestFilterer()
+          ..addFilter(_TestFilter1())
+          ..addFilter(_TestFilter2());
         final record1 = RecordImpl(
             name: 'Test', level: Level.info, message: 'Test', fields: []);
         final record2 = RecordImpl(
@@ -48,11 +48,9 @@ void main() {
 
     group('Filterer#removeFilter', () {
       test('works correctly', () {
-        final filter1 = Test1Filter();
-        final filter2 = Test2Filter();
-        final filterer = TestFilterer()
-          ..addFilter(filter1)
-          ..addFilter(filter2);
+        final filter1 = _TestFilter1();
+        final filter2 = _TestFilter2();
+        final filterer = _TestFilterer()..addFilter(filter1)..addFilter(filter2);
         final record1 = RecordImpl(
             name: 'Test', level: Level.info, message: 'Test', fields: []);
         final record2 = RecordImpl(
@@ -64,6 +62,24 @@ void main() {
         filterer.removeFilter(filter1);
 
         expect(filterer.filter(record2), isTrue);
+      });
+
+      test('ignores second and futher removes', () {
+        final filter = _TestFilter1();
+        final filterer = _TestFilterer()..addFilter(filter);
+
+        expect(() => filterer.removeFilter(filter), returnsNormally);
+        expect(() => filterer.removeFilter(filter), returnsNormally);
+        expect(() => filterer.removeFilter(filter), returnsNormally);
+      });
+
+      test('ignores removes of unregistered filters', () {
+        final filterer = _TestFilterer();
+        final filter1 = _TestFilter1();
+        final filter2 = _TestFilter1();
+
+        expect(() => filterer.removeFilter(filter1), returnsNormally);
+        expect(() => filterer.removeFilter(filter2), returnsNormally);
       });
     });
   });

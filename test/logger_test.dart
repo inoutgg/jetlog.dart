@@ -6,7 +6,7 @@ import 'package:structlog/src/internals/logger.dart' show LoggerImpl;
 
 void main() {
   group('Logger', () {
-    group('Logger#getLogger', () {
+    group('#getLogger', () {
       test('Creates correct hierarchy', () {
         final LoggerImpl logger = Logger.getLogger('a.b.c.d') as LoggerImpl;
 
@@ -33,7 +33,7 @@ void main() {
       });
     });
 
-    group('Logger#Logger', () {
+    group('#Logger', () {
       test('Creates unique instance', () {
         final a1 = Logger('a');
         final a2 = Logger('a');
@@ -57,13 +57,22 @@ void main() {
       });
     });
 
-    group('Logger.root', () {
+    group('.root', () {
       test('#level defaults to `Level.info`', () {
         expect(Logger.root.level, Level.info);
       });
     });
 
-    group('Logger#level', () {
+    group('#toString', () {
+      test('returns correct string representation', () {
+        const level = Level.info;
+        final logger = Logger('logger')..level = level;
+
+        expect(logger.toString(), '<Logger name=logger, level=${level.name}>');
+      });
+    });
+
+    group('#level', () {
       test(
           'when `Logger#level` set to `null` inherits level '
           'from parent (HIERARCHY)', () {
@@ -107,7 +116,7 @@ void main() {
       });
     });
 
-    group('Logger#isEnabledFor', () {
+    group('#isEnabledFor', () {
       test('works correctly', () {
         final a = Logger.getLogger('a')..level = Level.all;
         final b = Logger.getLogger('a.b')..level = Level.off;
@@ -126,7 +135,7 @@ void main() {
         expect(c.isEnabledFor(Level.debug), isFalse);
       });
 
-      test('throws error if special `Level` is provided', () {
+      test('throws error if `Level.all` or `Level.off` is provided', () {
         final logger1 = Logger.getLogger('logger1');
         final logger2 = Logger('logger2');
 
@@ -139,9 +148,16 @@ void main() {
         expect(() => logger2.isEnabledFor(Level.all),
             throwsA(const TypeMatcher<RecordLevelError>()));
       });
+
+      test('throws error if `null` is provided', () {
+        final logger = Logger();
+
+        expect(() => logger.isEnabledFor(null),
+            throwsA(const TypeMatcher<RecordLevelError>()));
+      });
     });
 
-    group('Logger#addHandler', () {
+    group('#addHandler', () {
       test('throws error when register the same handler twice a time', () {
         final handler = MemoryHandler();
         final logger = Logger.getLogger('logger');
