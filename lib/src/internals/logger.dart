@@ -111,7 +111,7 @@ class LoggerImpl extends Filterer implements Logger {
       ..write(name)
       ..write(', ')
       ..write('level=')
-      ..write(level)
+      ..write(level.name)
       ..write('>');
 
     return builder.toString();
