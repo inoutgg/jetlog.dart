@@ -99,7 +99,7 @@ class LoggerImpl extends Filterer implements Logger {
   void fatal(String message) => _context.fatal(message);
 
   @override
-  Interface bind(Iterable<Field> fields) => _context.bind(fields);
+  Interface bind([Iterable<Field> fields]) => _context.bind(fields);
 
   @override
   String toString() {

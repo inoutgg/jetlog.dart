@@ -45,10 +45,11 @@ class LoggerContext implements Interface {
   void fatal(String message) => log(Level.fatal, message);
 
   @override
-  Interface bind(Iterable<Field> fields) {
-    final newFields = Set<Field>.from(fields);
+  Interface bind([Iterable<Field> fields]) {
+    Set<Field> newFields;
 
-    if (_fields != null) newFields.addAll(_fields);
+    if (fields != null) newFields = Set.from(fields);
+    if (_fields != null) newFields?.addAll(_fields);
 
     return LoggerContext(_logger, newFields);
   }

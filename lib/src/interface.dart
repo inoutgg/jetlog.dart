@@ -34,5 +34,5 @@ abstract class Interface {
 
   /// Creates and returns a new logging context with bound [fields]
   /// added to existing one.
-  Interface bind(Iterable<Field> fields);
+  Interface bind([Iterable<Field> fields]);
 }

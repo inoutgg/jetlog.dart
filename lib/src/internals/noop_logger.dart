@@ -18,7 +18,7 @@ class NoopLoggerImpl implements Logger {
   final String name;
 
   @override
-  Interface bind(Iterable<Field> fields) => NoopLoggerImpl();
+  Interface bind([Iterable<Field> fields]) => NoopLoggerImpl();
 
   @override
   bool isEnabledFor(Level level) => false;
