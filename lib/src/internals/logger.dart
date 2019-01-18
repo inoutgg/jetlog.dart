@@ -14,7 +14,7 @@ class LoggerImpl extends Filterer implements Logger {
   LoggerImpl([this.name])
       : _handlers = Set(),
         _stream = StreamController.broadcast(),
-        // TODO: initialize `children` to `null` when logger is detached.
+        // TODO: set `children` to `null` when logger is detached.
         children = Set() {
     _context = LoggerContext(this);
   }
@@ -67,9 +67,12 @@ class LoggerImpl extends Filterer implements Logger {
     if (level == Level.off || level == Level.all) {
       throw RecordLevelError('Illegal record\'s severity level! '
           'The use of `Level.off` and `Level.all` is prohibited.');
+    } else if (level == null) {
+      throw RecordLevelError('Illegal record\'s severity level! '
+          'Level cannot be set to `null`!');
     }
 
-    return _level <= level;
+    return this.level <= level;
   }
 
   @override
