@@ -14,12 +14,10 @@ class LoggerContext implements Interface {
 
   @override
   void log(Level level, String message) {
-    if (_logger.isEnabledFor(level)) {
-      final record = RecordImpl(
-          name: _logger.name, level: level, message: message, fields: _fields);
+    final record = RecordImpl(
+        name: _logger.name, level: level, message: message, fields: _fields);
 
-      _logger.add(record);
-    }
+    _logger.add(record);
   }
 
   @override

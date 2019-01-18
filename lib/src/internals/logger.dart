@@ -48,7 +48,10 @@ class LoggerImpl extends Filterer implements Logger {
     if (filter(record)) {
       _stream.add(record);
 
-      if (parent != null) parent.add(record);
+      // TODO: refactor to check `level` in a better location.
+      if (parent != null && parent.isEnabledFor(record.level)) {
+        parent.add(record);
+      }
     }
   }
 
@@ -78,7 +81,11 @@ class LoggerImpl extends Filterer implements Logger {
   }
 
   @override
-  void log(Level level, String message) => _context.log(level, message);
+  void log(Level level, String message) {
+    if (isEnabledFor(level)) {
+      _context.log(level, message);
+    }
+  }
 
   @override
   void debug(String message) => _context.debug(message);
