@@ -10,6 +10,9 @@ description: >
 author: Roman Vanesyan <romain.vanesyan@gmail.com>
 homepage: https://github.com/vanesyan/structlog.dart
 
+environment:
+  sdk: '>=2.0.0 <3.0.0'
+
 dependencies:
   meta: ^1.1.6
 
