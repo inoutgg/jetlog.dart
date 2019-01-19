@@ -1,0 +1,20 @@
+sudo: false
+language: dart
+dart:
+  - dev
+  - stable
+
+install:
+  - pub get
+  - pub global activate dart_coveralls
+
+script:
+  - pub run test
+
+branches:
+  only:
+    - master
+
+cache:
+  directories:
+    - $HOME/.pub-cache
