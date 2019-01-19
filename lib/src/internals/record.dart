@@ -6,10 +6,10 @@ import 'package:structlog/src/record.dart';
 class RecordImpl implements Record {
   RecordImpl(
       {@required this.level,
+      @required this.time,
       @required this.message,
-      @required this.fields,
-      this.name})
-      : time = DateTime.now();
+      this.fields,
+      this.name});
 
   @override
   final Level level;

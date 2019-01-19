@@ -34,11 +34,23 @@ void main() {
           ..addFilter(_TestFilter1())
           ..addFilter(_TestFilter2());
         final record1 = RecordImpl(
-            name: 'Test', level: Level.info, message: 'Test', fields: []);
+            time: DateTime.now(),
+            name: 'Test',
+            level: Level.info,
+            message: 'Test',
+            fields: []);
         final record2 = RecordImpl(
-            name: 'Test', level: Level.info, message: 'Test2', fields: []);
+            time: DateTime.now(),
+            name: 'Test',
+            level: Level.info,
+            message: 'Test2',
+            fields: []);
         final record3 = RecordImpl(
-            name: 'Test2', level: Level.info, message: 'Test', fields: []);
+            time: DateTime.now(),
+            name: 'Test2',
+            level: Level.info,
+            message: 'Test',
+            fields: []);
 
         expect(filterer.filter(record1), isTrue);
         expect(filterer.filter(record2), isFalse);
@@ -54,9 +66,17 @@ void main() {
           ..addFilter(filter1)
           ..addFilter(filter2);
         final record1 = RecordImpl(
-            name: 'Test', level: Level.info, message: 'Test', fields: []);
+            time: DateTime.now(),
+            name: 'Test',
+            level: Level.info,
+            message: 'Test',
+            fields: []);
         final record2 = RecordImpl(
-            name: 'Test2', level: Level.info, message: 'Test', fields: []);
+            time: DateTime.now(),
+            name: 'Test2',
+            level: Level.info,
+            message: 'Test',
+            fields: []);
 
         expect(filterer.filter(record1), isTrue);
         expect(filterer.filter(record2), isFalse);
