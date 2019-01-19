@@ -2,15 +2,6 @@ import 'package:structlog/src/field.dart' show Field;
 import 'package:structlog/src/level.dart';
 import 'package:structlog/src/logger.dart';
 
-/// An error thrown if specified [Record.level] is either [Level.all] or
-/// [Level.off].
-class RecordLevelError extends Error {
-  RecordLevelError(this.message);
-
-  /// This error message.
-  final String message;
-}
-
 /// A single record emitted by a [Logger].
 abstract class Record {
   /// Severity level of this record.

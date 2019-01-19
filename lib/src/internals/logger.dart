@@ -67,12 +67,13 @@ class LoggerImpl extends Filterer implements Logger {
   @override
   bool isEnabledFor(Level level) {
     if (level == Level.off || level == Level.all) {
-      throw RecordLevelError('Illegal record\'s severity level! '
+      throw ArgumentError.value(
+          level,
+          'Illegal record\'s severity level! '
           'The use of `Level.off` and `Level.all` is prohibited.');
-    } else if (level == null) {
-      throw RecordLevelError('Illegal record\'s severity level! '
-          'Level cannot be set to `null`!');
     }
+
+    ArgumentError.checkNotNull(level, 'level');
 
     return this.level <= level;
   }

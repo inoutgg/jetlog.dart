@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 import 'package:structlog/structlog.dart'
-    show Logger, Level, RecordLevelError, HandlerRegisterError;
+    show Logger, Level, HandlerRegisterError;
 import 'package:structlog/handlers.dart' show MemoryHandler;
 import 'package:structlog/src/internals/logger.dart' show LoggerImpl;
 
@@ -139,21 +139,16 @@ void main() {
         final logger1 = Logger.getLogger('logger1');
         final logger2 = Logger('logger2');
 
-        expect(() => logger1.isEnabledFor(Level.off),
-            throwsA(const TypeMatcher<RecordLevelError>()));
-        expect(() => logger1.isEnabledFor(Level.all),
-            throwsA(const TypeMatcher<RecordLevelError>()));
-        expect(() => logger2.isEnabledFor(Level.off),
-            throwsA(const TypeMatcher<RecordLevelError>()));
-        expect(() => logger2.isEnabledFor(Level.all),
-            throwsA(const TypeMatcher<RecordLevelError>()));
+        expect(() => logger1.isEnabledFor(Level.off), throwsArgumentError);
+        expect(() => logger1.isEnabledFor(Level.all), throwsArgumentError);
+        expect(() => logger2.isEnabledFor(Level.off), throwsArgumentError);
+        expect(() => logger2.isEnabledFor(Level.all), throwsArgumentError);
       });
 
       test('throws error if `null` is provided', () {
         final logger = Logger();
 
-        expect(() => logger.isEnabledFor(null),
-            throwsA(const TypeMatcher<RecordLevelError>()));
+        expect(() => logger.isEnabledFor(null), throwsArgumentError);
       });
     });
 
