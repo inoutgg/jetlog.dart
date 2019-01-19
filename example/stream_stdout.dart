@@ -1,6 +1,8 @@
 import 'dart:io' show stdout, stderr;
-import 'package:structlog/structlog.dart' show Filter, Level, Logger, Record;
+import 'package:structlog/structlog.dart'
+    show Filter, Level, Logger, Record, Str;
 import 'package:structlog/handlers.dart' show StreamHandler;
+import 'package:structlog/formatters.dart' show TextFormatter;
 
 class StderrOnlyLevelFilter extends Filter {
   StderrOnlyLevelFilter();
@@ -23,20 +25,26 @@ class StdoutOnlyLevelFilter extends Filter {
 }
 
 Future<void> main() async {
+  final formatter = TextFormatter(
+      format: ({name, level, time, message, fields}) =>
+          '$name $level $time $message $fields');
+
   final stderrHandler = StreamHandler(stderr.nonBlocking)
     ..addFilter(StderrOnlyLevelFilter());
   final stdoutHandler = StreamHandler(stdout.nonBlocking)
+    ..formatter = formatter.bytes
     ..addFilter(StdoutOnlyLevelFilter());
+
   final logger = Logger.getLogger('example.stdout')
+    ..level = Level.all
     ..addHandler(stderrHandler)
     ..addHandler(stdoutHandler);
 
-  final tracer = logger
-      .bind((collector) => collector
-        ..addString('username', 'vanesyan')
-        ..addString('filename', 'avatar.png')
-        ..addString('mime', 'image/png'))
-      .trace('Uploading!');
+  final tracer = logger.bind([
+    const Str('username', 'vanesyan'),
+    const Str('filename', 'avatar.png'),
+    const Str('mime', 'image/png'),
+  ]).trace('Uploading!');
 
   // Emulate uploading, wait for 1 sec.
   await Future<void>.delayed(Duration(seconds: 1));

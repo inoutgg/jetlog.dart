@@ -11,9 +11,7 @@ class StreamHandler<T> extends Handler {
 
   /// Sets records formatter.
   set formatter(Formatter<T> formatter) {
-    if (formatter == null) {
-      throw ArgumentError.notNull('formatter');
-    }
+    ArgumentError.checkNotNull(formatter, 'formatter');
 
     _formatter = formatter;
   }
