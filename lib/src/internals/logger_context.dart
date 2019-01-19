@@ -26,11 +26,7 @@ class LoggerContext implements Interface {
   void debug(String message) => log(Level.debug, message);
 
   @override
-  Tracer trace(String message) {
-    log(Level.trace, message);
-
-    return TracerImpl(this);
-  }
+  Tracer trace(String message) => TracerImpl(this)..start(message);
 
   @override
   void info(String message) => log(Level.info, message);
