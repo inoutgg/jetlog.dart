@@ -109,7 +109,10 @@ class TextFormatter implements Formatter<String> {
         message: record.message,
         fields: fields);
 
-    return result.trim();
+    // TODO: handle EOL per platform (e.g. \r\n for Windows, \n for other).
+    const eol = '\n';
+
+    return result + eol;
   }
 
   /// Returns a formatter that formats records write into UTF-16 code units.
