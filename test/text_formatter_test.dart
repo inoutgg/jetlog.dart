@@ -49,8 +49,8 @@ void main() {
       expect(
           result1,
           '${level.name} ${time.toIso8601String()} $message '
-          'dur=0:00:00.000000 dtm=$time');
-      expect(result2, '');
+          'dur=0:00:00.000000 dtm=$time\n');
+      expect(result2, '\n');
     });
 
     test('supports nested fields with defaults', () {
@@ -79,7 +79,7 @@ void main() {
           result,
           '${level.name} ${time.toIso8601String()} $message '
           'dur=0:00:00.000000 dtm=$time '
-          'klass.name=__name__ klass.dur=0:00:00.000000');
+          'klass.name=__name__ klass.dur=0:00:00.000000\n');
     });
 
     test('uses custom level formatter', () {
@@ -93,7 +93,7 @@ void main() {
 
       final result = formatter.format(record);
 
-      expect(result, level.toString());
+      expect(result, '$level\n');
     });
 
     test('uses custom time formatter', () {
@@ -107,7 +107,7 @@ void main() {
 
       final result = formatter.format(record);
 
-      expect(result, time.millisecondsSinceEpoch.toString());
+      expect(result, '${time.millisecondsSinceEpoch}\n');
     });
 
     test('uses custom logger name formatter', () {
@@ -123,7 +123,7 @@ void main() {
 
       final result = formatter.format(record);
 
-      expect(result, '__custom_name__');
+      expect(result, '__custom_name__\n');
     });
 
     test('uses custom time formatter', () {
@@ -137,7 +137,7 @@ void main() {
 
       final result = formatter.format(record);
 
-      expect(result, time.millisecondsSinceEpoch.toString());
+      expect(result, '${time.millisecondsSinceEpoch}\n');
     });
 
     test('uses custom field formatter', () {
@@ -155,7 +155,7 @@ void main() {
 
       final result = formatter.format(record);
 
-      expect(result, 'field:dur');
+      expect(result, 'field:dur\n');
     });
   });
 }

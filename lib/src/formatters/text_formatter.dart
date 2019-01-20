@@ -103,11 +103,12 @@ class TextFormatter implements Formatter<String> {
     final time = _formatTime(record.time);
     final fields = _formatFields(record.fields);
     final result = _format(
-        name: name,
-        level: level,
-        time: time,
-        message: record.message,
-        fields: fields);
+            name: name,
+            level: level,
+            time: time,
+            message: record.message,
+            fields: fields)
+        .trim();
 
     // TODO: handle EOL per platform (e.g. \r\n for Windows, \n for other).
     const eol = '\n';
