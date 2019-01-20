@@ -4,15 +4,6 @@ import 'package:structlog/src/filter.dart' show Filterer;
 import 'package:structlog/src/logger.dart' show Logger;
 import 'package:structlog/src/record.dart' show Record;
 
-/// An error thrown when the same instance of [Handler] is registered twice a
-/// time for the same logger.
-class HandlerRegisterError extends Error {
-  HandlerRegisterError(this.message);
-
-  /// This error message.
-  final String message;
-}
-
 /// Handler is capable to process logging [Record]s as the are added to a
 /// [Logger].
 abstract class Handler extends Filterer {

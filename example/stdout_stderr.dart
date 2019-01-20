@@ -1,7 +1,8 @@
 import 'dart:io' show stdout, stderr;
+
 import 'package:structlog/structlog.dart'
     show Filter, Level, Logger, Record, Str;
-import 'package:structlog/handlers.dart' show StreamHandler;
+import 'package:structlog/handlers.dart' show MultiHandler, StreamHandler;
 import 'package:structlog/formatters.dart' show TextFormatter;
 
 class StderrOnlyLevelFilter extends Filter {
@@ -27,9 +28,10 @@ class StdoutOnlyLevelFilter extends Filter {
 Future<void> main() async {
   final formatter = TextFormatter(
       format: ({name, level, time, message, fields}) =>
-          '$name $level $time $message $fields');
+          '$name $time [$level]: $message $fields');
 
   final stderrHandler = StreamHandler(stderr.nonBlocking)
+    ..formatter = formatter.bytes
     ..addFilter(StderrOnlyLevelFilter());
   final stdoutHandler = StreamHandler(stdout.nonBlocking)
     ..formatter = formatter.bytes
@@ -37,8 +39,7 @@ Future<void> main() async {
 
   final logger = Logger.getLogger('example.stdout')
     ..level = Level.all
-    ..addHandler(stderrHandler)
-    ..addHandler(stdoutHandler);
+    ..handler = MultiHandler([stdoutHandler, stderrHandler]);
 
   final tracer = logger.bind([
     const Str('username', 'vanesyan'),

@@ -1,6 +1,5 @@
 import 'package:test/test.dart';
-import 'package:structlog/structlog.dart'
-    show Logger, Level, HandlerRegisterError;
+import 'package:structlog/structlog.dart' show Logger, Level;
 import 'package:structlog/handlers.dart' show MemoryHandler;
 import 'package:structlog/src/internals/logger.dart' show LoggerImpl;
 
@@ -149,17 +148,6 @@ void main() {
         final logger = Logger();
 
         expect(() => logger.isEnabledFor(null), throwsArgumentError);
-      });
-    });
-
-    group('#addHandler', () {
-      test('throws error when register the same handler twice a time', () {
-        final handler = MemoryHandler();
-        final logger = Logger.getLogger('logger');
-
-        expect(() => logger.addHandler(handler), returnsNormally);
-        expect(() => logger.addHandler(handler),
-            throwsA(const TypeMatcher<HandlerRegisterError>()));
       });
     });
   });

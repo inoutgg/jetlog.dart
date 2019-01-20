@@ -30,7 +30,7 @@ class NoopLoggerImpl implements Logger {
   void removeFilter(Filter filter) {}
 
   @override
-  void addHandler(Handler handler) {}
+  set handler(Handler handler) {}
 
   @override
   void debug(String message) {}

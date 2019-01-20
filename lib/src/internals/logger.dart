@@ -12,19 +12,15 @@ import 'package:structlog/src/tracer.dart';
 
 class LoggerImpl extends Filterer implements Logger {
   LoggerImpl([this.name])
-      : _handlers = Set(),
-        _stream = StreamController.broadcast(),
+      : _controller = StreamController(),
         // TODO: set `children` to `null` when logger is detached.
         children = Set() {
     _context = LoggerContext(this);
   }
 
-  final StreamController<Record> _stream;
-  final Set<Handler> _handlers;
+  StreamController<Record> _controller;
   LoggerContext _context;
   Level _level;
-
-  Stream<Record> get _onRecord => _stream.stream;
 
   final Set<LoggerImpl> children;
   LoggerImpl parent;
@@ -46,22 +42,19 @@ class LoggerImpl extends Filterer implements Logger {
 
   void add(Record record) {
     if (isEnabledFor(record.level) && filter(record)) {
-      _stream.add(record);
+      _controller.add(record);
 
       if (parent != null) parent.add(record);
     }
   }
 
   @override
-  void addHandler(Handler handler) {
-    if (_handlers.contains(handler)) {
-      throw HandlerRegisterError('Handler is already added!');
-    }
+  set handler(Handler handler) {
+    if (_controller != null) _controller.close();
 
+    _controller = StreamController();
     handler.subscription =
-        _onRecord.listen(handler.handle, onDone: handler.close);
-
-    _handlers.add(handler);
+        _controller.stream.listen(handler.handle, onDone: handler.close);
   }
 
   @override

@@ -14,7 +14,7 @@ void main() {
       test('Works correctly', () async {
         final handler = MemoryHandler();
         final logger = Logger()
-          ..addHandler(handler)
+          ..handler = handler
           ..level = Level.all;
 
         logger.log(Level.danger, '');
@@ -33,7 +33,7 @@ void main() {
 
       test('Correctly sets records fields', () async {
         final handler = MemoryHandler();
-        final logger = Logger()..addHandler(handler);
+        final logger = Logger()..handler = handler;
 
         logger.log(Level.info, 'test');
 
@@ -55,7 +55,7 @@ void main() {
       test('Filters base on severity level', () async {
         final handler = MemoryHandler();
         final logger = Logger()
-          ..addHandler(handler)
+          ..handler = handler
           ..level = Level.warning;
 
         logger.log(Level.debug, 'debug');
@@ -79,7 +79,7 @@ void main() {
       test('Filters base on filters', () async {
         final handler = MemoryHandler();
         final logger = Logger()
-          ..addHandler(handler)
+          ..handler = handler
           ..addFilter(_TestFilter())
           ..level = Level.all;
 
@@ -103,7 +103,7 @@ void main() {
       test('Emits logs in order', () async {
         final handler = MemoryHandler();
         final logger = Logger()
-          ..addHandler(handler)
+          ..handler = handler
           ..level = Level.all;
 
         logger.info('1');
@@ -135,10 +135,10 @@ void main() {
         final abHandler = MemoryHandler();
         final aHandler = MemoryHandler();
         final cHandler = MemoryHandler();
-        final abc = Logger.getLogger('a.b.c')..addHandler(abcHandler);
-        Logger.getLogger('a.b').addHandler(abHandler);
-        Logger.getLogger('a').addHandler(aHandler);
-        Logger.getLogger('c').addHandler(cHandler);
+        final abc = Logger.getLogger('a.b.c')..handler = abcHandler;
+        Logger.getLogger('a.b').handler = abHandler;
+        Logger.getLogger('a').handler = aHandler;
+        Logger.getLogger('c').handler = cHandler;
 
         abc.log(Level.info, 'Log');
 
@@ -162,13 +162,13 @@ void main() {
         final abHandler = MemoryHandler();
         final aHandler = MemoryHandler();
         final abc = Logger.getLogger('a.b.c')
-          ..addHandler(abcHandler)
+          ..handler = abcHandler
           ..level = Level.all;
         Logger.getLogger('a.b')
-          ..addHandler(abHandler)
+          ..handler = abHandler
           ..level = Level.warning;
         Logger.getLogger('a')
-          ..addHandler(aHandler)
+          ..handler = aHandler
           ..level = Level.danger;
 
         abc
@@ -195,7 +195,7 @@ void main() {
       test('Emits with corresponding severity level', () async {
         final handler = MemoryHandler();
         final logger = Logger()
-          ..addHandler(handler)
+          ..handler = handler
           ..level = Level.all;
 
         logger.debug('Message');
@@ -211,7 +211,7 @@ void main() {
       test('Emits with corresponding severity level', () async {
         final handler = MemoryHandler();
         final logger = Logger()
-          ..addHandler(handler)
+          ..handler = handler
           ..level = Level.all;
 
         logger.info('Message');
@@ -227,7 +227,7 @@ void main() {
       test('Emits with corresponding severity level', () async {
         final handler = MemoryHandler();
         final logger = Logger()
-          ..addHandler(handler)
+          ..handler = handler
           ..level = Level.all;
 
         logger.warning('Message');
@@ -243,7 +243,7 @@ void main() {
       test('Emits with corresponding severity level', () async {
         final handler = MemoryHandler();
         final logger = Logger()
-          ..addHandler(handler)
+          ..handler = handler
           ..level = Level.all;
 
         logger.danger('Message');
@@ -259,7 +259,7 @@ void main() {
       test('Emits with corresponding severity level', () async {
         final handler = MemoryHandler();
         final logger = Logger()
-          ..addHandler(handler)
+          ..handler = handler
           ..level = Level.all;
 
         logger.fatal('Message');
@@ -288,13 +288,13 @@ void main() {
         final abHandler = MemoryHandler();
         final aHandler = MemoryHandler();
         final abc = Logger.getLogger('a.b.c')
-          ..addHandler(abcHandler)
+          ..handler = abcHandler
           ..level = Level.info;
         Logger.getLogger('a.b')
-          ..addHandler(abHandler)
+          ..handler = abHandler
           ..level = Level.warning;
         Logger.getLogger('a')
-          ..addHandler(aHandler)
+          ..handler = aHandler
           ..level = Level.danger;
 
         final context = abc.bind();
@@ -320,7 +320,7 @@ void main() {
         final handler = MemoryHandler();
         final logger = Logger()
           ..level = Level.warning
-          ..addHandler(handler);
+          ..handler = handler;
 
         final context = logger.bind();
 
@@ -340,7 +340,7 @@ void main() {
 
       test('correctly binds provided values to the logging context', () async {
         final handler = MemoryHandler();
-        final logger = Logger()..addHandler(handler);
+        final logger = Logger()..handler = handler;
 
         final context1 = logger.bind([
           const Str('string', 'string1'),
@@ -371,7 +371,7 @@ void main() {
 
       test('supports custom fields', () async {
         final handler = MemoryHandler();
-        final logger = Logger()..addHandler(handler);
+        final logger = Logger()..handler = handler;
 
         final context = logger.bind([
           const Field<int>(
@@ -394,7 +394,7 @@ void main() {
       test('extends previous context', () async {
         final handler = MemoryHandler();
         final logger = Logger()
-          ..addHandler(handler)
+          ..handler = handler
           ..level = Level.info;
 
         final context1 = logger.bind([
@@ -437,7 +437,7 @@ void main() {
         final handler = MemoryHandler();
         final logger = Logger()
           ..level = Level.all
-          ..addHandler(handler);
+          ..handler = handler;
 
         final tracer = logger.trace('start trace');
         tracer.stop('stop trace');
@@ -455,7 +455,7 @@ void main() {
         final handler = MemoryHandler();
         final logger = Logger()
           ..level = Level.all
-          ..addHandler(handler);
+          ..handler = handler;
 
         logger.trace('start').stop('stop');
 
@@ -472,7 +472,7 @@ void main() {
         final handler = MemoryHandler();
         final logger = Logger()
           ..level = Level.all
-          ..addHandler(handler);
+          ..handler = handler;
 
         logger.trace('start').stop('stop');
 
