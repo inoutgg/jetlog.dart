@@ -12,7 +12,7 @@ import 'package:structlog/src/tracer.dart';
 
 class LoggerImpl extends Filterer implements Logger {
   LoggerImpl([this.name])
-      : _controller = StreamController(),
+      : _controller = StreamController(sync: true),
         // TODO: set `children` to `null` when logger is detached.
         children = Set() {
     _context = LoggingContext(this);
