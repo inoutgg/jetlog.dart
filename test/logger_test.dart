@@ -1,7 +1,7 @@
 import 'package:test/test.dart';
 import 'package:structlog/structlog.dart' show Logger, Level;
 import 'package:structlog/handlers.dart' show MemoryHandler;
-import 'package:structlog/src/internals/logger.dart' show LoggerImpl;
+import 'package:structlog/src/logger_impl.dart' show LoggerImpl;
 
 void main() {
   group('Logger', () {

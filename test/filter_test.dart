@@ -1,7 +1,7 @@
 import 'package:test/test.dart';
 import 'package:structlog/structlog.dart'
     show Filterer, Filter, FilterRegisterError, Level, Record;
-import 'package:structlog/src/internals/record.dart';
+import 'package:structlog/src/record_impl.dart';
 
 class _TestFilterer extends Filterer {}
 

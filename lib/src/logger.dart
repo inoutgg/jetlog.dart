@@ -1,9 +1,9 @@
 import 'package:structlog/src/filter.dart';
 import 'package:structlog/src/handler.dart';
 import 'package:structlog/src/interface.dart';
-import 'package:structlog/src/internals/logger.dart';
-import 'package:structlog/src/internals/logger_manager.dart';
-import 'package:structlog/src/internals/noop_logger.dart';
+import 'package:structlog/src/logger_impl.dart';
+import 'package:structlog/src/logger_manager.dart';
+import 'package:structlog/src/noop_logger.dart';
 import 'package:structlog/src/level.dart';
 
 final _root = LoggerImpl('ROOT_LOGGER');
