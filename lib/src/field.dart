@@ -52,7 +52,7 @@ class Field<V> {
   final FieldKind kind;
 
   @override
-  bool operator ==(Object other) => other is Field && other.value == value;
+  bool operator ==(Object other) => other is Field && other.name == name;
 
   @override
   int get hashCode => name.hashCode;
