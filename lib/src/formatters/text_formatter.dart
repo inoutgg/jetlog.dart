@@ -117,5 +117,5 @@ class TextFormatter implements Formatter<String> {
   }
 
   /// Returns a formatter that formats records write into UTF-16 code units.
-  Formatter<List<int>> get bytes => BytesFormatter(this);
+  Formatter<List<int>> get asBytesFormatter => BytesFormatter(this);
 }
