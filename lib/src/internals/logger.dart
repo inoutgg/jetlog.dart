@@ -1,10 +1,10 @@
-import 'dart:async' show Stream, StreamController;
+import 'dart:async' show StreamController;
 
 import 'package:structlog/src/field.dart' show Field;
 import 'package:structlog/src/filter.dart';
 import 'package:structlog/src/handler.dart';
 import 'package:structlog/src/interface.dart';
-import 'package:structlog/src/internals/logger_context.dart';
+import 'package:structlog/src/internals/logging_context.dart';
 import 'package:structlog/src/level.dart';
 import 'package:structlog/src/logger.dart';
 import 'package:structlog/src/record.dart';
@@ -15,11 +15,11 @@ class LoggerImpl extends Filterer implements Logger {
       : _controller = StreamController(),
         // TODO: set `children` to `null` when logger is detached.
         children = Set() {
-    _context = LoggerContext(this);
+    _context = LoggingContext(this);
   }
 
   StreamController<Record> _controller;
-  LoggerContext _context;
+  LoggingContext _context;
   Level _level;
 
   final Set<LoggerImpl> children;
@@ -97,17 +97,17 @@ class LoggerImpl extends Filterer implements Logger {
 
   @override
   String toString() {
-    final builder = StringBuffer();
+    final buffer = StringBuffer();
 
-    builder
-      ..write('<Logger ')
+    buffer
+      ..write('Logger(')
       ..write('name=')
       ..write(name)
       ..write(', ')
       ..write('level=')
       ..write(level.name)
-      ..write('>');
+      ..write(')');
 
-    return builder.toString();
+    return buffer.toString();
   }
 }

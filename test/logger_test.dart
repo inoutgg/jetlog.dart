@@ -52,6 +52,7 @@ void main() {
       test('`children` are empty', () {
         final logger = Logger('a') as LoggerImpl;
 
+        // ignore: prefer_collection_literals
         expect(logger.children, Set<LoggerImpl>());
       });
     });
@@ -67,7 +68,7 @@ void main() {
         const level = Level.info;
         final logger = Logger('logger')..level = level;
 
-        expect(logger.toString(), '<Logger name=logger, level=${level.name}>');
+        expect(logger.toString(), 'Logger(name=logger, level=${level.name})');
       });
     });
 
