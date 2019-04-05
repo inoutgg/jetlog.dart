@@ -2,8 +2,9 @@ import 'dart:async' show Future, StreamController;
 
 import 'package:structlog/structlog.dart' show Handler, Record;
 
-/// [MultiHandler] allows use of multiple handlers; it delegates record
-/// down to this handlers.
+/// [MultiHandler] composites multiple handlers into one handler; any logging
+/// records that are delegated to this handler will be propagated to composed
+/// handlers.
 class MultiHandler extends Handler {
   /// Creates a new [MultiHandler] with given handlers.
   MultiHandler(Iterable<Handler> handlers)
