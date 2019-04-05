@@ -5,5 +5,7 @@ class NoopHandler extends Handler {
   NoopHandler();
 
   @override
-  void handle(Record record) {/* noop */}
+  void handle(Record record) {
+    /* noop */
+  }
 }

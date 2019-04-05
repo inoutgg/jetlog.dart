@@ -6,7 +6,11 @@ import 'package:structlog/src/logger.dart';
 import 'package:structlog/src/interface.dart';
 import 'package:structlog/src/record.dart';
 import 'package:structlog/src/tracer.dart';
-import 'package:structlog/src/internals/noop_tracer.dart';
+
+class NoopTracerImpl implements Tracer {
+  @override
+  void stop(String message) {}
+}
 
 class NoopLoggerImpl implements Logger {
   NoopLoggerImpl([this.name]);
@@ -24,37 +28,55 @@ class NoopLoggerImpl implements Logger {
   bool isEnabledFor(Level level) => false;
 
   @override
-  void addFilter(Filter filter) {}
+  void addFilter(Filter filter) {
+    /* noop */
+  }
 
   @override
-  void removeFilter(Filter filter) {}
+  void removeFilter(Filter filter) {
+    /* noop */
+  }
 
   @override
-  set handler(Handler handler) {}
+  set handler(Handler handler) {
+    /* noop */
+  }
 
   @override
-  void debug(String message) {}
+  void debug(String message) {
+    /* noop */
+  }
 
   @override
   Tracer trace(String message) => NoopTracerImpl();
 
   @override
-  void info(String message) {}
+  void info(String message) {
+    /* noop */
+  }
 
   @override
-  void warning(String message) {}
+  void warning(String message) {
+    /* noop */
+  }
 
   @override
-  void danger(String message) {}
+  void danger(String message) {
+    /* noop */
+  }
 
   @override
-  void fatal(String message) {}
+  void fatal(String message) {
+    /* noop */
+  }
 
   @override
   bool filter(Record record) => false;
 
   @override
-  void log(Level level, String message) {}
+  void log(Level level, String message) {
+    /* noop */
+  }
 
   @override
   String toString() {
