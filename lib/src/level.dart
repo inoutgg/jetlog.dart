@@ -31,8 +31,7 @@ class Level implements Comparable<Level> {
   int get hashCode => value;
 
   @override
-  // ignore: avoid_annotating_with_dynamic
-  bool operator ==(dynamic other) => other is Level && value == other.value;
+  bool operator ==(Object other) => other is Level && value == other.value;
 
   bool operator >(Level otherLevel) => value > otherLevel.value;
 
