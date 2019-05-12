@@ -45,12 +45,8 @@ class LoggingContext implements Interface {
   void fatal(String message) => log(Level.fatal, message);
 
   @override
-  Interface bind([Iterable<Field> fields]) {
-    Set<Field> newFields;
-
-    if (fields != null) newFields = Set.from(fields);
-    if (_fields != null) newFields?.addAll(_fields);
-
-    return LoggingContext(_logger, newFields);
-  }
+  Interface bind([Iterable<Field> fields]) => LoggingContext(_logger, <Field>{
+        if (fields != null) ...fields,
+        if (_fields != null) ..._fields,
+      });
 }
