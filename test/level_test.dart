@@ -65,9 +65,9 @@ void main() {
     test('returns correct string representation', () {
       const level = Level(name: 'CUSTOM_LEVEL', value: 0xf);
 
-      expect(Level.info.toString(), '<Level name=INFO>');
-      expect(Level.all.toString(), '<Level name=<ALL>>');
-      expect(level.toString(), '<Level name=CUSTOM_LEVEL>');
+      expect(Level.info.toString(), 'Level(name=INFO)');
+      expect(Level.all.toString(), 'Level(name=<ALL>)');
+      expect(level.toString(), 'Level(name=CUSTOM_LEVEL)');
     });
   });
 }
