@@ -11,8 +11,7 @@ import 'package:structlog/src/record.dart';
 import 'package:structlog/src/tracer.dart';
 
 class LoggerImpl extends Filterer implements Logger {
-  LoggerImpl._(this.name, [this.children])
-      : _controller = StreamController(sync: true) {
+  LoggerImpl._(this.name, [this.children]) {
     _context = LoggingContext(this);
   }
 
@@ -44,7 +43,7 @@ class LoggerImpl extends Filterer implements Logger {
 
   void add(Record record) {
     if (isEnabledFor(record.level) && filter(record)) {
-      _controller.add(record);
+      _controller?.add(record);
 
       if (parent != null) parent.add(record);
     }
@@ -52,9 +51,9 @@ class LoggerImpl extends Filterer implements Logger {
 
   @override
   set handler(Handler handler) {
-    if (_controller != null) _controller.close();
+    _controller?.close();
 
-    _controller = StreamController();
+    _controller = StreamController(sync: true);
     handler.subscription =
         _controller.stream.listen(handler.handle, onDone: handler.close);
   }

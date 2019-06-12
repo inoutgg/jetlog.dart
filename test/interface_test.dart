@@ -1,4 +1,3 @@
-import 'dart:async' show Future;
 import 'package:test/test.dart';
 import 'package:structlog/structlog.dart';
 import 'package:structlog/handlers.dart' show MemoryHandler;
@@ -11,7 +10,7 @@ class _TestFilter extends Filter {
 void main() {
   group('Interface', () {
     group('#log', () {
-      test('Works correctly', () async {
+      test('Works correctly', () {
         final handler = MemoryHandler();
         final logger = Logger.detached()
           ..handler = handler
@@ -26,33 +25,29 @@ void main() {
         logger.log(Level.danger, '');
         logger.log(Level.danger, '');
 
-        await Future<void>.delayed(Duration.zero, () {
-          expect(handler.records, hasLength(8));
-        });
+        expect(handler.records, hasLength(8));
       });
 
-      test('Correctly sets records fields', () async {
+      test('Correctly sets records fields', () {
         final handler = MemoryHandler();
         final logger = Logger.detached()..handler = handler;
 
         logger.log(Level.info, 'test');
 
-        await Future<void>.delayed(Duration.zero, () {
-          final records = handler.records.toList();
+        final records = handler.records;
 
-          expect(records, hasLength(1));
+        expect(records, hasLength(1));
 
-          final record = records[0];
+        final record = records.elementAt(0);
 
-          expect(record.name, isNull);
-          expect(record.level, same(Level.info));
-          expect(record.message, 'test');
-          expect(record.time, isNotNull);
-          expect(record.fields, isNull);
-        });
+        expect(record.name, isNull);
+        expect(record.level, same(Level.info));
+        expect(record.message, 'test');
+        expect(record.time, isNotNull);
+        expect(record.fields, isNull);
       });
 
-      test('Filters base on severity level', () async {
+      test('Filters base on severity level', () {
         final handler = MemoryHandler();
         final logger = Logger.detached()
           ..handler = handler
@@ -64,43 +59,34 @@ void main() {
         logger.log(Level.danger, 'danger');
         logger.log(Level.fatal, 'fatal');
 
-        // stream is async, so wait until next event-loop tick.
-        // TODO: rewrite `test` api
-        await Future<void>.delayed(Duration.zero, () {
-          final records = handler.records.toList();
+        final records = handler.records;
 
-          expect(records, hasLength(3));
-          expect(records[0].level, same(Level.warning));
-          expect(records[1].level, same(Level.danger));
-          expect(records[2].level, same(Level.fatal));
-        });
+        expect(records, hasLength(3));
+        expect(records.elementAt(0).level, same(Level.warning));
+        expect(records.elementAt(1).level, same(Level.danger));
+        expect(records.elementAt(2).level, same(Level.fatal));
       });
 
-      test('Filters base on filters', () async {
+      test('Filters base on filters', () {
         final handler = MemoryHandler();
         final logger = Logger.detached()
           ..handler = handler
           ..addFilter(_TestFilter())
           ..level = Level.all;
 
-        logger.debug('debug');
-        logger.trace('trace');
-        logger.info('info');
-        logger.warning('warning');
-        logger.danger('danger');
-        logger.fatal('fatal');
+        logger
+          ..debug('debug')
+          ..trace('trace')
+          ..info('info')
+          ..warning('warning')
+          ..danger('danger')
+          ..fatal('fatal');
 
-        // stream is async, so wait until next event-loop tick.
-        // TODO: rewrite `test` api
-        await Future<void>.delayed(Duration.zero, () {
-          final records = handler.records.toList();
-
-          expect(records, hasLength(1));
-          expect(records[0].level, same(Level.danger));
-        });
+        expect(handler.records, hasLength(1));
+        expect(handler.records.elementAt(0).level, same(Level.danger));
       });
 
-      test('Emits logs in order', () async {
+      test('Emits logs in order', () {
         final handler = MemoryHandler();
         final logger = Logger.detached()
           ..handler = handler
@@ -114,23 +100,19 @@ void main() {
         logger.danger('6');
         logger.debug('7');
 
-        // stream is async, so wait until next event-loop tick.
-        // TODO: rewrite `test` api
-        await Future<void>.delayed(Duration.zero, () {
-          final records = handler.records.toList();
+        final records = handler.records;
 
-          expect(records, hasLength(7));
-          expect(records[0].message, '1');
-          expect(records[1].message, '2');
-          expect(records[2].message, '3');
-          expect(records[3].message, '4');
-          expect(records[4].message, '5');
-          expect(records[5].message, '6');
-          expect(records[6].message, '7');
-        });
+        expect(records, hasLength(7));
+        expect(records.elementAt(0).message, '1');
+        expect(records.elementAt(1).message, '2');
+        expect(records.elementAt(2).message, '3');
+        expect(records.elementAt(3).message, '4');
+        expect(records.elementAt(4).message, '5');
+        expect(records.elementAt(5).message, '6');
+        expect(records.elementAt(6).message, '7');
       });
 
-      test('Delegates logs down to parent (HIERARCHY)', () async {
+      test('Delegates logs down to parent (HIERARCHY)', () {
         final abcHandler = MemoryHandler();
         final abHandler = MemoryHandler();
         final aHandler = MemoryHandler();
@@ -144,20 +126,18 @@ void main() {
 
         // stream is async, so wait until next event-loop tick.
         // TODO: rewrite using `test` api.
-        await Future<void>.delayed(Duration.zero, () {
-          expect(abcHandler.records, hasLength(1));
-          expect(abHandler.records, hasLength(1));
-          expect(aHandler.records, hasLength(1));
-          expect(cHandler.records, hasLength(0));
-          expect(abHandler.records.toList()[0].message, 'Log');
-          expect(abcHandler.records.toList()[0].message, 'Log');
-          expect(aHandler.records.toList()[0].message, 'Log');
-        });
+        expect(abcHandler.records, hasLength(1));
+        expect(abHandler.records, hasLength(1));
+        expect(aHandler.records, hasLength(1));
+        expect(cHandler.records, hasLength(0));
+        expect(abHandler.records.toList()[0].message, 'Log');
+        expect(abcHandler.records.toList()[0].message, 'Log');
+        expect(aHandler.records.toList()[0].message, 'Log');
       });
 
       test(
           'Filters delegated logs passed down to parents based on parents\' level'
-          ' (HIERARCHY)', () async {
+          ' (HIERARCHY)', () {
         final abcHandler = MemoryHandler();
         final abHandler = MemoryHandler();
         final aHandler = MemoryHandler();
@@ -179,20 +159,18 @@ void main() {
 
         // stream is async, so wait until next event-loop tick.
         // TODO: rewrite using `test` api.
-        await Future<void>.delayed(Duration.zero, () {
-          final abcRecords = abcHandler.records.toList();
-          final abRecords = abHandler.records.toList();
-          final aRecords = aHandler.records.toList();
+        final abcRecords = abcHandler.records;
+        final abRecords = abHandler.records;
+        final aRecords = aHandler.records;
 
-          expect(abcRecords, hasLength(4));
-          expect(abRecords, hasLength(3));
-          expect(aRecords, hasLength(2));
-        });
+        expect(abcRecords, hasLength(4));
+        expect(abRecords, hasLength(3));
+        expect(aRecords, hasLength(2));
       });
     });
 
     group('#debug', () {
-      test('Emits with corresponding severity level', () async {
+      test('Emits with corresponding severity level', () {
         final handler = MemoryHandler();
         final logger = Logger.detached()
           ..handler = handler
@@ -200,15 +178,13 @@ void main() {
 
         logger.debug('Message');
 
-        await Future<void>.delayed(Duration.zero, () {
-          expect(handler.records, hasLength(1));
-          expect(handler.records.toList()[0].level, same(Level.debug));
-        });
+        expect(handler.records, hasLength(1));
+        expect(handler.records.elementAt(0).level, same(Level.debug));
       });
     });
 
     group('#info', () {
-      test('Emits with corresponding severity level', () async {
+      test('Emits with corresponding severity level', () {
         final handler = MemoryHandler();
         final logger = Logger.detached()
           ..handler = handler
@@ -216,15 +192,13 @@ void main() {
 
         logger.info('Message');
 
-        await Future<void>.delayed(Duration.zero, () {
-          expect(handler.records, hasLength(1));
-          expect(handler.records.toList()[0].level, same(Level.info));
-        });
+        expect(handler.records, hasLength(1));
+        expect(handler.records.elementAt(0).level, same(Level.info));
       });
     });
 
     group('#warning', () {
-      test('Emits with corresponding severity level', () async {
+      test('Emits with corresponding severity level', () {
         final handler = MemoryHandler();
         final logger = Logger.detached()
           ..handler = handler
@@ -232,15 +206,13 @@ void main() {
 
         logger.warning('Message');
 
-        await Future<void>.delayed(Duration.zero, () {
-          expect(handler.records, hasLength(1));
-          expect(handler.records.toList()[0].level, same(Level.warning));
-        });
+        expect(handler.records, hasLength(1));
+        expect(handler.records.elementAt(0).level, same(Level.warning));
       });
     });
 
     group('#danger', () {
-      test('Emits with corresponding severity level', () async {
+      test('Emits with corresponding severity level', () {
         final handler = MemoryHandler();
         final logger = Logger.detached()
           ..handler = handler
@@ -248,15 +220,13 @@ void main() {
 
         logger.danger('Message');
 
-        await Future<void>.delayed(Duration.zero, () {
-          expect(handler.records, hasLength(1));
-          expect(handler.records.toList()[0].level, same(Level.danger));
-        });
+        expect(handler.records, hasLength(1));
+        expect(handler.records.elementAt(0).level, same(Level.danger));
       });
     });
 
     group('#fatal', () {
-      test('Emits with corresponding severity level', () async {
+      test('Emits with corresponding severity level', () {
         final handler = MemoryHandler();
         final logger = Logger.detached()
           ..handler = handler
@@ -264,10 +234,8 @@ void main() {
 
         logger.fatal('Message');
 
-        await Future<void>.delayed(Duration.zero, () {
-          expect(handler.records, hasLength(1));
-          expect(handler.records.toList()[0].level, same(Level.fatal));
-        });
+        expect(handler.records, hasLength(1));
+        expect(handler.records.elementAt(0).level, same(Level.fatal));
       });
     });
 
@@ -283,7 +251,7 @@ void main() {
 
       test(
           'Logs emitted on logging context deletegated down to parent (HIERARCHY)',
-          () async {
+          () {
         final abcHandler = MemoryHandler();
         final abHandler = MemoryHandler();
         final aHandler = MemoryHandler();
@@ -305,18 +273,16 @@ void main() {
           ..warning('ABC')
           ..fatal('ABC');
 
-        await Future<void>.delayed(Duration.zero, () {
-          final abcRecords = abcHandler.records.toList();
-          final abRecords = abHandler.records.toList();
-          final aRecords = aHandler.records.toList();
+        final abcRecords = abcHandler.records;
+        final abRecords = abHandler.records;
+        final aRecords = aHandler.records;
 
-          expect(abcRecords, hasLength(4));
-          expect(abRecords, hasLength(3));
-          expect(aRecords, hasLength(2));
-        });
+        expect(abcRecords, hasLength(4));
+        expect(abRecords, hasLength(3));
+        expect(aRecords, hasLength(2));
       });
 
-      test('Respects loggers\' severity level threshold', () async {
+      test('Respects loggers\' severity level threshold', () {
         final handler = MemoryHandler();
         final logger = Logger.detached()
           ..level = Level.warning
@@ -329,16 +295,14 @@ void main() {
         context.debug('debug');
         context.warning('warning');
 
-        await Future<void>.delayed(Duration.zero, () {
-          final records = handler.records.toList();
+        final records = handler.records;
 
-          expect(records, hasLength(2));
-          expect(records[0].message, 'fatal');
-          expect(records[1].message, 'warning');
-        });
+        expect(records, hasLength(2));
+        expect(records.elementAt(0).message, 'fatal');
+        expect(records.elementAt(1).message, 'warning');
       });
 
-      test('correctly binds provided values to the logging context', () async {
+      test('correctly binds provided values to the logging context', () {
         final handler = MemoryHandler();
         final logger = Logger.detached()..handler = handler;
 
@@ -349,27 +313,24 @@ void main() {
 
         context1.info('Message');
 
-        await Future<void>.delayed(Duration.zero, () {
-          final records = handler.records.toList();
+        final records = handler.records;
 
-          expect(records, hasLength(1));
+        expect(records, hasLength(1));
 
-          final record = records[0];
-          final fields = record.fields.toList();
-          final strField = fields.firstWhere((field) => field.name == 'string');
-          final durField =
-              fields.firstWhere((field) => field.name == 'duration');
+        final record = records.elementAt(0);
+        final fields = record.fields.toList();
+        final strField = fields.firstWhere((field) => field.name == 'string');
+        final durField = fields.firstWhere((field) => field.name == 'duration');
 
-          expect(strField, isNotNull);
-          expect(strField.name, 'string');
-          expect(strField.value, 'string1');
-          expect(durField, isNotNull);
-          expect(durField.name, 'duration');
-          expect(durField.value, Duration.zero);
-        });
+        expect(strField, isNotNull);
+        expect(strField.name, 'string');
+        expect(strField.value, 'string1');
+        expect(durField, isNotNull);
+        expect(durField.name, 'duration');
+        expect(durField.value, Duration.zero);
       });
 
-      test('supports custom fields', () async {
+      test('supports custom fields', () {
         final handler = MemoryHandler();
         final logger = Logger.detached()..handler = handler;
 
@@ -380,18 +341,16 @@ void main() {
 
         context.info('Test');
 
-        await Future<void>.delayed(Duration.zero, () {
-          final records = handler.records.toList();
-          final record = records[0];
-          final field =
-              record.fields.firstWhere((field) => field.name == 'custom-field');
+        final records = handler.records;
+        final record = records.elementAt(0);
+        final field =
+            record.fields.firstWhere((field) => field.name == 'custom-field');
 
-          expect(field.name, 'custom-field');
-          expect(field.value, 0x10);
-        });
+        expect(field.name, 'custom-field');
+        expect(field.value, 0x10);
       });
 
-      test('extends previous context', () async {
+      test('extends previous context', () {
         final handler = MemoryHandler();
         final logger = Logger.detached()
           ..handler = handler
@@ -411,17 +370,25 @@ void main() {
 
         context2.info('info');
 
-        await Future<void>.delayed(Duration.zero, () {
-          final records = handler.records.toList();
+        final records = handler.records;
 
-          expect(records, hasLength(2));
-          expect(records[0].fields, hasLength(2));
-          expect(records[1].fields, hasLength(4));
-          expect(records[0].fields.firstWhere((f) => f.name == 'dur').value,
-              Duration.zero);
-          expect(
-              records[1].fields.firstWhere((f) => f.name == 'int').value, 0x10);
-        });
+        expect(records, hasLength(2));
+        expect(records.elementAt(0).fields, hasLength(2));
+        expect(records.elementAt(1).fields, hasLength(4));
+        expect(
+            records
+                .elementAt(0)
+                .fields
+                .firstWhere((f) => f.name == 'dur')
+                .value,
+            Duration.zero);
+        expect(
+            records
+                .elementAt(1)
+                .fields
+                .firstWhere((f) => f.name == 'int')
+                .value,
+            0x10);
       });
     });
 
@@ -433,7 +400,7 @@ void main() {
         expect(trace, isNotNull);
       });
 
-      test('correctly emits logs', () async {
+      test('correctly emits logs', () {
         final handler = MemoryHandler();
         final logger = Logger.detached()
           ..level = Level.all
@@ -442,16 +409,14 @@ void main() {
         final tracer = logger.trace('start trace');
         tracer.stop('stop trace');
 
-        await Future<void>.delayed(Duration.zero, () {
-          final records = handler.records.toList();
+        final records = handler.records;
 
-          expect(records, hasLength(2));
-          expect(records[0].message, 'start trace');
-          expect(records[1].message, 'stop trace');
-        });
+        expect(records, hasLength(2));
+        expect(records.elementAt(0).message, 'start trace');
+        expect(records.elementAt(1).message, 'stop trace');
       });
 
-      test('emits with correct severity level', () async {
+      test('emits with correct severity level', () {
         final handler = MemoryHandler();
         final logger = Logger.detached()
           ..level = Level.all
@@ -459,16 +424,14 @@ void main() {
 
         logger.trace('start').stop('stop');
 
-        await Future<void>.delayed(Duration.zero, () {
-          final records = handler.records.toList();
+        final records = handler.records;
 
-          expect(records, hasLength(2));
-          expect(records[0].level, same(Level.trace));
-          expect(records[1].level, same(Level.trace));
-        });
+        expect(records, hasLength(2));
+        expect(records.elementAt(0).level, same(Level.trace));
+        expect(records.elementAt(1).level, same(Level.trace));
       });
 
-      test('tracks start time and duration', () async {
+      test('tracks start time and duration', () {
         final handler = MemoryHandler();
         final logger = Logger.detached()
           ..level = Level.all
@@ -476,16 +439,23 @@ void main() {
 
         logger.trace('start').stop('stop');
 
-        await Future<void>.delayed(Duration.zero, () {
-          final records = handler.records.toList();
+        final records = handler.records;
 
-          expect(records, hasLength(2));
-          expect(records[0].fields.firstWhere((f) => f.name == 'start').value,
-              isNotNull);
-          expect(
-              records[1].fields.firstWhere((f) => f.name == 'duration').value,
-              isNotNull);
-        });
+        expect(records, hasLength(2));
+        expect(
+            records
+                .elementAt(0)
+                .fields
+                .firstWhere((f) => f.name == 'start')
+                .value,
+            isNotNull);
+        expect(
+            records
+                .elementAt(1)
+                .fields
+                .firstWhere((f) => f.name == 'duration')
+                .value,
+            isNotNull);
       });
     });
   });
