@@ -83,13 +83,13 @@ class NoopLoggerImpl implements Logger {
     final buffer = StringBuffer();
 
     buffer
-      ..write('<NoopLogger ')
+      ..write('NoopLogger(')
       ..write('name=')
       ..write(name)
       ..write(', ')
       ..write('level=')
       ..write(level)
-      ..write('>');
+      ..write(')');
 
     return buffer.toString();
   }
