@@ -26,4 +26,17 @@ class TracerImpl implements Tracer {
 
     _context.bind([Dur('duration', _timer.elapsed)]).log(Level.trace, message);
   }
+
+  @override
+  String toString() {
+    final buffer = StringBuffer();
+
+    buffer
+      ..write('Tracer(')
+      ..write('logger=')
+      ..write(_context.toString())
+      ..write(')');
+
+    return buffer.toString();
+  }
 }
