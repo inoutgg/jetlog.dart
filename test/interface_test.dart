@@ -124,8 +124,6 @@ void main() {
 
         abc.log(Level.info, 'Log');
 
-        // stream is async, so wait until next event-loop tick.
-        // TODO: rewrite using `test` api.
         expect(abcHandler.records, hasLength(1));
         expect(abHandler.records, hasLength(1));
         expect(aHandler.records, hasLength(1));
@@ -157,8 +155,6 @@ void main() {
           ..log(Level.danger, 'Log')
           ..log(Level.fatal, 'Log');
 
-        // stream is async, so wait until next event-loop tick.
-        // TODO: rewrite using `test` api.
         final abcRecords = abcHandler.records;
         final abRecords = abHandler.records;
         final aRecords = aHandler.records;
