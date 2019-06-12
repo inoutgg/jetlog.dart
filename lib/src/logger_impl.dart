@@ -11,12 +11,14 @@ import 'package:structlog/src/record.dart';
 import 'package:structlog/src/tracer.dart';
 
 class LoggerImpl extends Filterer implements Logger {
-  LoggerImpl([this.name])
-      : _controller = StreamController(sync: true),
-        // TODO: set `children` to `null` when logger is detached.
-        children = Set() {
+  LoggerImpl._(this.name, [this.children])
+      : _controller = StreamController(sync: true) {
     _context = LoggingContext(this);
   }
+
+  factory LoggerImpl.detached([String name]) => LoggerImpl._(name);
+
+  factory LoggerImpl.managed([String name]) => LoggerImpl._(name, {});
 
   StreamController<Record> _controller;
   LoggingContext _context;

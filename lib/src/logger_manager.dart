@@ -17,7 +17,7 @@ class LoggerManager {
     if (_loggers.containsKey(name)) {
       logger = _loggers[name];
     } else {
-      logger = LoggerImpl(name);
+      logger = LoggerImpl.managed(name);
       _loggers[name] = logger;
     }
 

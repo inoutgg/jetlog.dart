@@ -6,7 +6,7 @@ import 'package:structlog/src/logger_manager.dart';
 import 'package:structlog/src/noop_logger.dart';
 import 'package:structlog/src/level.dart';
 
-final _root = LoggerImpl('ROOT_LOGGER');
+final _root = LoggerImpl.managed('ROOT_LOGGER');
 final _loggers = LoggerManager(_root);
 
 abstract class Logger implements Filterer, Interface {
@@ -17,7 +17,7 @@ abstract class Logger implements Filterer, Interface {
   ///
   /// Typically, this should be used if short-living logger is necessary,
   /// which may be GC'ed later.
-  factory Logger([String name]) => LoggerImpl(name);
+  factory Logger([String name]) => LoggerImpl.detached(name);
 
   /// Creates a new noop logger, it never writes out any logs and never
   /// delegates records to handlers.
