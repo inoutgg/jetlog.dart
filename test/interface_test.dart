@@ -13,7 +13,7 @@ void main() {
     group('#log', () {
       test('Works correctly', () async {
         final handler = MemoryHandler();
-        final logger = Logger()
+        final logger = Logger.detached()
           ..handler = handler
           ..level = Level.all;
 
@@ -33,7 +33,7 @@ void main() {
 
       test('Correctly sets records fields', () async {
         final handler = MemoryHandler();
-        final logger = Logger()..handler = handler;
+        final logger = Logger.detached()..handler = handler;
 
         logger.log(Level.info, 'test');
 
@@ -54,7 +54,7 @@ void main() {
 
       test('Filters base on severity level', () async {
         final handler = MemoryHandler();
-        final logger = Logger()
+        final logger = Logger.detached()
           ..handler = handler
           ..level = Level.warning;
 
@@ -78,7 +78,7 @@ void main() {
 
       test('Filters base on filters', () async {
         final handler = MemoryHandler();
-        final logger = Logger()
+        final logger = Logger.detached()
           ..handler = handler
           ..addFilter(_TestFilter())
           ..level = Level.all;
@@ -102,7 +102,7 @@ void main() {
 
       test('Emits logs in order', () async {
         final handler = MemoryHandler();
-        final logger = Logger()
+        final logger = Logger.detached()
           ..handler = handler
           ..level = Level.all;
 
@@ -194,7 +194,7 @@ void main() {
     group('#debug', () {
       test('Emits with corresponding severity level', () async {
         final handler = MemoryHandler();
-        final logger = Logger()
+        final logger = Logger.detached()
           ..handler = handler
           ..level = Level.all;
 
@@ -210,7 +210,7 @@ void main() {
     group('#info', () {
       test('Emits with corresponding severity level', () async {
         final handler = MemoryHandler();
-        final logger = Logger()
+        final logger = Logger.detached()
           ..handler = handler
           ..level = Level.all;
 
@@ -226,7 +226,7 @@ void main() {
     group('#warning', () {
       test('Emits with corresponding severity level', () async {
         final handler = MemoryHandler();
-        final logger = Logger()
+        final logger = Logger.detached()
           ..handler = handler
           ..level = Level.all;
 
@@ -242,7 +242,7 @@ void main() {
     group('#danger', () {
       test('Emits with corresponding severity level', () async {
         final handler = MemoryHandler();
-        final logger = Logger()
+        final logger = Logger.detached()
           ..handler = handler
           ..level = Level.all;
 
@@ -258,7 +258,7 @@ void main() {
     group('#fatal', () {
       test('Emits with corresponding severity level', () async {
         final handler = MemoryHandler();
-        final logger = Logger()
+        final logger = Logger.detached()
           ..handler = handler
           ..level = Level.all;
 
@@ -273,7 +273,7 @@ void main() {
 
     group('#bind', () {
       test('Always returns a new logging context', () {
-        final logger = Logger();
+        final logger = Logger.detached();
 
         final context1 = logger.bind();
         final context2 = logger.bind();
@@ -318,7 +318,7 @@ void main() {
 
       test('Respects loggers\' severity level threshold', () async {
         final handler = MemoryHandler();
-        final logger = Logger()
+        final logger = Logger.detached()
           ..level = Level.warning
           ..handler = handler;
 
@@ -340,7 +340,7 @@ void main() {
 
       test('correctly binds provided values to the logging context', () async {
         final handler = MemoryHandler();
-        final logger = Logger()..handler = handler;
+        final logger = Logger.detached()..handler = handler;
 
         final context1 = logger.bind([
           const Str('string', 'string1'),
@@ -371,7 +371,7 @@ void main() {
 
       test('supports custom fields', () async {
         final handler = MemoryHandler();
-        final logger = Logger()..handler = handler;
+        final logger = Logger.detached()..handler = handler;
 
         final context = logger.bind([
           const Field<int>(
@@ -393,7 +393,7 @@ void main() {
 
       test('extends previous context', () async {
         final handler = MemoryHandler();
-        final logger = Logger()
+        final logger = Logger.detached()
           ..handler = handler
           ..level = Level.info;
 
@@ -427,7 +427,7 @@ void main() {
 
     group('#trace', () {
       test('returns a non-null tracer', () {
-        final logger = Logger();
+        final logger = Logger.detached();
         final trace = logger.trace('Trace');
 
         expect(trace, isNotNull);
@@ -435,7 +435,7 @@ void main() {
 
       test('correctly emits logs', () async {
         final handler = MemoryHandler();
-        final logger = Logger()
+        final logger = Logger.detached()
           ..level = Level.all
           ..handler = handler;
 
@@ -453,7 +453,7 @@ void main() {
 
       test('emits with correct severity level', () async {
         final handler = MemoryHandler();
-        final logger = Logger()
+        final logger = Logger.detached()
           ..level = Level.all
           ..handler = handler;
 
@@ -470,7 +470,7 @@ void main() {
 
       test('tracks start time and duration', () async {
         final handler = MemoryHandler();
-        final logger = Logger()
+        final logger = Logger.detached()
           ..level = Level.all
           ..handler = handler;
 

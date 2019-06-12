@@ -34,8 +34,8 @@ void main() {
 
     group('#Logger', () {
       test('Creates unique instance', () {
-        final a1 = Logger('a');
-        final a2 = Logger('a');
+        final a1 = Logger.detached('a');
+        final a2 = Logger.detached('a');
         final a = Logger.getLogger('a');
 
         expect(a1, isNot(same(a2)));
@@ -44,16 +44,15 @@ void main() {
       });
 
       test('`parent` is `null`', () {
-        final logger = Logger('a') as LoggerImpl;
+        final logger = Logger.detached('a') as LoggerImpl;
 
         expect(logger.parent, isNull);
       });
 
-      test('`children` are empty', () {
-        final logger = Logger('a') as LoggerImpl;
+      test('`children` is `null`', () {
+        final logger = Logger.detached('a') as LoggerImpl;
 
-        // ignore: prefer_collection_literals
-        expect(logger.children, Set<LoggerImpl>());
+        expect(logger.children, null);
       });
     });
 
@@ -66,7 +65,7 @@ void main() {
     group('#toString', () {
       test('returns correct string representation', () {
         const level = Level.info;
-        final logger = Logger('logger')..level = level;
+        final logger = Logger.detached('logger')..level = level;
 
         expect(logger.toString(), 'Logger(name=logger, level=${level.name})');
       });
@@ -109,7 +108,7 @@ void main() {
 
       test('defaults to `Level.info`', () {
         final logger1 = Logger.getLogger('logger1');
-        final logger2 = Logger('logger2');
+        final logger2 = Logger.detached('logger2');
 
         expect(logger1.level, same(Level.info));
         expect(logger2.level, same(Level.info));
@@ -137,7 +136,7 @@ void main() {
 
       test('throws error if `Level.all` or `Level.off` is provided', () {
         final logger1 = Logger.getLogger('logger1');
-        final logger2 = Logger('logger2');
+        final logger2 = Logger.detached('logger2');
 
         expect(() => logger1.isEnabledFor(Level.off), throwsArgumentError);
         expect(() => logger1.isEnabledFor(Level.all), throwsArgumentError);
@@ -146,7 +145,7 @@ void main() {
       });
 
       test('throws error if `null` is provided', () {
-        final logger = Logger();
+        final logger = Logger.detached();
 
         expect(() => logger.isEnabledFor(null), throwsArgumentError);
       });
