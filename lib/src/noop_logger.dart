@@ -38,6 +38,11 @@ class NoopLoggerImpl implements Logger {
   }
 
   @override
+  void clearFilters() {
+    /* noop */
+  }
+
+  @override
   set handler(Handler handler) {
     /* noop */
   }
