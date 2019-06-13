@@ -63,11 +63,35 @@ void main() {
     });
 
     group('#toString', () {
-      test('returns correct string representation', () {
+      test('returns correct string representation for detached logger', () {
         const level = Level.info;
         final logger = Logger.detached('logger')..level = level;
+        final unnamedLogger = Logger.detached();
 
         expect(logger.toString(), 'Logger(name=logger, level=${level.name})');
+        expect(unnamedLogger.toString(), 'Logger(level=${level.name})');
+      });
+
+      test('returns correct string representation for managed logger', () {
+        const level = Level.debug;
+        final logger = Logger.getLogger('DEBUG.TEST.LOGGER')..level = level;
+        final logger2 = Logger.getLogger('DEBUG.TEST.LOGGER.2');
+
+        expect(logger.toString(),
+            'Logger(name=DEBUG.TEST.LOGGER, level=${level.name})');
+        expect(logger2.toString(),
+            'Logger(name=DEBUG.TEST.LOGGER.2, level=${level.name})');
+      });
+
+      test('returns correct string representation for noop logger', () {
+        const level = Level.fatal;
+        final logger = Logger.noop('NOOP_LOGGER')..level = level;
+        final unnamedLogger = Logger.noop()..level = level;
+
+        expect(logger.toString(),
+            'NoopLogger(name=NOOP_LOGGER, level=${level.name})');
+        expect(unnamedLogger.toString(),
+            'NoopLogger(level=${level.name})');
       });
     });
 

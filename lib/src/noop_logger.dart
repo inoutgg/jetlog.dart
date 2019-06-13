@@ -87,14 +87,13 @@ class NoopLoggerImpl implements Logger {
   String toString() {
     final buffer = StringBuffer();
 
-    buffer
-      ..write('NoopLogger(')
-      ..write('name=')
-      ..write(name)
-      ..write(', ')
-      ..write('level=')
-      ..write(level)
-      ..write(')');
+    buffer.write('NoopLogger(');
+
+    if (name != null) {
+      buffer..write('name=')..write(name)..write(', ');
+    }
+
+    buffer..write('level=')..write(level.name)..write(')');
 
     return buffer.toString();
   }

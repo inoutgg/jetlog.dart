@@ -100,14 +100,13 @@ class LoggerImpl extends Filterer implements Logger {
   String toString() {
     final buffer = StringBuffer();
 
-    buffer
-      ..write('Logger(')
-      ..write('name=')
-      ..write(name)
-      ..write(', ')
-      ..write('level=')
-      ..write(level.name)
-      ..write(')');
+    buffer.write('Logger(');
+
+    if (name != null) {
+      buffer..write('name=')..write(name)..write(', ');
+    }
+
+    buffer..write('level=')..write(level.name)..write(')');
 
     return buffer.toString();
   }
