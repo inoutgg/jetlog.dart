@@ -20,5 +20,9 @@ class MultiHandler extends Handler {
   void handle(Record record) => _controller.add(record);
 
   @override
-  Future<void> close() => super.close().then((_) => _controller.close());
+  Future<void> close() async {
+    await super.close();
+
+    return _controller.close();
+  }
 }
