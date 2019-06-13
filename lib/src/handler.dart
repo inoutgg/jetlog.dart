@@ -1,12 +1,12 @@
 import 'dart:async' show StreamSubscription;
 
-import 'package:structlog/src/filter.dart' show Filterer;
+import 'package:structlog/src/filter.dart' show FiltererBase;
 import 'package:structlog/src/logger.dart' show Logger;
 import 'package:structlog/src/record.dart' show Record;
 
 /// Handler is capable to process logging [Record]s as the are added to a
 /// [Logger].
-abstract class Handler extends Filterer {
+abstract class Handler with FiltererBase {
   StreamSubscription<Record> _subscription;
 
   /// Sets subscription to a specific logger. Do not call this directly.
