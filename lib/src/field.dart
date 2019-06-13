@@ -108,8 +108,8 @@ class Obj extends Field<Iterable<Field>> {
       : super(name: name, value: value?.toFields(), kind: FieldKind.object);
 }
 
-/// [Loggable] provides the ability to be logged as part of logging context
-/// field set.
+/// [Loggable] provides the ability to object to be logged as part of
+/// logging context field set.
 abstract class Loggable {
   /// Marshals this class to a field set.
   Iterable<Field> toFields();
