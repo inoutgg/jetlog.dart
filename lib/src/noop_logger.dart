@@ -12,7 +12,7 @@ class NoopTracerImpl implements Tracer {
   void stop(String message) {}
 }
 
-class NoopLoggerImpl implements Logger {
+class NoopLoggerImpl with LoggerBase {
   NoopLoggerImpl([this.name]);
 
   @override
@@ -23,9 +23,6 @@ class NoopLoggerImpl implements Logger {
 
   @override
   Interface bind([Iterable<Field> fields]) => NoopLoggerImpl();
-
-  @override
-  bool isEnabledFor(Level level) => false;
 
   @override
   void addFilter(Filter filter) {

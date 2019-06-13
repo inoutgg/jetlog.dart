@@ -10,7 +10,7 @@ import 'package:structlog/src/logger.dart';
 import 'package:structlog/src/record.dart';
 import 'package:structlog/src/tracer.dart';
 
-class LoggerImpl extends Filterer implements Logger {
+class LoggerImpl with LoggerBase, FiltererBase {
   LoggerImpl._(this.name, [this.children]) {
     _context = LoggingContext(this);
   }

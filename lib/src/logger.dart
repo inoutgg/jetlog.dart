@@ -47,6 +47,9 @@ abstract class Logger implements Filterer, Interface {
   /// or [Level.fatal] will be emitted by this logger.
   set level(Level level);
 
+  /// Retrieves this logger severity level.
+  Level get level;
+
   /// Sets this logger logs handler.
   ///
   /// No handlers are register for a freshly created logger and any records
@@ -58,9 +61,25 @@ abstract class Logger implements Filterer, Interface {
   /// if any.
   set handler(Handler handler);
 
-  /// Retrieves this logger severity level.
-  Level get level;
-
   /// Tests whether record with severity [level] will be emitted by this logger.
   bool isEnabledFor(Level level);
+}
+
+/// Base mixin for implementing [Logger].
+///
+/// Contains default implementations of common methods across loggers.
+mixin LoggerBase implements Logger {
+  @override
+  bool isEnabledFor(Level level) {
+    ArgumentError.checkNotNull(level, 'level');
+
+    if (level == Level.off || level == Level.all) {
+      throw ArgumentError.value(
+          level,
+          'Illegal record\'s severity level! '
+          'The use of `Level.off` and `Level.all` is prohibited for this method.');
+    }
+
+    return this.level <= level;
+  }
 }
