@@ -53,23 +53,11 @@ class LoggerImpl extends Filterer implements Logger {
   set handler(Handler handler) {
     _controller?.close();
 
-    _controller = StreamController(sync: true);
-    handler.subscription =
-        _controller.stream.listen(handler.handle, onDone: handler.close);
-  }
-
-  @override
-  bool isEnabledFor(Level level) {
-    if (level == Level.off || level == Level.all) {
-      throw ArgumentError.value(
-          level,
-          'Illegal record\'s severity level! '
-          'The use of `Level.off` and `Level.all` is prohibited.');
+    if (handler != null) {
+      _controller = StreamController(sync: true);
+      handler.subscription =
+          _controller.stream.listen(handler.handle, onDone: handler.close);
     }
-
-    ArgumentError.checkNotNull(level, 'level');
-
-    return this.level <= level;
   }
 
   @override

@@ -1,3 +1,4 @@
+import 'package:structlog/handlers.dart' show MultiHandler;
 import 'package:structlog/src/filter.dart';
 import 'package:structlog/src/handler.dart';
 import 'package:structlog/src/interface.dart';
@@ -47,6 +48,14 @@ abstract class Logger implements Filterer, Interface {
   set level(Level level);
 
   /// Sets this logger logs handler.
+  ///
+  /// No handlers are register for a freshly created logger and any records
+  /// that are emitted using the logger are discarded, unless handler is set.
+  ///
+  /// To define multiple handlers for a logger use [MultiHandler].
+  ///
+  /// If provided value is `null`, previously created event stream is closed
+  /// if any.
   set handler(Handler handler);
 
   /// Retrieves this logger severity level.
