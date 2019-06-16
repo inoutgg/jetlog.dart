@@ -1,15 +1,14 @@
 import 'dart:async' show StreamSubscription;
 
-import 'package:structlog/src/filter.dart' show FiltererBase;
 import 'package:structlog/src/logger.dart' show Logger;
 import 'package:structlog/src/record.dart' show Record;
 
 /// Handler is capable to process logging [Record]s as the are added to a
 /// [Logger].
-abstract class Handler with FiltererBase {
+abstract class Handler {
   StreamSubscription<Record> _subscription;
 
-  /// Sets subscription to a specific logger. Do not call this directly.
+  /// Sets subscription to a specific logger. DO NOT set this field directly.
   set subscription(StreamSubscription<Record> subscription) =>
       _subscription = subscription;
 
@@ -24,7 +23,8 @@ abstract class Handler with FiltererBase {
   ///
   /// Override this if additional operations are needed to free allot
   /// resources.
-  Future<void> close() =>
-      // ignore: avoid_annotating_with_dynamic
-      _subscription?.cancel()?.then((dynamic _) => _subscription = null);
+  Future<void> close() async {
+    await _subscription?.cancel();
+    _subscription = null;
+  }
 }

@@ -1,9 +1,9 @@
 import 'dart:async' show StreamSink;
-import 'package:structlog/structlog.dart' show Handler, Record;
+import 'package:structlog/structlog.dart' show FiltererBase, Handler, Record;
 import 'package:structlog/formatters.dart' show Formatter;
 
 /// [StreamHandler] delegates log records downstream.
-class StreamHandler<T> extends Handler {
+class StreamHandler<T> extends Handler with FiltererBase {
   StreamHandler(this._stream);
 
   final StreamSink<T> _stream;
@@ -22,7 +22,7 @@ class StreamHandler<T> extends Handler {
       return;
     }
 
-    final result = _formatter.format(record);
+    final result = _formatter(record);
 
     _stream.add(result);
   }
