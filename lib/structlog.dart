@@ -1,3 +1,24 @@
+/// Package library `structlog` provides fast, structured, leveled logger.
+///
+/// To use this library in your code
+///
+/// ```dart
+/// import 'package:structlog/structlog.dart';
+/// ```
+///
+/// This package exposes the main class [Logger] used to instantiate both
+/// detached and hierarchical loggers, [Field] class and its custom
+/// extensions for builtin types (e.g. [Bool], [Int], etc.) - elementary
+/// blocks for building context bound logging entries.
+///
+/// Example
+/// ```dart
+/// final logger = Logger.getLogger('structlog.example.hierarchical');
+///
+/// logger.context({
+///   Str('hello', 'world'),
+/// }).info('Example');
+/// ```
 library structlog;
 
 export 'src/field.dart';

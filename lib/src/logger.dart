@@ -10,10 +10,23 @@ import 'package:structlog/src/level.dart';
 final _root = LoggerImpl.managed('ROOT_LOGGER');
 final _loggers = LoggerManager(_root);
 
+/// [Logger] is used to emit logging messages.
+///
+/// There are three types of [Logger]: hierarchical logger - named logger using a
+/// hierarchical dot-separated namespaces and detached logger - optionally named
+/// logger that isn't part of any logger hierarchy and noop logger - logger
+/// that does nothing.
+///
+/// [Logger] objects may be obtained by calling [Logger.getLogger],
+/// [Logger.detached] or [Logger.noop] factories. [Logger.getLogger] returns a
+/// hierarchical logger by either creating it or obtaining existing one.
+/// [Logger.detached] always returns a new logger regardless to the provided
+/// logger [name], typically such loggers are necessary if short-living logger
+/// is needed which may be garbage collected later.
 abstract class Logger implements Filterer, Interface {
-  /// Creates a new logger.
+  /// Creates a new detached logger.
   ///
-  /// Created logger has no parent and any children and is not a part of
+  /// Created logger has no parent and children and is not a part of
   /// the logger hierarchy.
   ///
   /// Typically, this should be used if short-living logger is necessary,
@@ -47,7 +60,8 @@ abstract class Logger implements Filterer, Interface {
   /// or [Level.fatal] will be emitted by this logger.
   set level(Level level);
 
-  /// Retrieves this logger severity level.
+  /// Retrieves minimum severity level this logger allows a [Record]
+  /// to be emitted by it.
   Level get level;
 
   /// Sets this logger logs handler.
