@@ -10,7 +10,7 @@ import 'package:structlog/src/logger.dart';
 import 'package:structlog/src/record.dart';
 import 'package:structlog/src/tracer.dart';
 
-class LoggerImpl with LoggerBase, FiltererBase {
+class LoggerImpl with LoggerBase {
   LoggerImpl._(this.name, [this.children]) {
     _context = LoggingContext(this);
   }
@@ -20,6 +20,7 @@ class LoggerImpl with LoggerBase, FiltererBase {
   factory LoggerImpl.managed([String name]) => LoggerImpl._(name, {});
 
   StreamController<Record> _controller;
+  Filter _filter;
   LoggingContext _context;
   Level _level;
 
@@ -41,14 +42,6 @@ class LoggerImpl with LoggerBase, FiltererBase {
     return Level.info;
   }
 
-  void add(Record record) {
-    if (isEnabledFor(record.level) && filter(record)) {
-      _controller?.add(record);
-
-      if (parent != null) parent.add(record);
-    }
-  }
-
   @override
   set handler(Handler handler) {
     _controller?.close();
@@ -57,6 +50,21 @@ class LoggerImpl with LoggerBase, FiltererBase {
       _controller = StreamController(sync: true);
       handler.subscription =
           _controller.stream.listen(handler.handle, onDone: handler.close);
+    }
+  }
+
+  @override
+  set filter(Filter filter) => _filter = filter;
+
+  void add(Record record) {
+    if (isEnabledFor(record.level)) {
+      if (_filter != null && !_filter.filter(record)) {
+        return;
+      }
+
+      _controller?.add(record);
+
+      if (parent != null) parent.add(record);
     }
   }
 

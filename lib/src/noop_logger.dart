@@ -4,7 +4,6 @@ import 'package:structlog/src/handler.dart';
 import 'package:structlog/src/level.dart';
 import 'package:structlog/src/logger.dart';
 import 'package:structlog/src/interface.dart';
-import 'package:structlog/src/record.dart';
 import 'package:structlog/src/tracer.dart';
 
 class NoopTracerImpl implements Tracer {
@@ -25,22 +24,12 @@ class NoopLoggerImpl with LoggerBase {
   Interface bind([Iterable<Field> fields]) => NoopLoggerImpl();
 
   @override
-  void addFilter(Filter filter) {
-    /* noop */
-  }
-
-  @override
-  void removeFilter(Filter filter) {
-    /* noop */
-  }
-
-  @override
-  void clearFilters() {
-    /* noop */
-  }
-
-  @override
   set handler(Handler handler) {
+    /* noop */
+  }
+
+  @override
+  set filter(Filter handler) {
     /* noop */
   }
 
@@ -71,9 +60,6 @@ class NoopLoggerImpl with LoggerBase {
   void fatal(String message) {
     /* noop */
   }
-
-  @override
-  bool filter(Record record) => false;
 
   @override
   void log(Level level, String message) {

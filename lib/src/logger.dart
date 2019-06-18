@@ -23,7 +23,7 @@ final _loggers = LoggerManager(_root);
 /// [Logger.detached] always returns a new logger regardless to the provided
 /// logger [name], typically such loggers are necessary if short-living logger
 /// is needed which may be garbage collected later.
-abstract class Logger implements Filterer, Interface {
+abstract class Logger implements Interface {
   /// Creates a new detached logger.
   ///
   /// Created logger has no parent and children and is not a part of
@@ -74,6 +74,16 @@ abstract class Logger implements Filterer, Interface {
   /// If provided value is `null`, previously created event stream is closed
   /// if any.
   set handler(Handler handler);
+
+  /// Set this logger filter.
+  ///
+  /// No filters are register for a freshly created logger and thus any records
+  /// with acceptable severity level are delegated to this logger handler.
+  ///
+  /// To define multiple filters for a logger use [MultiFilter] class.
+  ///
+  /// Set to `null` to remove previously set filter.
+  set filter(Filter handler);
 
   /// Tests whether record with severity [level] will be emitted by this logger.
   bool isEnabledFor(Level level);
