@@ -10,9 +10,9 @@ class TracerImpl implements Tracer {
   Interface _context;
 
   void start(String message) {
-    _context = _context.bind([DTM('start', DateTime.now())]);
+    _context = _context.bind({DTM('start', DateTime.now())})
+      ..log(Level.trace, message);
 
-    _context.log(Level.trace, message);
     _timer.start();
   }
 
@@ -24,7 +24,7 @@ class TracerImpl implements Tracer {
       throw TracerStoppedError('Tracer has been already stopped!');
     }
 
-    _context.bind([Dur('duration', _timer.elapsed)]).log(Level.trace, message);
+    _context.bind({Dur('duration', _timer.elapsed)}).log(Level.trace, message);
   }
 
   @override
