@@ -47,7 +47,7 @@ class LoggerImpl with LoggerBase {
     _controller?.close();
 
     if (handler != null) {
-      _controller = StreamController(sync: true);
+      _controller = StreamController();
       handler.subscription =
           _controller.stream.listen(handler.handle, onDone: handler.close);
     }
