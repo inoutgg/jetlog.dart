@@ -9,7 +9,7 @@ class LoggerManager {
   LoggerImpl get(String name) {
     if (name.startsWith('.') || name.endsWith('.')) {
       throw ArgumentError.value(
-          name, 'Logger name must not start or end with a `.\'!');
+          name, 'Logger name must not start or end with a "."!');
     }
 
     LoggerImpl logger;
