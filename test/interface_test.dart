@@ -2,12 +2,12 @@ import 'package:test/test.dart';
 import 'package:structlog/structlog.dart';
 import 'package:structlog/handlers.dart' show MemoryHandler;
 
+Future<void> later(void action()) => Future.delayed(Duration.zero, action);
+
 class _TestFilter extends Filter {
   @override
   bool filter(Record record) => record.level == Level.danger;
 }
-
-Future<void> later(void action()) => Future.delayed(Duration.zero, action);
 
 void main() {
   group('Interface', () {
@@ -48,7 +48,7 @@ void main() {
           expect(record.name, isNull);
           expect(record.level, same(Level.info));
           expect(record.message, 'test');
-          expect(record.time, isNotNull);
+          expect(record.timestamp, isNotNull);
           expect(record.fields, isNull);
         });
       });

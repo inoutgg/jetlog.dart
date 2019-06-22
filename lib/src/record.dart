@@ -16,7 +16,7 @@ abstract class Record {
   String get name;
 
   /// Time when this record was created.
-  DateTime get time;
+  DateTime get timestamp;
 
   /// A set of fields bound to the logging context.
   ///

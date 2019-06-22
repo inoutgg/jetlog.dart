@@ -28,9 +28,9 @@ void main() {
         MultiHandler handler = MultiHandler([h0]);
 
         handler.handle(RecordImpl(
-            time: DateTime.now(), level: Level.fatal, message: 'Test message'));
+            timestamp: DateTime.now(), level: Level.fatal, message: 'Test message'));
         handler.handle(RecordImpl(
-            time: DateTime.now(), level: Level.fatal, message: 'Test message'));
+            timestamp: DateTime.now(), level: Level.fatal, message: 'Test message'));
 
         expect(h0.records, hasLength(2));
         expect(h0.records.last.level, equals(Level.fatal));
@@ -40,13 +40,13 @@ void main() {
         handler = MultiHandler([h1, h2]);
 
         handler.handle(RecordImpl(
-            time: DateTime.now(), level: Level.debug, message: 'Test'));
+            timestamp: DateTime.now(), level: Level.debug, message: 'Test'));
 
         expect(h1.records, hasLength(1));
         expect(h2.records, hasLength(1));
 
         handler.handle(RecordImpl(
-            time: DateTime.now(), level: Level.debug, message: 'Test2'));
+            timestamp: DateTime.now(), level: Level.debug, message: 'Test2'));
 
         expect(h1.records, hasLength(2));
         expect(h2.records, hasLength(2));
@@ -62,14 +62,14 @@ void main() {
         handler.filter = _DebugOnlyFilter();
 
         handler.handle(RecordImpl(
-            time: DateTime.now(), level: Level.debug, message: 'Test'));
+            timestamp: DateTime.now(), level: Level.debug, message: 'Test'));
 
         expect(h1.records, hasLength(1));
         expect(h2.records, hasLength(1));
         expect(h3.records, hasLength(1));
 
         handler.handle(RecordImpl(
-            time: DateTime.now(), level: Level.info, message: 'Test 1'));
+            timestamp: DateTime.now(), level: Level.info, message: 'Test 1'));
 
         expect(h1.records, hasLength(1));
         expect(h2.records, hasLength(1));

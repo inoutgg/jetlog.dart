@@ -17,7 +17,7 @@ class LoggingContext implements Interface {
     if (_logger.isEnabledFor(level)) {
       final record = RecordImpl(
           name: _logger.name,
-          time: DateTime.now(),
+          timestamp: DateTime.now(),
           level: level,
           message: message,
           fields: _fields);

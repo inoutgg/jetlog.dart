@@ -6,7 +6,7 @@ import 'package:structlog/src/record.dart';
 class RecordImpl implements Record {
   RecordImpl(
       {@required this.level,
-      @required this.time,
+      @required this.timestamp,
       @required this.message,
       this.fields,
       this.name});
@@ -21,7 +21,7 @@ class RecordImpl implements Record {
   final String name;
 
   @override
-  final DateTime time;
+  final DateTime timestamp;
 
   @override
   final Iterable<Field> fields;

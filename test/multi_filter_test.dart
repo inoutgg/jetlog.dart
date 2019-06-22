@@ -19,19 +19,19 @@ void main() {
       final filter = MultiFilter([]);
 
       final record1 = RecordImpl(
-          time: DateTime.now(),
+          timestamp: DateTime.now(),
           name: 'abc',
           level: Level.info,
           message: 'abc',
           fields: []);
       final record2 = RecordImpl(
-          time: DateTime.now(),
+          timestamp: DateTime.now(),
           name: 'cba',
           level: Level.info,
           message: 'baz',
           fields: []);
       final record3 = RecordImpl(
-          time: DateTime.now(),
+          timestamp: DateTime.now(),
           name: 'foo',
           level: Level.info,
           message: 'bar',
@@ -48,19 +48,19 @@ void main() {
       final filter = MultiFilter({filter1, filter2});
 
       final record1 = RecordImpl(
-          time: DateTime.now(),
+          timestamp: DateTime.now(),
           name: 'Test',
           level: Level.info,
           message: 'Test',
           fields: []);
       final record2 = RecordImpl(
-          time: DateTime.now(),
+          timestamp: DateTime.now(),
           name: 'Test',
           level: Level.info,
           message: 'Test2',
           fields: []);
       final record3 = RecordImpl(
-          time: DateTime.now(),
+          timestamp: DateTime.now(),
           name: 'Test2',
           level: Level.info,
           message: 'Test',
