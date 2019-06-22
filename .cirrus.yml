@@ -1,0 +1,16 @@
+container:
+  image: google/dart
+
+task:
+  pub_cache:
+    folder: $HOME/.pub-cache
+    fingerprint_script: sha256sum pubspec.yaml
+    populate_script: pub get
+
+  resolve_dependencies_script: pub get
+
+  matrix:
+    - name: Linux Test
+      container:
+        image: google/dart
+      test_script: pub run test
