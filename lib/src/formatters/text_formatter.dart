@@ -1,121 +1,88 @@
-import 'package:meta/meta.dart' show required;
-import 'package:structlog/structlog.dart' show Field, FieldKind, Level, Record;
+import 'dart:convert' show Utf8Encoder;
 
-import 'package:structlog/src/formatters/bytes_formatter.dart';
+import 'package:structlog/structlog.dart'
+    show Field, FieldKind, Obj, Record, Level;
+
 import 'package:structlog/src/formatters/formatter.dart';
 
-typedef LoggerNameFormatCallback = String Function(String);
-typedef LevelFormatCallback = String Function(Level);
-typedef FieldFormatCallback = String Function(Field);
-typedef TimeFormatCallback = String Function(DateTime);
+const String _eol = '\r\n';
 
-typedef FormatCallback = String Function(
-    {String name, String level, String time, String message, String fields});
-
-String _defaultFormatName(String name) => name ?? '';
-
-String _defaultFormatLevel(Level level) => level.name;
-
-String _defaultFormatTime(DateTime time) => time.toIso8601String();
-
-String _defaultFormatFieldName(Field field, [String name]) {
-  switch (field.kind) {
-    case FieldKind.boolean:
-    case FieldKind.dateTime:
-    case FieldKind.double:
-    case FieldKind.duration:
-    case FieldKind.integer:
-    case FieldKind.number:
-    case FieldKind.string:
-      {
-        return name != null
-            ? '$name.${field.name}=${field.value} '
-            : '${field.name}=${field.value} ';
-      }
-
-    case FieldKind.object:
-      {
-        final result = StringBuffer();
-        final fields = field.value as Iterable<Field>;
-
-        for (final f in fields) {
-          result.write(_defaultFormatFieldName(f, field.name));
-        }
-
-        return result.toString().trim();
-      }
-
-    default:
-      {
-        // TODO: find more appropriated error type.
-        throw ArgumentError('Unknown field type!');
-      }
-  }
-}
-
-String _defaultFormatField(Field field) => _defaultFormatFieldName(field);
-
-/// [TextFormatter] formats logging records to its text representation.
-class TextFormatter implements Formatter<String> {
-  /// Creates a new [TextFormatter] with format defined by [format] callback.
+/// [TextFormatter] is used to encode [Record] to formatted string.
+class TextFormatter extends Formatter {
+  /// Creates a new [TextFormatter] instance with [format] callback used to
+  /// composite the final logging message.
   ///
-  /// The [format] takes already formatted record's name, level, time and fields
-  /// values and composes its to the final record text representation.
+  /// Optional [formatLevel], [formatTimestamp], [formatFields] callbacks may
+  /// be also provided used to encode [Level], record timestamp and
+  /// bound [Field] set (if any).
   ///
-  /// Record's level, time and fields values formatting are formatted using
-  /// [formatLevel], [formatTime], [formatField] callbacks.
+  /// [format] callback takes already encoded level, time and field sets as
+  /// well as logger name and logged message.
   TextFormatter(
-      {@required FormatCallback format,
-      LoggerNameFormatCallback formatName = _defaultFormatName,
-      LevelFormatCallback formatLevel = _defaultFormatLevel,
-      FieldFormatCallback formatField = _defaultFormatField,
-      TimeFormatCallback formatTime = _defaultFormatTime})
-      : _format = format,
-        _formatName = formatName,
-        _formatLevel = formatLevel,
-        _formatTime = formatTime,
-        _formatField = formatField;
+    this.format, {
+    this.formatLevel = _formatLevel,
+    this.formatTimestamp = _formatTimestamp,
+    this.formatFields = _formatFields,
+  }) : _utf8 = const Utf8Encoder();
 
-  final LoggerNameFormatCallback _formatName;
-  final LevelFormatCallback _formatLevel;
-  final FormatCallback _format;
-  final FieldFormatCallback _formatField;
-  final TimeFormatCallback _formatTime;
+  final Utf8Encoder _utf8;
+  final FormatCallback<String> format;
+  final LevelFormatCallback<String> formatLevel;
+  final TimestampFormatCallback<String> formatTimestamp;
+  final FieldsFormatCallback<String> formatFields;
 
-  String _formatFields(Iterable<Field> fields) {
-    if (fields != null) {
-      final result = StringBuffer();
+  /// Encodes given [record] to formatted string.
+  ///
+  /// If logger name isn't provided [format] callback receives empty string `''`
+  /// instead of `null`.
+  @override
+  List<int> call(Record record) {
+    final message = format(
+      name: record.name ?? '',
+      level: formatLevel(record.level),
+      timestamp: formatTimestamp(record.timestamp),
+      message: record.message,
+      fields: formatFields(record.fields),
+    );
 
-      for (final f in fields) {
-        result.write(_formatField(f));
-      }
-
-      return result.toString().trim();
+    if (message.isEmpty) {
+      return [];
     }
 
-    return '';
+    return _utf8.convert('$message$_eol');
   }
-
-  @override
-  String format(Record record) {
-    final name = _formatName(record.name);
-    final level = _formatLevel(record.level);
-    final time = _formatTime(record.time);
-    final fields = _formatFields(record.fields);
-    final result = _format(
-            name: name,
-            level: level,
-            time: time,
-            message: record.message,
-            fields: fields)
-        .trim();
-
-    // TODO: handle EOL per platform (e.g. \r\n for Windows, \n for other).
-    const eol = '\n';
-
-    return result + eol;
-  }
-
-  /// Returns a formatter that formats records write into UTF-16 code units.
-  Formatter<List<int>> get asBytesFormatter => BytesFormatter(this);
 }
+
+String _formatLevel(Level level) => level.name;
+
+String _formatTimestamp(DateTime timestamp) => timestamp.toString();
+
+String _formatField(Field field, [String owner]) {
+  final buffer = StringBuffer();
+
+  switch (field.kind) {
+    case FieldKind.object:
+      final fields = (field as Obj).value;
+
+      buffer.writeAll(<String>[
+        if (fields != null) for (final f in fields) _formatField(f, field.name)
+      ]);
+      break;
+
+    default:
+      if (owner != null) {
+        buffer.write('$owner.');
+      }
+
+      buffer.write('${field.name}=${field.value} ');
+  }
+
+  return buffer.toString();
+}
+
+String _formatFields(Iterable<Field> fields) => (StringBuffer()
+      ..writeAll(<String>[
+        if (fields != null) for (final f in fields) _formatField(f)
+      ]))
+    .toString()
+    .trim();

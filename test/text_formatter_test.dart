@@ -1,3 +1,5 @@
+import 'dart:convert' show utf8;
+
 import 'package:test/test.dart';
 import 'package:structlog/structlog.dart'
     show Dur, DTM, Str, Obj, Field, Level, Loggable;
@@ -13,7 +15,7 @@ class Klass extends Loggable {
 
   @override
   Iterable<Field> toFields() {
-    final result = Set<Field>();
+    final result = <Field>{};
 
     result..add(Str('name', name))..add(Dur('dur', dur));
 
@@ -23,139 +25,106 @@ class Klass extends Loggable {
 
 void main() {
   group('TextFormatter', () {
-    test('implements Formatter', () {
-      expect(TextFormatter is Formatter<String>, isTrue);
-    }, skip: true);
-
     test('formats correctly with defaults', () {
-      final formatter1 = TextFormatter(
-          format: ({name, level, time, message, fields}) =>
-              '$name $level $time $message $fields');
-      final formatter2 =
-          TextFormatter(format: ({name, level, time, message, fields}) => '');
+      final encoder1 = TextFormatter((
+              {name, level, timestamp, message, fields}) =>
+          '$name $level $timestamp $message $fields'.trim());
+      final encoder2 =
+          TextFormatter(({name, level, timestamp, message, fields}) => '');
 
-      final time = DateTime.now();
+      final timestamp = DateTime.now();
       const level = Level.info;
       const message = 'Test';
       final record = RecordImpl(
           name: null,
-          time: time,
+          timestamp: timestamp,
           level: level,
           message: message,
-          fields: [const Dur('dur', Duration.zero), DTM('dtm', time)]);
-      final result1 = formatter1.format(record);
-      final result2 = formatter2.format(record);
+          fields: [const Dur('dur', Duration.zero), DTM('dtm', timestamp)]);
+      final result1 = encoder1.call(record);
+      final result2 = encoder2.call(record);
 
       expect(
           result1,
-          '${level.name} ${time.toIso8601String()} $message '
-          'dur=0:00:00.000000 dtm=$time\n');
-      expect(result2, '\n');
+          utf8.encode('${level.name} ${timestamp.toString()} $message '
+              'dur=0:00:00.000000 dtm=$timestamp\r\n'));
+      expect(result2, <int>[]);
     });
 
     test('supports nested fields with defaults', () {
-      final formatter = TextFormatter(
-          format: ({name, level, time, message, fields}) =>
-              '$name $level $time $message $fields');
+      final encoder = TextFormatter((
+              {name, level, timestamp, message, fields}) =>
+          '$name $level $timestamp $message $fields'.trim());
 
-      final time = DateTime.now();
+      final timestamp = DateTime.now();
       const level = Level.info;
       const message = 'Test';
       final klass = Klass(Duration.zero, '__name__');
       final record = RecordImpl(
           name: null,
-          time: time,
+          timestamp: timestamp,
           level: level,
           message: message,
           fields: [
             const Dur('dur', Duration.zero),
-            DTM('dtm', time),
+            DTM('dtm', timestamp),
             Obj('klass', klass)
           ]);
 
-      final result = formatter.format(record);
+      final result = encoder.call(record);
 
       expect(
           result,
-          '${level.name} ${time.toIso8601String()} $message '
-          'dur=0:00:00.000000 dtm=$time '
-          'klass.name=__name__ klass.dur=0:00:00.000000\n');
+          utf8.encode('${level.name} ${timestamp.toString()} $message '
+              'dur=0:00:00.000000 dtm=$timestamp '
+              'klass.name=__name__ klass.dur=0:00:00.000000\r\n'));
     });
 
-    test('uses custom level formatter', () {
-      final formatter = TextFormatter(
-          format: ({name, time, message, level, fields}) => '$level',
+    test('uses custom level encoder', () {
+      final encoder = TextFormatter(
+          ({name, timestamp, message, level, fields}) => '$level',
           formatLevel: (level) => '$level');
 
       const level = Level.info;
       final record = RecordImpl(
-          name: null, time: DateTime.now(), level: level, message: '');
+          name: null, timestamp: DateTime.now(), level: level, message: '');
 
-      final result = formatter.format(record);
+      final result = encoder.call(record);
 
-      expect(result, '$level\n');
+      expect(result, utf8.encode('$level\r\n'));
     });
 
-    test('uses custom time formatter', () {
-      final formatter = TextFormatter(
-          format: ({name, time, message, level, fields}) => '$time',
-          formatTime: (time) => time.millisecondsSinceEpoch.toString());
+    test('uses custom time encoder', () {
+      final encoder = TextFormatter(
+          ({name, timestamp, message, level, fields}) => '$timestamp',
+          formatTimestamp: (timestamp) =>
+              timestamp.millisecondsSinceEpoch.toString());
 
-      final time = DateTime.now();
-      final record =
-          RecordImpl(name: null, time: time, level: Level.info, message: '');
-
-      final result = formatter.format(record);
-
-      expect(result, '${time.millisecondsSinceEpoch}\n');
-    });
-
-    test('uses custom logger name formatter', () {
-      final formatter = TextFormatter(
-          format: ({name, time, message, level, fields}) => '$name',
-          formatName: (name) => '__${name}__');
-
+      final timestamp = DateTime.now();
       final record = RecordImpl(
-          name: 'custom_name',
-          time: DateTime.now(),
-          level: Level.info,
-          message: '');
+          name: null, timestamp: timestamp, level: Level.info, message: '');
 
-      final result = formatter.format(record);
+      final result = encoder.call(record);
 
-      expect(result, '__custom_name__\n');
+      expect(result, utf8.encode('${timestamp.millisecondsSinceEpoch}\r\n'));
     });
 
-    test('uses custom time formatter', () {
-      final formatter = TextFormatter(
-          format: ({name, time, message, level, fields}) => '$time',
-          formatTime: (time) => time.millisecondsSinceEpoch.toString());
+    test('uses custom field encoder', () {
+      final encoder = TextFormatter(
+          ({name, timestamp, message, level, fields}) => '$fields',
+          formatFields: (fields) => 'fields');
 
-      final time = DateTime.now();
-      final record =
-          RecordImpl(name: null, time: time, level: Level.info, message: '');
-
-      final result = formatter.format(record);
-
-      expect(result, '${time.millisecondsSinceEpoch}\n');
-    });
-
-    test('uses custom field formatter', () {
-      final formatter = TextFormatter(
-          format: ({name, time, message, level, fields}) => '$fields',
-          formatField: (field) => 'field:${field.name}');
-
-      final time = DateTime.now();
+      final timestamp = DateTime.now();
       final record = RecordImpl(
           name: null,
-          time: time,
+          timestamp: timestamp,
           level: Level.info,
           message: '',
           fields: [const Dur('dur', Duration.zero)]);
 
-      final result = formatter.format(record);
+      final result = encoder.call(record);
 
-      expect(result, 'field:dur\n');
+      expect(result, utf8.encode('fields\r\n'));
     });
   });
 }
