@@ -1,6 +1,6 @@
 import 'package:structlog/src/record.dart';
 
-/// [Filter] used to filter [Record]s by criterias defined in [Filter.filter].
+/// [Filter] used to filter [Record]s by criteria defined in [Filter.filter].
 abstract class Filter {
   /// Tests whether specified [record] will be processed.
   ///
