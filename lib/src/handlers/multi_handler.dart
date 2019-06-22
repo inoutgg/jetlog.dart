@@ -1,6 +1,6 @@
 import 'dart:async' show Future, StreamController;
 
-import 'package:structlog/structlog.dart' show Handler, Record;
+import 'package:structlog/structlog.dart' show Filter, Handler, Record;
 
 /// [MultiHandler] composites multiple handlers into one handler; any logging
 /// records that are delegated to this handler will be propagated to composed
@@ -14,10 +14,23 @@ class MultiHandler extends Handler {
     }
   }
 
+  Filter _filter;
+
   final StreamController<Record> _controller;
 
+  /// Sets records filterer.
+  ///
+  /// Set filterer behaves the same way as a [Logger] filter.
+  set filter(Filter filter) => _filter = filter;
+
   @override
-  void handle(Record record) => _controller.add(record);
+  void handle(Record record) {
+    if (_filter != null && !_filter.filter(record)) {
+      return;
+    }
+
+    _controller.add(record);
+  }
 
   @override
   Future<void> close() async {
