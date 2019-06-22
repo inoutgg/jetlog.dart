@@ -9,6 +9,13 @@ class MultiHandler extends Handler {
   /// Creates a new [MultiHandler] with given handlers.
   MultiHandler(Iterable<Handler> handlers)
       : _controller = StreamController.broadcast(sync: true) {
+    ArgumentError.checkNotNull(handlers);
+
+    if (handlers.isEmpty) {
+      throw ArgumentError.value(
+          handlers, 'handlers', 'Must be non empty iterable collection');
+    }
+
     for (final h in handlers) {
       h.subscription = _controller.stream.listen(h.handle, onDone: h.close);
     }
@@ -34,8 +41,8 @@ class MultiHandler extends Handler {
 
   @override
   Future<void> close() async {
-    await super.close();
+    await _controller.close();
 
-    return _controller.close();
+    return super.close();
   }
 }
