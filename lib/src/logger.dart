@@ -22,18 +22,37 @@ final _loggers = LoggerManager(_root);
 /// hierarchical logger by either creating it or obtaining existing one.
 /// [Logger.detached] always returns a new logger regardless to the provided
 /// logger [name], typically such loggers are necessary if short-living logger
-/// is needed which may be garbage collected later.
+/// is needed which may be garbage collected later. [Logger.noop] returns
+/// a no operation logger.
+///
+/// Each logger has a severity level reflecting a minimum severity level of
+/// logging message this logger cares about (see [Logger.level]). It's possible
+/// to register a logging message filter that filters messages based on various
+/// criteria (see [Logger.filter]).
+///
+/// To log a message use [Logger.log] method or one of its derivatives such
+/// [Logger.debug], [Logger.info], etc. On each [Logger.log] calls logger
+/// performs a severity level check and discarding those messages which have
+/// severity level this logger doesn't cares about; if message passes severity
+/// level check it then filtered out by a registered logger filter if any.
+/// Those messages which pass both checks delegated to a registered handler if
+/// any (see [Logger.handler]).
+///
+/// To bind structured data to the logging context call [Logger.bind] with
+/// data represented as a collection of [Field]s. Calling to [Logger.bind] will
+/// result into a new context with logging capabilities and bound collection of
+/// fields has been created.
 abstract class Logger implements Interface {
   /// Creates a new detached logger.
   ///
   /// Created logger has no parent and children and is not a part of
   /// the logger hierarchy.
   ///
-  /// Typically, this should be used if short-living logger is necessary,
-  /// which may be GC'ed later.
+  /// Typically, this factory should be used if short-living logger is necessary,
+  /// which may be garbage collected later.
   factory Logger.detached([String name]) => LoggerImpl.detached(name);
 
-  /// Creates a new noop logger, it never writes out any logs and never
+  /// Creates a new noop logger which never emits logs and never
   /// delegates records to handlers.
   factory Logger.noop([String name]) => NoopLoggerImpl(name);
 
@@ -51,7 +70,7 @@ abstract class Logger implements Interface {
   /// Name of this logger.
   String get name;
 
-  /// Sets a minimum severity level of a [Record] to be emitted by this logger.
+  /// Sets a minimum severity level of a [Record]s this logger cares about.
   ///
   /// Only records with severity level equal to or higher then
   /// (in terms of [Level.value]) the [level] may be emitted by this logger;
@@ -60,8 +79,7 @@ abstract class Logger implements Interface {
   /// or [Level.fatal] will be emitted by this logger.
   set level(Level level);
 
-  /// Retrieves minimum severity level this logger allows a [Record]
-  /// to be emitted by it.
+  /// Retrieves minimum severity level of [Record]s this logger cares about.
   Level get level;
 
   /// Sets this logger logs handler.
@@ -69,7 +87,7 @@ abstract class Logger implements Interface {
   /// No handlers are register for a freshly created logger and any records
   /// that are emitted using the logger are discarded, unless handler is set.
   ///
-  /// To define multiple handlers for a logger use [MultiHandler].
+  /// To define multiple handlers for a logger use [MultiHandler] class.
   ///
   /// If provided value is `null`, previously created event stream is closed
   /// if any.
@@ -82,7 +100,7 @@ abstract class Logger implements Interface {
   ///
   /// To define multiple filters for a logger use [MultiFilter] class.
   ///
-  /// Set to `null` to remove previously set filter.
+  /// Set to `null` to remove previously set filter if any.
   set filter(Filter handler);
 
   /// Tests whether record with severity [level] will be emitted by this logger.
