@@ -8,4 +8,5 @@ export 'src/formatters/formatter.dart'
         FormatCallback,
         FieldsFormatCallback;
 
+export 'src/formatters/json_formatter.dart' show JsonFormatter;
 export 'src/formatters/text_formatter.dart' show TextFormatter;
