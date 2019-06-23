@@ -35,6 +35,10 @@ class TextFormatter extends Formatter {
   ///
   /// If logger name isn't provided [format] callback receives empty string `''`
   /// instead of `null`.
+  ///
+  /// Each [record] is passed to [format] (with optionally preformatted `level`,
+  /// `timestamp` and `fields` using [formatLevel], [formatTimestamp],
+  /// [formatFields]) and finally formatted string is appended with `\r\n`.
   @override
   List<int> call(Record record) {
     final message = format(
