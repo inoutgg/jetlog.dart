@@ -26,30 +26,29 @@ class _StdoutOnlyLevelFilter extends Filter {
       record.level == Level.info;
 }
 
-final _formatter = TextFormatter(
-    format: ({name, level, time, message, fields}) =>
-        '$name $time [$level]: $message $fields');
+final _formatter = TextFormatter(({name, level, timestamp, message, fields}) =>
+    '$name $timestamp $level: $message $fields');
 
-final _stderrHandler = StreamHandler(stderr.nonBlocking)
-  ..formatter = _formatter.asBytesFormatter
-  ..addFilter(_StderrOnlyLevelFilter());
-final _stdoutHandler = StreamHandler(stdout.nonBlocking)
-  ..formatter = _formatter.asBytesFormatter
-  ..addFilter(_StdoutOnlyLevelFilter());
+final _stderrHandler = StreamHandler(stderr, formatter: _formatter)
+  ..filter = _StderrOnlyLevelFilter();
+final _stdoutHandler = StreamHandler(stdout, formatter: _formatter)
+  ..filter = _StdoutOnlyLevelFilter();
 
 final _logger = Logger.getLogger('example.stdout')
   ..level = Level.all
   ..handler = MultiHandler([_stdoutHandler, _stderrHandler]);
 
 Future<void> main() async {
-  final tracer = _logger.bind([
+  final context = _logger.bind({
     const Str('username', 'vanesyan'),
     const Str('filename', 'avatar.png'),
     const Str('mime', 'image/png'),
-  ]).trace('Uploading!');
+  });
+  final tracer = context.trace('Uploading!');
 
   // Emulate uploading, wait for 1 sec.
   await Future<void>.delayed(Duration(seconds: 1));
 
-  tracer.stop('Uploaded!');
+  tracer.stop('Aborting...');
+  context.fatal('Failed to upload!');
 }
