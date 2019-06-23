@@ -14,6 +14,7 @@ abstract class Tracer {
   /// Stops tracing; immediately emits a record with a [message] and
   /// measured time.
   ///
-  /// If [stop] is called twice a [TracerStoppedError] will be raised.
+  /// If [stop] is called more than once a [TracerStoppedError]
+  /// will be raised.
   void stop(String message);
 }
