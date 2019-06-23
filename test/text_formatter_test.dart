@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 import 'package:structlog/structlog.dart'
     show Dur, DTM, Str, Obj, Field, Level, Loggable;
 
-import 'package:structlog/formatters.dart' show Formatter, TextFormatter;
+import 'package:structlog/formatters.dart' show TextFormatter;
 import 'package:structlog/src/record_impl.dart';
 
 class Klass extends Loggable {
