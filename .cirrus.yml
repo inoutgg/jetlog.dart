@@ -18,4 +18,4 @@ task:
         CODECOV_TOKEN: ENCRYPTED[4faffe7f59007d3db6704b0d1a1bf82bcec91a79f9ce1c8c6ab506e63292af6104edb5ff46b7946ac8750a197ba919c9]
 
       test_script: pub run test
-      coverage_script: tool/coverage.sh
+      coverage_script: ./tool/coverage.sh
