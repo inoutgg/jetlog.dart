@@ -3,13 +3,21 @@
 /// To use this library in your code:
 ///
 /// ```dart
-/// import 'package:structlog/global_logger.dart' as logger;
+/// import 'package:structlog/global_logger.dart';
 /// ```
+///
+/// Severity level of global logger is set to [Level.debug], logging record
+/// handler is set to [ConsoleHandler] with default formatting to text
+/// using [TextFormatter.defaultFormatter].
 library structlog.global_logger;
 
+import 'package:structlog/handlers.dart' show ConsoleHandler;
+import 'package:structlog/formatters.dart' show TextFormatter;
 import 'package:structlog/structlog.dart';
 
-final Logger _logger = Logger.detached();
+final Logger _logger = Logger.detached()
+  ..level = Level.debug
+  ..handler = ConsoleHandler(formatter: TextFormatter.defaultFormatter);
 
 /// Retrieves minimum severity level global logger allows a [Record] to be emitted
 /// by it.
