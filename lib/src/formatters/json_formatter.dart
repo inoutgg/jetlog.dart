@@ -34,7 +34,7 @@ class JsonFormatter implements Formatter {
   final JsonEncoder _json;
 
   final LevelFormatCallback<dynamic> formatLevel;
-  final TimestampFormatCallback<String> formatTimestamp;
+  final TimestampFormatCallback<dynamic> formatTimestamp;
   final FieldsFormatCallback<Map<String, dynamic>> formatFields;
 
   @override
