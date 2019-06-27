@@ -26,7 +26,7 @@ class TextFormatter extends Formatter {
   }) : _utf8 = const Utf8Encoder();
 
   final Utf8Encoder _utf8;
-  final FormatCallback<String> format;
+  final FormatCallback<String, String, String, String> format;
   final LevelFormatCallback<String> formatLevel;
   final TimestampFormatCallback<String> formatTimestamp;
   final FieldsFormatCallback<String> formatFields;

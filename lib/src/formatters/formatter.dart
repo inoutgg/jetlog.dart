@@ -1,15 +1,15 @@
 import 'package:structlog/structlog.dart' show Record, Level, Field;
 
-typedef LevelFormatCallback<T> = T Function(Level);
+typedef LevelFormatCallback<L> = L Function(Level);
 typedef TimestampFormatCallback<T> = T Function(DateTime);
-typedef FieldsFormatCallback<T> = T Function(Iterable<Field> fields);
+typedef FieldsFormatCallback<F> = F Function(Iterable<Field> fields);
 
-typedef FormatCallback<T> = T Function({
+typedef FormatCallback<R, T, L, F> = R Function({
   String name,
-  String level,
-  String timestamp,
+  T timestamp,
+  L level,
   String message,
-  String fields,
+  F fields,
 });
 
 /// [Formatter] is capable to format single [Record] entry.
