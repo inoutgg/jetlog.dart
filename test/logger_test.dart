@@ -89,19 +89,17 @@ void main() {
 
         expect(logger.toString(),
             'NoopLogger(name=NOOP_LOGGER, level=${level.name})');
-        expect(unnamedLogger.toString(),
-            'NoopLogger(level=${level.name})');
+        expect(unnamedLogger.toString(), 'NoopLogger(level=${level.name})');
       });
     });
 
     group('#level', () {
-      test(
-          'when `Logger#level` set to `null` inherits level '
-          'from parent (HIERARCHY)', () {
-        final a = Logger.getLogger('a');
-        final b = Logger.getLogger('a.b');
+      test('when set to `null` inherits level from parent (HIERARCHY)', () {
+        final a = Logger.getLogger('a')..level = null;
+        final b = Logger.getLogger('a.b')..level = null;
 
         expect(a.level, same(Logger.root.level));
+        expect(b.level, same(Logger.root.level));
 
         b.level = Level.danger;
 

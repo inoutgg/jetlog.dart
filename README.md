@@ -1,6 +1,4 @@
-[![Test Status][cirrusci-image]][cirrusci-url]
-
-# structlog
+# structlog &middot; [![Test Status][cirrusci-image]][cirrusci-url] [![Code Coveraege][codecov-image]][codecov-url]
 Fast, structured, leveled logging for Dart.
 
 structlog's API is designed to provide great development experience
@@ -25,17 +23,10 @@ The easiest way to get up and running is to use global logger provided
 in `global_logger` package library.
 
 ```dart
-import 'package:structlog/structlog.dart' as log show Str;
 import 'package:structlog/global_logger.dart' as logger;
-import 'package:structlog/handlers.dart' show ConsoleHandler;
-import 'package:structlog/formatters.dart' show TextFormatter;
+import 'package:structlog/structlog.dart' as log show Str;
 
 void main() async {
-  // Setup logger handler
-  logger.handler = ConsoleHandler(TextFormatter((
-          {timestamps, level, message, fields}) =>
-      '$timestamps [$level]: $message $fields'));
-
   logger.bind({
     const log.Str('hello', 'world')
   }).info('Greeting');
@@ -50,3 +41,5 @@ Released under the [MIT] license.
 [MIT]: ./LICENSE
 [cirrusci-image]: https://api.cirrus-ci.com/github/vanesyan/structlog.dart.svg?branch=master
 [cirrusci-url]: https://cirrus-ci.com/github/vanesyan/structlog.dart
+[codecov-image]: https://codecov.io/gh/vanesyan/structlog.dart/branch/master/graph/badge.svg
+[codecov-url]: https://codecov.io/gh/vanesyan/structlog.dart
