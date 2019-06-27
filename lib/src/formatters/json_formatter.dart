@@ -37,6 +37,9 @@ class JsonFormatter implements Formatter {
   final TimestampFormatCallback<dynamic> formatTimestamp;
   final FieldsFormatCallback<Map<String, dynamic>> formatFields;
 
+  /// Returns a default [JSONFormatter].
+  static JsonFormatter get defaultFormatter => JsonFormatter();
+
   @override
   List<int> call(Record record) {
     final fields = formatFields(record.fields);
