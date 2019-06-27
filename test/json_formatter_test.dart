@@ -23,6 +23,11 @@ class Klass extends Loggable {
   }
 }
 
+Map<String, dynamic /* String | int */ > _formatLevel(Level level) =>
+    <String, dynamic>{'name': level.name, 'severity': level.value};
+
+String _formatTimestamp(DateTime timestamp) => timestamp.toString();
+
 void main() {
   group('JsonFormatter', () {
     DateTime timestamp;
@@ -43,7 +48,8 @@ void main() {
     });
 
     test('formats correctly with defaults', () {
-      final formatter = JsonFormatter();
+      final formatter = JsonFormatter(
+          formatLevel: _formatLevel, formatTimestamp: _formatTimestamp);
       final result = formatter.call(record);
 
       final dict = {
@@ -62,7 +68,9 @@ void main() {
     });
 
     test('uses custom level formatter', () {
-      final formatter = JsonFormatter(formatLevel: (level) => level.name);
+      final formatter = JsonFormatter(
+          formatTimestamp: _formatTimestamp,
+          formatLevel: (level) => level.name);
       final result = formatter(record);
 
       final dict = {
@@ -79,6 +87,8 @@ void main() {
 
     test('uses custom fields formatter', () {
       final formatter = JsonFormatter(
+          formatLevel: _formatLevel,
+          formatTimestamp: _formatTimestamp,
           formatFields: (fields) => <String, dynamic>{'foo': 'bar'});
       final result = formatter(record);
 
@@ -97,7 +107,10 @@ void main() {
     });
 
     test('does not throw on null fields', () {
-      final formatter = JsonFormatter(formatFields: (fields) => null);
+      final formatter = JsonFormatter(
+          formatLevel: _formatLevel,
+          formatTimestamp: _formatTimestamp,
+          formatFields: (fields) => null);
       final result = formatter(record);
 
       final dict = {
@@ -116,6 +129,7 @@ void main() {
     test('uses custom timestamps formatter', () {
       final newTimestamp = DateTime.now();
       final formatter = JsonFormatter(
+          formatLevel: _formatLevel,
           formatTimestamp: (timestamp) => newTimestamp.toString());
       final result = formatter(record);
 
@@ -135,7 +149,7 @@ void main() {
     });
 
     test('support indentation', () {
-      final formatter = JsonFormatter(indent: 4);
+      final formatter = JsonFormatter.createFormatter(indent: 4);
       final result = formatter(record);
 
       final dict = {

@@ -1,7 +1,9 @@
 import 'dart:convert' show JsonEncoder, Utf8Encoder;
 
+import 'package:meta/meta.dart' show required;
 import 'package:structlog/structlog.dart'
     show Field, FieldKind, Level, Obj, Record;
+
 import 'package:structlog/src/formatters/formatter.dart';
 
 /// [JsonFormatter] is used to encode [Record] to JSON format.
@@ -11,18 +13,23 @@ import 'package:structlog/src/formatters/formatter.dart';
 /// single field is included to the final output. As such we strongly recommend
 /// not to put fields in to any collections fields with key such as `level`,
 /// `message`, `name` and `timestamp`.
-class JsonFormatter implements Formatter {
+///
+/// Use [JsonFormatter.createFormatter] to receive pre-configured
+/// [JsonFormatter].
+class JsonFormatter<L, T> implements Formatter {
   /// Creates a new [JsonFormatter].
   ///
-  /// Optional [formatLevel], [formatTimestamp] and [formatFields] callbacks
-  /// may be provided used to format severity levels, timestamp and collection
-  /// fields respectively.
+  /// [formatLevel], [formatTimestamp] callbacks must be provided to format
+  /// severity levels and timestamp respectively.
+  ///
+  /// Optional [formatFields] callbacks may be provided used to
+  /// format collection fields.
   ///
   /// Optional [indent] value may be also provided, which denotes size of
   /// common indentation (per level indentation) each blocks is prepended with.
   JsonFormatter(
-      {this.formatLevel = _formatLevel,
-      this.formatTimestamp = _formatTimestamp,
+      {@required this.formatLevel,
+      @required this.formatTimestamp,
       this.formatFields = _formatFields,
       int indent})
       : _utf8 = const Utf8Encoder(),
@@ -33,9 +40,17 @@ class JsonFormatter implements Formatter {
   final Utf8Encoder _utf8;
   final JsonEncoder _json;
 
-  final LevelFormatCallback<dynamic> formatLevel;
-  final TimestampFormatCallback<String> formatTimestamp;
+  final LevelFormatCallback<L> formatLevel;
+  final TimestampFormatCallback<T> formatTimestamp;
   final FieldsFormatCallback<Map<String, dynamic>> formatFields;
+
+  /// Returns a new [TextFormatter] with set both [formatLevel] and
+  /// [formatTimestamp].
+  static JsonFormatter<Map<String, dynamic /* String | int */ >, String>
+      createFormatter({int indent}) => JsonFormatter(
+          formatLevel: _formatLevel,
+          formatTimestamp: _formatTimestamp,
+          indent: indent);
 
   @override
   List<int> call(Record record) {
@@ -52,7 +67,7 @@ class JsonFormatter implements Formatter {
   }
 }
 
-Map<String, dynamic> _formatLevel(Level level) =>
+Map<String, dynamic /* String | int */ > _formatLevel(Level level) =>
     <String, dynamic>{'name': level.name, 'severity': level.value};
 
 String _formatTimestamp(DateTime timestamp) => timestamp.toString();
