@@ -31,6 +31,11 @@ class TextFormatter extends Formatter {
   final TimestampFormatCallback<String> formatTimestamp;
   final FieldsFormatCallback<String> formatFields;
 
+  /// Returns a new [TextFormatter] with set `format` callback.
+  static TextFormatter get defaultFormatter =>
+      TextFormatter(({name, timestamp, level, message, fields}) =>
+          '$name $timestamp [$level]: $message $fields'.trim());
+
   /// Encodes given [record] to formatted string.
   ///
   /// If logger name isn't provided [format] callback receives empty string `''`

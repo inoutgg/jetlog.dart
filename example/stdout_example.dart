@@ -26,13 +26,12 @@ class _StdoutOnlyLevelFilter extends Filter {
       record.level == Level.info;
 }
 
-final _formatter = TextFormatter(({name, level, timestamp, message, fields}) =>
-    '$name $timestamp $level: $message $fields');
-
-final _stderrHandler = StreamHandler(stderr, formatter: _formatter)
-  ..filter = _StderrOnlyLevelFilter();
-final _stdoutHandler = StreamHandler(stdout, formatter: _formatter)
-  ..filter = _StdoutOnlyLevelFilter();
+final _stderrHandler =
+    StreamHandler(stderr, formatter: TextFormatter.defaultFormatter)
+      ..filter = _StderrOnlyLevelFilter();
+final _stdoutHandler =
+    StreamHandler(stdout, formatter: TextFormatter.defaultFormatter)
+      ..filter = _StdoutOnlyLevelFilter();
 
 final _logger = Logger.getLogger('example.stdout')
   ..level = Level.all
