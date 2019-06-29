@@ -1,7 +1,6 @@
 import 'dart:convert' show Utf8Encoder;
 
-import 'package:jetlog/jetlog.dart'
-    show Field, FieldKind, Obj, Record, Level;
+import 'package:jetlog/jetlog.dart' show Field, FieldKind, Obj, Record, Level;
 
 import 'package:jetlog/src/formatters/formatter.dart';
 
