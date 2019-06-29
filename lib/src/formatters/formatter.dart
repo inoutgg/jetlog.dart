@@ -1,4 +1,4 @@
-import 'package:structlog/structlog.dart' show Record, Level, Field;
+import 'package:jetlog/jetlog.dart' show Record, Level, Field;
 
 typedef LevelFormatCallback<L> = L Function(Level);
 typedef TimestampFormatCallback<T> = T Function(DateTime);

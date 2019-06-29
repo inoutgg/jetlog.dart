@@ -1,10 +1,10 @@
 import 'dart:async' show Future;
 import 'dart:io' show stdout, stderr;
 
-import 'package:structlog/structlog.dart'
+import 'package:jetlog/jetlog.dart'
     show Filter, Level, Logger, Record, Str;
-import 'package:structlog/handlers.dart' show MultiHandler, StreamHandler;
-import 'package:structlog/formatters.dart' show TextFormatter;
+import 'package:jetlog/handlers.dart' show MultiHandler, StreamHandler;
+import 'package:jetlog/formatters.dart' show TextFormatter;
 
 class _StderrOnlyLevelFilter extends Filter {
   _StderrOnlyLevelFilter();

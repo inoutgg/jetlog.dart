@@ -1,8 +1,8 @@
-# structlog &middot; [![Test Status][cirrusci-image]][cirrusci-url] [![Code Coveraege][codecov-image]][codecov-url]
+# jetlog &middot; [![Test Status][cirrusci-image]][cirrusci-url] [![Code Coveraege][codecov-image]][codecov-url]
 Fast, structured, leveled logging for Dart.
 
-structlog's API is designed to provide great development experience
-without losing performance. structlog allows to format logging records
+jetlog's API is designed to provide great development experience
+without losing performance. jetlog allows to format logging records
 into different representations and supports formatting to JSON and text
 out of the box.
 
@@ -16,15 +16,15 @@ There are a couple of other features developer may benefit from:
 ## Installation
 To get mostly up to date package install it through `pub`.
 
-`pub get structlog`
+`pub get jetlog`
 
 ## Getting started
 The easiest way to get up and running is to use global logger provided
 in `global_logger` package library.
 
 ```dart
-import 'package:structlog/global_logger.dart' as logger;
-import 'package:structlog/structlog.dart' as log show Str;
+import 'package:jetlog/global_logger.dart' as logger;
+import 'package:jetlog/jetlog.dart' as log show Str;
 
 void main() async {
   logger.bind({
@@ -39,7 +39,7 @@ void main() async {
 Released under the [MIT] license.
 
 [MIT]: ./LICENSE
-[cirrusci-image]: https://api.cirrus-ci.com/github/vanesyan/structlog.dart.svg?branch=master
-[cirrusci-url]: https://cirrus-ci.com/github/vanesyan/structlog.dart
-[codecov-image]: https://codecov.io/gh/vanesyan/structlog.dart/branch/master/graph/badge.svg
-[codecov-url]: https://codecov.io/gh/vanesyan/structlog.dart
+[cirrusci-image]: https://api.cirrus-ci.com/github/vanesyan/jetlog.dart.svg?branch=master
+[cirrusci-url]: https://cirrus-ci.com/github/vanesyan/jetlog.dart
+[codecov-image]: https://codecov.io/gh/vanesyan/jetlog.dart/branch/master/graph/badge.svg
+[codecov-url]: https://codecov.io/gh/vanesyan/jetlog.dart

@@ -1,11 +1,11 @@
-import 'package:structlog/handlers.dart' show MultiHandler;
-import 'package:structlog/src/filter.dart';
-import 'package:structlog/src/handler.dart';
-import 'package:structlog/src/interface.dart';
-import 'package:structlog/src/logger_impl.dart';
-import 'package:structlog/src/logger_manager.dart';
-import 'package:structlog/src/noop_logger.dart';
-import 'package:structlog/src/level.dart';
+import 'package:jetlog/handlers.dart' show MultiHandler;
+import 'package:jetlog/src/filter.dart';
+import 'package:jetlog/src/handler.dart';
+import 'package:jetlog/src/interface.dart';
+import 'package:jetlog/src/logger_impl.dart';
+import 'package:jetlog/src/logger_manager.dart';
+import 'package:jetlog/src/noop_logger.dart';
+import 'package:jetlog/src/level.dart';
 
 final _root = LoggerImpl.managed('ROOT_LOGGER');
 final _loggers = LoggerManager(_root);

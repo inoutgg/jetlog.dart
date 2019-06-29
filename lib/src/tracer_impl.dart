@@ -1,7 +1,7 @@
-import 'package:structlog/src/field.dart' show Dur, DTM;
-import 'package:structlog/src/interface.dart';
-import 'package:structlog/src/level.dart';
-import 'package:structlog/src/tracer.dart';
+import 'package:jetlog/src/field.dart' show Dur, DTM;
+import 'package:jetlog/src/interface.dart';
+import 'package:jetlog/src/level.dart';
+import 'package:jetlog/src/tracer.dart';
 
 class TracerImpl implements Tracer {
   TracerImpl(this._context) : _timer = Stopwatch();

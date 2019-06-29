@@ -1,7 +1,7 @@
 import 'package:test/test.dart';
-import 'package:structlog/structlog.dart';
-import 'package:structlog/filters.dart' show MultiFilter;
-import 'package:structlog/src/record_impl.dart';
+import 'package:jetlog/jetlog.dart';
+import 'package:jetlog/filters.dart' show MultiFilter;
+import 'package:jetlog/src/record_impl.dart';
 
 class _TestFilter1 extends Filter {
   @override

@@ -1,10 +1,10 @@
-import 'package:structlog/src/field.dart' show Field;
-import 'package:structlog/src/filter.dart';
-import 'package:structlog/src/handler.dart';
-import 'package:structlog/src/level.dart';
-import 'package:structlog/src/logger.dart';
-import 'package:structlog/src/interface.dart';
-import 'package:structlog/src/tracer.dart';
+import 'package:jetlog/src/field.dart' show Field;
+import 'package:jetlog/src/filter.dart';
+import 'package:jetlog/src/handler.dart';
+import 'package:jetlog/src/level.dart';
+import 'package:jetlog/src/logger.dart';
+import 'package:jetlog/src/interface.dart';
+import 'package:jetlog/src/tracer.dart';
 
 class NoopTracerImpl implements Tracer {
   @override

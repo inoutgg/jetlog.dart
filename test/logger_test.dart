@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
-import 'package:structlog/structlog.dart' show Logger, Level;
-import 'package:structlog/src/logger_impl.dart' show LoggerImpl;
+import 'package:jetlog/jetlog.dart' show Logger, Level;
+import 'package:jetlog/src/logger_impl.dart' show LoggerImpl;
 
 void main() {
   group('Logger', () {

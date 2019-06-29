@@ -1,4 +1,4 @@
-name: structlog
+name: jetlog
 version: 0.4.0
 license: MIT
 description: >
@@ -8,7 +8,7 @@ description: >
   with structured data.
 
 author: Roman Vanesyan <romain.vanesyan@gmail.com>
-homepage: https://github.com/vanesyan/structlog.dart
+homepage: https://github.com/vanesyan/jetlog.dart
 
 environment:
   sdk: '>=2.3.0 <3.0.0'

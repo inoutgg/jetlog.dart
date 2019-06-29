@@ -1,4 +1,4 @@
-library structlog.handlers;
+library jetlog.handlers;
 
 export 'src/handlers/console_handler.dart';
 export 'src/handlers/memory_handler.dart';

@@ -1,8 +1,8 @@
 import 'dart:convert' show JsonEncoder, Utf8Encoder;
 
-import 'package:structlog/structlog.dart'
+import 'package:jetlog/jetlog.dart'
     show Field, FieldKind, Level, Obj, Record;
-import 'package:structlog/src/formatters/formatter.dart';
+import 'package:jetlog/src/formatters/formatter.dart';
 
 /// [JsonFormatter] is used to encode [Record] to JSON format.
 ///

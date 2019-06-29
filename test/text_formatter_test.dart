@@ -1,11 +1,11 @@
 import 'dart:convert' show utf8;
 
 import 'package:test/test.dart';
-import 'package:structlog/structlog.dart'
+import 'package:jetlog/jetlog.dart'
     show Dur, DTM, Str, Obj, Field, Level, Loggable;
-import 'package:structlog/formatters.dart' show TextFormatter;
+import 'package:jetlog/formatters.dart' show TextFormatter;
 
-import 'package:structlog/src/record_impl.dart';
+import 'package:jetlog/src/record_impl.dart';
 
 class Klass extends Loggable {
   Klass(this.dur, this.name);

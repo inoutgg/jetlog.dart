@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart' show required;
-import 'package:structlog/src/field.dart';
-import 'package:structlog/src/level.dart';
-import 'package:structlog/src/record.dart';
+import 'package:jetlog/src/field.dart';
+import 'package:jetlog/src/level.dart';
+import 'package:jetlog/src/record.dart';
 
 class RecordImpl implements Record {
   RecordImpl(

@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:structlog/structlog.dart';
+import 'package:jetlog/jetlog.dart';
 
 void main() {
   group('Field', () {

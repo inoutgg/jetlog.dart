@@ -1,5 +1,5 @@
-import 'package:structlog/src/interface.dart';
-import 'package:structlog/src/record.dart';
+import 'package:jetlog/src/interface.dart';
+import 'package:jetlog/src/record.dart';
 
 /// Severity level of the record. It controls output of particular logger.
 ///

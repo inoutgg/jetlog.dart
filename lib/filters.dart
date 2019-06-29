@@ -4,8 +4,8 @@
 /// To use this library in your code:
 ///
 /// ```dart
-/// import 'package:structlog/filters.dart';
+/// import 'package:jetlog/filters.dart';
 /// ```
-library structlog.filters;
+library jetlog.filters;
 
 export 'src/filters/multi_filter.dart';
