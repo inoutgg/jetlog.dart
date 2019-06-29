@@ -1,10 +1,10 @@
-import 'package:structlog/src/field.dart';
-import 'package:structlog/src/interface.dart';
-import 'package:structlog/src/logger_impl.dart';
-import 'package:structlog/src/record_impl.dart';
-import 'package:structlog/src/tracer.dart';
-import 'package:structlog/src/level.dart';
-import 'package:structlog/src/tracer_impl.dart';
+import 'package:jetlog/src/field.dart';
+import 'package:jetlog/src/interface.dart';
+import 'package:jetlog/src/logger_impl.dart';
+import 'package:jetlog/src/record_impl.dart';
+import 'package:jetlog/src/tracer.dart';
+import 'package:jetlog/src/level.dart';
+import 'package:jetlog/src/tracer_impl.dart';
 
 class LoggingContext implements Interface {
   LoggingContext(this._logger, [this._fields]);

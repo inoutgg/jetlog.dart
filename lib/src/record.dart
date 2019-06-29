@@ -1,6 +1,6 @@
-import 'package:structlog/src/field.dart' show Field;
-import 'package:structlog/src/level.dart';
-import 'package:structlog/src/logger.dart';
+import 'package:jetlog/src/field.dart' show Field;
+import 'package:jetlog/src/level.dart';
+import 'package:jetlog/src/logger.dart';
 
 /// A single record emitted by a [Logger].
 abstract class Record {

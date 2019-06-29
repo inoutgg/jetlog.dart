@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
-import 'package:structlog/structlog.dart';
-import 'package:structlog/handlers.dart' show MemoryHandler;
+import 'package:jetlog/jetlog.dart';
+import 'package:jetlog/handlers.dart' show MemoryHandler;
 
 Future<void> later(void action()) => Future.delayed(Duration.zero, action);
 

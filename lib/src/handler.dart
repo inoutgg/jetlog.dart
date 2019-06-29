@@ -1,7 +1,7 @@
 import 'dart:async' show StreamSubscription;
 
-import 'package:structlog/src/logger.dart' show Logger;
-import 'package:structlog/src/record.dart' show Record;
+import 'package:jetlog/src/logger.dart' show Logger;
+import 'package:jetlog/src/record.dart' show Record;
 
 /// Handler is capable to process logging [Record]s as the are added to a
 /// [Logger].

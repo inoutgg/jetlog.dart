@@ -3,17 +3,17 @@
 /// To use this library in your code:
 ///
 /// ```dart
-/// import 'package:structlog/global_logger.dart';
+/// import 'package:jetlog/global_logger.dart';
 /// ```
 ///
 /// Severity level of global logger is set to [Level.debug], logging record
 /// handler is set to [ConsoleHandler] with default formatting to text
 /// using [TextFormatter.defaultFormatter].
-library structlog.global_logger;
+library jetlog.global_logger;
 
-import 'package:structlog/handlers.dart' show ConsoleHandler;
-import 'package:structlog/formatters.dart' show TextFormatter;
-import 'package:structlog/structlog.dart';
+import 'package:jetlog/handlers.dart' show ConsoleHandler;
+import 'package:jetlog/formatters.dart' show TextFormatter;
+import 'package:jetlog/jetlog.dart';
 
 final Logger _logger = Logger.detached()
   ..level = Level.debug

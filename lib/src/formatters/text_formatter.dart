@@ -1,9 +1,9 @@
 import 'dart:convert' show Utf8Encoder;
 
-import 'package:structlog/structlog.dart'
+import 'package:jetlog/jetlog.dart'
     show Field, FieldKind, Obj, Record, Level;
 
-import 'package:structlog/src/formatters/formatter.dart';
+import 'package:jetlog/src/formatters/formatter.dart';
 
 const String _eol = '\r\n';
 

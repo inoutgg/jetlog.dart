@@ -1,4 +1,4 @@
-library structlog.formatters;
+library jetlog.formatters;
 
 export 'src/formatters/formatter.dart'
     show

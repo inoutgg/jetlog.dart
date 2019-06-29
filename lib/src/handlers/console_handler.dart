@@ -1,8 +1,8 @@
 import 'dart:convert' show utf8;
 
 import 'package:meta/meta.dart' show required;
-import 'package:structlog/structlog.dart' show Filter, Handler, Logger, Record;
-import 'package:structlog/formatters.dart' show Formatter;
+import 'package:jetlog/jetlog.dart' show Filter, Handler, Logger, Record;
+import 'package:jetlog/formatters.dart' show Formatter;
 
 /// [ConsoleHandler] prints logging records using built-in [print].
 class ConsoleHandler extends Handler {
@@ -25,8 +25,7 @@ class ConsoleHandler extends Handler {
     }
 
     final message = _formatter.call(record);
-    final len = message.length;
 
-    print(utf8.decode(message.getRange(0, len - 2).toList(growable: false)));
+    print(utf8.decode(message).trim());
   }
 }

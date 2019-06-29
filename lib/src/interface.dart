@@ -1,7 +1,7 @@
-import 'package:structlog/src/field.dart' show Field;
-import 'package:structlog/src/level.dart';
-import 'package:structlog/src/logger.dart';
-import 'package:structlog/src/tracer.dart' show Tracer;
+import 'package:jetlog/src/field.dart' show Field;
+import 'package:jetlog/src/level.dart';
+import 'package:jetlog/src/logger.dart';
+import 'package:jetlog/src/tracer.dart' show Tracer;
 
 /// [Interface] represents a common interface that is implemented by both
 /// [Logger] and logging context returned by [Interface.bind].
@@ -31,7 +31,7 @@ abstract class Interface {
   /// Emits a record with [message] and [Level.fatal] severity level.
   void fatal(String message);
 
-  /// Creates and returns a new logging context with bound [fields]
+  /// Creates and returns a new logging context with bound collection of [fields]
   /// added to existing one.
   Interface bind([Iterable<Field> fields]);
 }

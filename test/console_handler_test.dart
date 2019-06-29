@@ -1,11 +1,11 @@
 import 'dart:async' show runZoned, Zone, ZoneDelegate, ZoneSpecification;
 
-import 'package:structlog/formatters.dart';
-import 'package:structlog/structlog.dart';
+import 'package:jetlog/formatters.dart';
+import 'package:jetlog/jetlog.dart';
 import 'package:test/test.dart';
-import 'package:structlog/handlers.dart' show ConsoleHandler;
+import 'package:jetlog/handlers.dart' show ConsoleHandler;
 
-import 'package:structlog/src/record_impl.dart';
+import 'package:jetlog/src/record_impl.dart';
 
 class _DebugOnlyFilter extends Filter {
   @override

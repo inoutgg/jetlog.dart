@@ -1,4 +1,4 @@
-import 'package:structlog/src/record.dart';
+import 'package:jetlog/src/record.dart';
 
 /// [Filter] used to filter [Record]s by criteria defined in [Filter.filter].
 abstract class Filter {

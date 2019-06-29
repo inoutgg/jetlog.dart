@@ -1,4 +1,4 @@
-import 'package:structlog/src/interface.dart';
+import 'package:jetlog/src/interface.dart';
 
 /// An error thrown if [Tracer.stop] is called on already stopped [Tracer].
 class TracerStoppedError extends Error {

@@ -1,9 +1,9 @@
-/// Package library `structlog` provides fast, structured, leveled logger.
+/// Package library `jetlog` provides fast, structured, leveled logger.
 ///
 /// To use this library in your code
 ///
 /// ```dart
-/// import 'package:structlog/structlog.dart';
+/// import 'package:jetlog/jetlog.dart';
 /// ```
 ///
 /// This package exposes the main class [Logger] used to instantiate both
@@ -13,13 +13,13 @@
 ///
 /// Example
 /// ```dart
-/// final logger = Logger.getLogger('structlog.example.hierarchical');
+/// final logger = Logger.getLogger('jetlog.example.hierarchical');
 ///
 /// logger.context({
 ///   Str('hello', 'world'),
 /// }).info('Example');
 /// ```
-library structlog;
+library jetlog;
 
 export 'src/field.dart';
 export 'src/filter.dart';

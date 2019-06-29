@@ -1,9 +1,9 @@
 import 'package:test/test.dart';
 
-import 'package:structlog/structlog.dart' show Filter, Level, Record;
-import 'package:structlog/handlers.dart' show MultiHandler, MemoryHandler;
+import 'package:jetlog/jetlog.dart' show Filter, Level, Record;
+import 'package:jetlog/handlers.dart' show MultiHandler, MemoryHandler;
 
-import 'package:structlog/src/record_impl.dart' show RecordImpl;
+import 'package:jetlog/src/record_impl.dart' show RecordImpl;
 
 class _DebugOnlyFilter extends Filter {
   @override
