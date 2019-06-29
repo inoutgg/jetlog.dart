@@ -25,8 +25,7 @@ class ConsoleHandler extends Handler {
     }
 
     final message = _formatter.call(record);
-    final len = message.length;
 
-    print(utf8.decode(message.getRange(0, len - 2).toList(growable: false)));
+    print(utf8.decode(message).trim());
   }
 }
