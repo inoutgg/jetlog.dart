@@ -497,6 +497,14 @@ void main() {
               isNotNull);
         });
       });
+
+      test('throws when stopping tracer multiple times', () {
+        final logger = Logger.detached()..level = Level.all;
+        final t = logger.trace('start')..stop('stop');
+
+        expect(() => t.stop('stop 2'),
+            throwsA(const TypeMatcher<TracerStoppedError>()));
+      });
     });
   });
 }
