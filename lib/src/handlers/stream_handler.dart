@@ -10,7 +10,10 @@ import 'package:jetlog/formatters.dart' show Formatter;
 /// submitting it to the downstream.
 class StreamHandler extends Handler {
   StreamHandler(this._stream, {@required Formatter formatter})
-      : _formatter = formatter;
+      : _formatter = formatter {
+    ArgumentError.checkNotNull(_stream, 'stream');
+    ArgumentError.checkNotNull(formatter, 'formatter');
+  }
 
   final Formatter _formatter;
   final StreamSink<List<int>> _stream;
