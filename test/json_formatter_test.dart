@@ -43,8 +43,10 @@ void main() {
     });
 
     test('formats correctly with defaults', () {
-      final formatter = JsonFormatter();
-      final result = formatter.call(record);
+      final formatter1 = JsonFormatter();
+      final formatter2 = JsonFormatter.defaultFormatter;
+      final result1 = formatter1.call(record);
+      final result2 = formatter2.call(record);
 
       final dict = {
         'name': null,
@@ -58,7 +60,8 @@ void main() {
         'dtm': timestamp.toString(),
       };
 
-      expect(dict, equals(json.decode(utf8.decode(result))));
+      expect(dict, equals(json.decode(utf8.decode(result1))));
+      expect(dict, equals(json.decode(utf8.decode(result2))));
     });
 
     test('uses custom level formatter', () {
@@ -151,7 +154,40 @@ void main() {
       };
 
       expect(
-          result, utf8.encode(JsonEncoder.withIndent(' ' * 4).convert(dict)));
+          utf8.decode(result), JsonEncoder.withIndent(' ' * 4).convert(dict));
+    });
+
+    test('supports nested fields', () {
+      final formatter = JsonFormatter();
+      record = RecordImpl(
+          name: null,
+          timestamp: timestamp,
+          level: level,
+          message: message,
+          fields: [
+            const Dur('dur', Duration.zero),
+            DTM('dtm', timestamp),
+            Obj('klass', Klass(Duration.zero, 'test'))
+          ]);
+      final result = formatter(record);
+
+      final dict = {
+        'level': {
+          'name': level.name,
+          'severity': level.value,
+        },
+        'message': message,
+        'name': null,
+        'timestamp': timestamp.toString(),
+        'dur': Duration.zero.toString(),
+        'dtm': timestamp.toString(),
+        'klass': {
+          'name': 'test',
+          'dur': Duration.zero.toString(),
+        }
+      };
+
+      expect(utf8.decode(result), json.encode(dict));
     });
   });
 }
