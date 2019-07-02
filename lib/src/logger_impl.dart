@@ -58,7 +58,7 @@ class LoggerImpl with LoggerBase {
 
   void add(Record record) {
     if (isEnabledFor(record.level)) {
-      if (_filter != null && !_filter.filter(record)) {
+      if (_filter != null && !_filter.call(record)) {
         return;
       }
 

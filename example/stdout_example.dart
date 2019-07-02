@@ -1,37 +1,27 @@
 import 'dart:async' show Future;
 import 'dart:io' show stdout, stderr;
 
-import 'package:jetlog/jetlog.dart'
-    show Filter, Level, Logger, Record, Str;
+import 'package:jetlog/jetlog.dart' show Level, Logger, Record, Str;
 import 'package:jetlog/handlers.dart' show MultiHandler, StreamHandler;
 import 'package:jetlog/formatters.dart' show TextFormatter;
 
-class _StderrOnlyLevelFilter extends Filter {
-  _StderrOnlyLevelFilter();
+bool _stderrOnlyFilter(Record record) =>
+    record.level == Level.warning ||
+    record.level == Level.danger ||
+    record.level == Level.fatal;
 
-  @override
-  bool filter(Record record) =>
-      record.level == Level.warning ||
-      record.level == Level.danger ||
-      record.level == Level.fatal;
-}
-
-class _StdoutOnlyLevelFilter extends Filter {
-  _StdoutOnlyLevelFilter();
-
-  @override
-  bool filter(Record record) =>
-      record.level == Level.trace ||
-      record.level == Level.debug ||
-      record.level == Level.info;
-}
+@override
+bool _stdoutOnlyFilter(Record record) =>
+    record.level == Level.trace ||
+    record.level == Level.debug ||
+    record.level == Level.info;
 
 final _stderrHandler =
     StreamHandler(stderr, formatter: TextFormatter.defaultFormatter)
-      ..filter = _StderrOnlyLevelFilter();
+      ..filter = _stderrOnlyFilter;
 final _stdoutHandler =
     StreamHandler(stdout, formatter: TextFormatter.defaultFormatter)
-      ..filter = _StdoutOnlyLevelFilter();
+      ..filter = _stdoutOnlyFilter;
 
 final _logger = Logger.getLogger('example.stdout')
   ..level = Level.all

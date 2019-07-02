@@ -1,17 +1,16 @@
-import 'dart:async' show StreamController, StreamSink;
+import 'dart:async' show StreamController;
 import 'dart:convert' show utf8;
 
 import 'package:test/test.dart';
 
-import 'package:jetlog/jetlog.dart' show Filter, Level, Record;
+import 'package:jetlog/jetlog.dart' show Level, Record;
 import 'package:jetlog/formatters.dart' show TextFormatter;
 import 'package:jetlog/handlers.dart' show StreamHandler;
 
 import 'package:jetlog/src/record_impl.dart' show RecordImpl;
 
-class _DebugOnlyFilter extends Filter {
-  @override
-  bool filter(Record record) => record.level == Level.debug;
+class _DebugOnlyFilter {
+  bool call(Record record) => record.level == Level.debug;
 }
 
 void main() {

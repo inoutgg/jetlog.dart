@@ -26,7 +26,7 @@ class StreamHandler extends Handler {
 
   @override
   void handle(Record record) {
-    if (_filter != null && !_filter.filter(record)) {
+    if (_filter != null && !_filter.call(record)) {
       return;
     }
 

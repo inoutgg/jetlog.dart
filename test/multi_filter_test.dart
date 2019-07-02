@@ -1,16 +1,15 @@
 import 'package:test/test.dart';
 import 'package:jetlog/jetlog.dart';
 import 'package:jetlog/filters.dart' show MultiFilter;
+
 import 'package:jetlog/src/record_impl.dart';
 
-class _TestFilter1 extends Filter {
-  @override
-  bool filter(Record record) => record.name == 'Test';
+class _TestFilter1 {
+  bool call(Record record) => record.name == 'Test';
 }
 
-class _TestFilter2 extends Filter {
-  @override
-  bool filter(Record record) => record.message == 'Test';
+class _TestFilter2 {
+  bool call(Record record) => record.message == 'Test';
 }
 
 void main() {
@@ -37,9 +36,9 @@ void main() {
           message: 'bar',
           fields: []);
 
-      expect(filter.filter(record1), isTrue);
-      expect(filter.filter(record2), isTrue);
-      expect(filter.filter(record3), isTrue);
+      expect(filter.call(record1), isTrue);
+      expect(filter.call(record2), isTrue);
+      expect(filter.call(record3), isTrue);
     });
 
     test('delegates record to all filters', () {
@@ -67,9 +66,9 @@ void main() {
           fields: []);
 
 
-      expect(filter.filter(record1), isTrue);
-      expect(filter.filter(record2), isFalse);
-      expect(filter.filter(record3), isFalse);
+      expect(filter.call(record1), isTrue);
+      expect(filter.call(record2), isFalse);
+      expect(filter.call(record3), isFalse);
     });
   });
 }

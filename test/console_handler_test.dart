@@ -7,9 +7,8 @@ import 'package:jetlog/handlers.dart' show ConsoleHandler;
 
 import 'package:jetlog/src/record_impl.dart';
 
-class _DebugOnlyFilter extends Filter {
-  @override
-  bool filter(Record record) => record.level == Level.debug;
+class _DebugOnlyFilter {
+  bool call(Record record) => record.level == Level.debug;
 }
 
 void main() {

@@ -4,10 +4,7 @@ import 'package:jetlog/handlers.dart' show MemoryHandler;
 
 Future<void> later(void action()) => Future.delayed(Duration.zero, action);
 
-class _TestFilter extends Filter {
-  @override
-  bool filter(Record record) => record.level == Level.danger;
-}
+bool _testFilter(Record record) => record.level == Level.danger;
 
 void main() {
   group('Interface', () {
@@ -80,7 +77,7 @@ void main() {
         final handler = MemoryHandler();
         final logger = Logger.detached()
           ..handler = handler
-          ..filter = _TestFilter()
+          ..filter = _testFilter
           ..level = Level.all;
 
         logger

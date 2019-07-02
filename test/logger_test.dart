@@ -1,11 +1,11 @@
 import 'package:test/test.dart';
-import 'package:jetlog/jetlog.dart'
-    show Logger, Level, Interface, Filter, Record;
+import 'package:jetlog/jetlog.dart' show Logger, Level, Record;
 import 'package:jetlog/handlers.dart' show MemoryHandler;
+
 import 'package:jetlog/src/logger_impl.dart' show LoggerImpl;
 
-class _Filter extends Filter {
-  bool filter(Record record) => true;
+class _Filter {
+  bool call(Record record) => true;
 }
 
 void main() {
