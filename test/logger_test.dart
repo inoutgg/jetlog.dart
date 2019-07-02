@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:jetlog/jetlog.dart' show Logger, Level;
+import 'package:jetlog/jetlog.dart' show Logger, Level, Interface;
 import 'package:jetlog/src/logger_impl.dart' show LoggerImpl;
 
 void main() {
@@ -31,7 +31,7 @@ void main() {
       });
     });
 
-    group('#Logger', () {
+    group('#detached', () {
       test('Creates unique instance', () {
         final a1 = Logger.detached('a');
         final a2 = Logger.detached('a');
@@ -169,6 +169,35 @@ void main() {
         final logger = Logger.detached();
 
         expect(() => logger.isEnabledFor(null), throwsArgumentError);
+      });
+    });
+
+    group('NoopLogger', () {
+      test('works normally', () {
+        final l = Logger.noop();
+
+        expect(() => l.log(Level.info, 'test'), returnsNormally);
+        expect(() => l.debug('test'), returnsNormally);
+        expect(() => l.trace('test'), returnsNormally);
+        expect(() => l.info('test'), returnsNormally);
+        expect(() => l.warning('test'), returnsNormally);
+        expect(() => l.danger('test'), returnsNormally);
+        expect(() => l.fatal('test'), returnsNormally);
+        expect(() => l.bind(), returnsNormally);
+
+        final b = l.bind();
+
+        expect(() => b.log(Level.info, 'bind test'), returnsNormally);
+        expect(() => b.debug('bind test'), returnsNormally);
+        expect(() => l.trace('test'), returnsNormally);
+        expect(() => b.info('bind test'), returnsNormally);
+        expect(() => b.warning('bind test'), returnsNormally);
+        expect(() => b.danger('bind test'), returnsNormally);
+        expect(() => b.fatal('bind test'), returnsNormally);
+
+        final t = l.trace('test trace');
+
+        expect(() => t.stop('test trace'), returnsNormally);
       });
     });
   });
