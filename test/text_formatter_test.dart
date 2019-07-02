@@ -45,10 +45,37 @@ void main() {
       final result2 = encoder2.call(record);
 
       expect(
-          result1,
-          utf8.encode('${level.name} ${timestamp.toString()} $message '
-              'dur=0:00:00.000000 dtm=$timestamp\r\n'));
+          utf8.decode(result1),
+          '${level.name} ${timestamp.toString()} $message '
+          'dur=${Duration.zero} dtm=$timestamp\r\n');
       expect(result2, <int>[]);
+    });
+
+    test('TextFormatter.defaultFormatter formats correctly', () {
+      final f = TextFormatter.defaultFormatter;
+
+      final timestamp = DateTime.now();
+      const level = Level.info;
+      const message = 'Test';
+      final record1 = RecordImpl(
+          name: "str",
+          timestamp: timestamp,
+          level: level,
+          message: message,
+          fields: [const Dur('dur', Duration.zero), DTM('dtm', timestamp)]);
+      final record2 = RecordImpl(
+          name: null,
+          timestamp: timestamp,
+          level: level,
+          message: message,
+          fields: [const Dur('dur', Duration.zero), DTM('dtm', timestamp)]);
+      final result1 = f.call(record1);
+      final result2 = f.call(record2);
+
+      expect(utf8.decode(result1),
+          'str $timestamp [${level.name}]: $message dur=${Duration.zero} dtm=$timestamp\r\n');
+      expect(utf8.decode(result2),
+          '$timestamp [${level.name}]: $message dur=${Duration.zero} dtm=$timestamp\r\n');
     });
 
     test('supports nested fields with defaults', () {
@@ -74,10 +101,10 @@ void main() {
       final result = encoder.call(record);
 
       expect(
-          result,
-          utf8.encode('${level.name} ${timestamp.toString()} $message '
-              'dur=0:00:00.000000 dtm=$timestamp '
-              'klass.name=__name__ klass.dur=0:00:00.000000\r\n'));
+          utf8.decode(result),
+          '${level.name} ${timestamp.toString()} $message '
+          'dur=0:00:00.000000 dtm=$timestamp '
+          'klass.name=__name__ klass.dur=0:00:00.000000\r\n');
     });
 
     test('uses custom level encoder', () {
@@ -91,7 +118,7 @@ void main() {
 
       final result = encoder.call(record);
 
-      expect(result, utf8.encode('$level\r\n'));
+      expect(utf8.decode(result), '$level\r\n');
     });
 
     test('uses custom time encoder', () {
@@ -106,7 +133,7 @@ void main() {
 
       final result = encoder.call(record);
 
-      expect(result, utf8.encode('${timestamp.millisecondsSinceEpoch}\r\n'));
+      expect(utf8.decode(result), '${timestamp.millisecondsSinceEpoch}\r\n');
     });
 
     test('uses custom field encoder', () {
@@ -124,7 +151,7 @@ void main() {
 
       final result = encoder.call(record);
 
-      expect(result, utf8.encode('fields\r\n'));
+      expect(utf8.decode(result), 'fields\r\n');
     });
   });
 }
