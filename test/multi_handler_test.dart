@@ -28,9 +28,13 @@ void main() {
         MultiHandler handler = MultiHandler([h0]);
 
         handler.handle(RecordImpl(
-            timestamp: DateTime.now(), level: Level.fatal, message: 'Test message'));
+            timestamp: DateTime.now(),
+            level: Level.fatal,
+            message: 'Test message'));
         handler.handle(RecordImpl(
-            timestamp: DateTime.now(), level: Level.fatal, message: 'Test message'));
+            timestamp: DateTime.now(),
+            level: Level.fatal,
+            message: 'Test message'));
 
         expect(h0.records, hasLength(2));
         expect(h0.records.last.level, equals(Level.fatal));
@@ -74,6 +78,15 @@ void main() {
         expect(h1.records, hasLength(1));
         expect(h2.records, hasLength(1));
         expect(h3.records, hasLength(1));
+      });
+
+      test('closes normally', () {
+        final h1 = MemoryHandler();
+        final h2 = MemoryHandler();
+        final h3 = MemoryHandler();
+        final handler = MultiHandler([h1, h2, h3]);
+
+        expect(() => handler.close(), returnsNormally);
       });
     });
   });
