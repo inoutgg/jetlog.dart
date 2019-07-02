@@ -3,6 +3,26 @@ import 'package:jetlog/src/level.dart';
 
 void main() {
   group('Level', () {
+    // stolen from https://github.com/dart-lang/logging/blob/master/test/logging_test.dart#L13
+    test('level comparison is a valid comparator', () {
+      const level1 = Level(name: 'NOT_REAL1', value: 253);
+      expect(level1 == level1, isTrue);
+      expect(level1 <= level1, isTrue);
+      expect(level1 >= level1, isTrue);
+      expect(level1 < level1, isFalse);
+      expect(level1 > level1, isFalse);
+
+      const level2 = Level(name: 'NOT_REAL2', value: 455);
+      expect(level1 <= level2, isTrue);
+      expect(level1 < level2, isTrue);
+      expect(level2 >= level1, isTrue);
+      expect(level2 > level1, isTrue);
+
+      const level3 = Level(name: 'NOT_REAL3', value: 253);
+      expect(level1, isNot(same(level3))); // different instances
+      expect(level1, equals(level3)); // same value.
+    });
+
     test('Builtin levels to be sorted by severity', () {
       expect(Level.all < Level.trace, isTrue);
       expect(Level.debug < Level.trace, isTrue);
