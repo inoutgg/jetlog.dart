@@ -1,6 +1,12 @@
 import 'package:test/test.dart';
-import 'package:jetlog/jetlog.dart' show Logger, Level, Interface;
+import 'package:jetlog/jetlog.dart'
+    show Logger, Level, Interface, Filter, Record;
+import 'package:jetlog/handlers.dart' show MemoryHandler;
 import 'package:jetlog/src/logger_impl.dart' show LoggerImpl;
+
+class _Filter extends Filter {
+  bool filter(Record record) => true;
+}
 
 void main() {
   group('Logger', () {
@@ -175,6 +181,12 @@ void main() {
     group('NoopLogger', () {
       test('works normally', () {
         final l = Logger.noop();
+
+        expect(() => l.handler = MemoryHandler(), returnsNormally);
+        expect(() => l.handler = null, returnsNormally);
+
+        expect(() => l.filter = _Filter(), returnsNormally);
+        expect(() => l.filter = null, returnsNormally);
 
         expect(() => l.log(Level.info, 'test'), returnsNormally);
         expect(() => l.debug('test'), returnsNormally);
