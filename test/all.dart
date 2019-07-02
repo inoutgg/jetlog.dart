@@ -6,6 +6,7 @@ import 'level_test.dart' as level_test;
 import 'logger_test.dart' as logger_test;
 import 'multi_filter_test.dart' as multi_filter_test;
 import 'multi_handler_test.dart' as multi_handler_test;
+import 'steam_handler_test.dart' as steam_handler_test;
 import 'text_formatter_test.dart' as text_formatter_test;
 import 'tracer_test.dart' as tracer_test;
 
@@ -27,4 +28,5 @@ void main() {
   // Handlers tests
   console_handler_test.main();
   multi_handler_test.main();
+  steam_handler_test.main();
 }
