@@ -23,12 +23,12 @@ final _stdoutHandler =
     StreamHandler(stdout, formatter: TextFormatter.defaultFormatter)
       ..filter = _stdoutOnlyFilter;
 
-final _logger = Logger.getLogger('example.stdout')
-  ..level = Level.all
-  ..handler = MultiHandler([_stdoutHandler, _stderrHandler]);
-
 Future<void> main() async {
-  final context = _logger.bind({
+  final logger = Logger.getLogger('example.stdout')
+    ..level = Level.all
+    ..handler = MultiHandler([_stdoutHandler, _stderrHandler]);
+
+  final context = logger.bind({
     const Str('username', 'vanesyan'),
     const Str('filename', 'avatar.png'),
     const Str('mime', 'image/png'),
