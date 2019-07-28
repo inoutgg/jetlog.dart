@@ -12,14 +12,18 @@ class LazyLoggingContext implements LazyInterface {
   final LoggingContext _context;
 
   @override
-  void log(Level level, String Function() message) =>
+  void log(Level level, String Function() message) {
+    if (_context._logger.isEnabledFor(level)) {
       _context.log(level, message());
+    }
+  }
 
   @override
   void debug(String Function() message) => log(Level.debug, message);
 
   @override
-  Tracer trace(String Function() message) => _context.trace(message());
+  Tracer trace(String Function() message) =>
+      TracerImpl(_context)..lazyStart(message);
 
   @override
   void info(String Function() message) => log(Level.info, message);
