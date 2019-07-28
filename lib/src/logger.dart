@@ -54,7 +54,7 @@ abstract class Logger implements Interface {
 
   /// Creates a new noop logger which never emits logs and never
   /// delegates records to handlers.
-  factory Logger.noop([String name]) => NoopLoggerImpl(name);
+  factory Logger.noop([String name]) => NoopLogger(name);
 
   /// Retrieves a logger with [name]. If the logger already exists, then it will
   /// be returned, otherwise a new logger is created.

@@ -6,13 +6,46 @@ import 'package:jetlog/src/logger.dart';
 import 'package:jetlog/src/interface.dart';
 import 'package:jetlog/src/tracer.dart';
 
-class NoopTracerImpl implements Tracer {
+class NoopTracer implements Tracer {
   @override
   void stop(String message) {}
 }
 
-class NoopLoggerImpl with LoggerBase {
-  NoopLoggerImpl([this.name]);
+class NoopLazyContext implements LazyInterface {
+  @override
+  void danger(String Function() message) {
+    /* noop */
+  }
+
+  @override
+  void debug(String Function() message) {
+    /* noop */
+  }
+
+  @override
+  void fatal(String Function() message) {
+    /* noop */
+  }
+
+  @override
+  void info(String Function() message) {
+    /* noop */
+  }
+
+  @override
+  void log(Level level, String Function() message) {
+    /* noop */
+  }
+
+  @override
+  Tracer trace(String Function() message) => NoopTracer();
+
+  @override
+  void warning(String Function() message) {}
+}
+
+class NoopLogger with LoggerBase {
+  NoopLogger([this.name]);
 
   @override
   Level level;
@@ -21,7 +54,10 @@ class NoopLoggerImpl with LoggerBase {
   final String name;
 
   @override
-  Interface bind([Iterable<Field> fields]) => NoopLoggerImpl();
+  LazyInterface get lazy => NoopLazyContext();
+
+  @override
+  Interface bind([Iterable<Field> fields]) => NoopLogger();
 
   @override
   set handler(Handler handler) {
@@ -39,7 +75,7 @@ class NoopLoggerImpl with LoggerBase {
   }
 
   @override
-  Tracer trace(String message) => NoopTracerImpl();
+  Tracer trace(String message) => NoopTracer();
 
   @override
   void info(String message) {
