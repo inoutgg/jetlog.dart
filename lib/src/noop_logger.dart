@@ -42,9 +42,6 @@ class NoopLazyContext implements LazyInterface {
 
   @override
   void warning(String Function() message) {}
-
-  @override
-  Interface bind([Iterable<Field> Function() fields]) => NoopLogger();
 }
 
 class NoopLogger with LoggerBase {
