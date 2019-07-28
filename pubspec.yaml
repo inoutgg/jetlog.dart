@@ -1,5 +1,5 @@
 name: jetlog
-version: 0.6.0
+version: 0.7.0
 license: MIT
 description: >
   Compact and robust structured logger for Dart.
