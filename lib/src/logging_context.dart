@@ -36,9 +36,6 @@ class LazyLoggingContext implements LazyInterface {
 
   @override
   void fatal(String Function() message) => log(Level.fatal, message);
-
-  @override
-  Interface bind([Iterable<Field> fields()]) => _context.bind(fields());
 }
 
 class LoggingContext implements Interface {

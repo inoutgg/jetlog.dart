@@ -211,6 +211,20 @@ void main() {
 
         expect(() => t.stop('test trace'), returnsNormally);
       });
+
+      group('#lazy', () {
+        test('works normally', () {
+          final l = Logger.noop();
+
+          expect(() => l.lazy.log(Level.info, () => 'test'), returnsNormally);
+          expect(() => l.lazy.debug(() => 'test'), returnsNormally);
+          expect(() => l.lazy.trace(() => 'test'), returnsNormally);
+          expect(() => l.lazy.info(() => 'test'), returnsNormally);
+          expect(() => l.lazy.warning(() => 'test'), returnsNormally);
+          expect(() => l.lazy.danger(() => 'test'), returnsNormally);
+          expect(() => l.lazy.fatal(() => 'test'), returnsNormally);
+        });
+      });
     });
   });
 }

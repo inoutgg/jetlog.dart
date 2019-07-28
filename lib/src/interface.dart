@@ -31,9 +31,6 @@ abstract class LazyInterface {
 
   /// Same as [Interface.fatal] but evaluates [message] lazily.
   void fatal(String Function() message);
-
-  /// Same as [Interface.bind] but evaluates [fields] binding context lazily.
-  Interface bind([Iterable<Field> Function() fields]);
 }
 
 /// [Interface] represents a common interface that is implemented by both
