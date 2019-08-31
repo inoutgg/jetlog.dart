@@ -29,9 +29,9 @@ final _logger = Logger.getLogger('example.stdout')
 
 Future<void> main() async {
   final context = _logger.bind({
-    const Str('username', 'vanesyan'),
-    const Str('filename', 'avatar.png'),
-    const Str('mime', 'image/png'),
+    Str('username', 'vanesyan'),
+    Str('filename', 'avatar.png'),
+    Str('mime', 'image/png'),
   });
   final tracer = context.trace('Uploading!');
 

@@ -29,7 +29,7 @@ void main() {
 
     group('Dur', () {
       test('Sets correct `FieldKind`', () {
-        const field = Dur('Dur', Duration.zero);
+        final field = Dur('Dur', Duration.zero);
 
         expect(field.kind, FieldKind.duration);
       });
@@ -37,7 +37,7 @@ void main() {
 
     group('Double', () {
       test('Sets correct `FieldKind`', () {
-        const field = Double('Double', 0.2);
+        final field = Double('Double', 0.2);
 
         expect(field.kind, FieldKind.double);
       });
@@ -45,7 +45,7 @@ void main() {
 
     group('Num', () {
       test('Sets correct `FieldKind`', () {
-        const field = Num('Num', 10);
+        final field = Num('Num', 10);
 
         expect(field.kind, FieldKind.number);
       });
@@ -53,7 +53,7 @@ void main() {
 
     group('Int', () {
       test('Sets correct `FieldKind`', () {
-        const field = Int('Int', 12);
+        final field = Int('Int', 12);
 
         expect(field.kind, FieldKind.integer);
       });
@@ -61,7 +61,7 @@ void main() {
 
     group('Str', () {
       test('Sets correct `FieldKind`', () {
-        const field = Str('Str', 'str');
+        final field = Str('Str', 'str');
 
         expect(field.kind, FieldKind.string);
       });
@@ -69,7 +69,7 @@ void main() {
 
     group('Bool', () {
       test('Sets correct `FieldKind`', () {
-        const field = Bool('Bool', false);
+        final field = Bool('Bool', false);
 
         expect(field.kind, FieldKind.boolean);
       });

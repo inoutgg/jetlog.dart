@@ -1,4 +1,17 @@
-import 'package:meta/meta.dart' show required;
+library jetlog.internals.fields;
+
+import 'package:meta/meta.dart';
+
+part 'fields/bool.dart';
+part 'fields/double.dart';
+part 'fields/dtm.dart';
+part 'fields/dur.dart';
+part 'fields/int.dart';
+part 'fields/num.dart';
+part 'fields/obj.dart';
+part 'fields/str.dart';
+
+typedef ValueProducer<V> = V Function();
 
 /// [FieldKind] represents a [Field.value] type. It is used for [Field]
 /// serialization to remove necessity to dynamically probe [Field.value] type.
@@ -38,79 +51,74 @@ class FieldKind {
 }
 
 /// A [Field] used to add a key-value pair to a logger's context.
-class Field<V> {
-  const Field({@required this.name, @required this.value, @required this.kind});
+abstract class Field<V> {
+  factory Field(
+          {@required String name,
+          @required V value,
+          @required FieldKind kind}) =>
+      _StaticField<V>(name, value, kind);
+
+  factory Field.lazy(
+          {@required String name,
+          @required ValueProducer<V> value,
+          @required FieldKind kind}) =>
+      _LazyField<V>(name, value, kind);
 
   /// Name of this field (a key).
-  final String name;
+  String get name;
 
   /// Value of this field.
-  final V value;
+  V get value;
 
   /// Kind of field's value, used to determine [Field.value] type without
   /// runtime lookups.
+  FieldKind get kind;
+}
+
+class _StaticField<V> implements Field<V> {
+  const _StaticField(this.name, this.value, this.kind);
+
+  @override
+  final String name;
+
+  @override
+  final V value;
+
+  @override
   final FieldKind kind;
 
   @override
+  int get hashCode => name.hashCode;
+
+  @override
   bool operator ==(Object other) => other is Field && other.name == name;
+}
+
+class _LazyField<V> implements Field<V> {
+  _LazyField(this.name, this.producer, this.kind);
+
+  V _value;
+
+  final V Function() producer;
+
+  @override
+  final String name;
+
+  @override
+  V get value {
+    if (_value != null) {
+      _value = producer();
+    }
+
+    return _value;
+  }
+
+  @override
+  final FieldKind kind;
 
   @override
   int get hashCode => name.hashCode;
-}
 
-/// A field with value of a [Duration] type.
-class Dur extends Field<Duration> {
-  const Dur(String name, Duration value)
-      : super(name: name, value: value, kind: FieldKind.duration);
-}
-
-/// A field with value of a [double] type.
-class Double extends Field<double> {
-  const Double(String name, double value)
-      : super(name: name, value: value, kind: FieldKind.double);
-}
-
-/// A field with value of [num] type.
-class Num extends Field<num> {
-  const Num(String name, num value)
-      : super(name: name, value: value, kind: FieldKind.number);
-}
-
-/// A field with value of [int] type.
-class Int extends Field<int> {
-  const Int(String name, int value)
-      : super(name: name, value: value, kind: FieldKind.integer);
-}
-
-/// A field with value of [String] type.
-class Str extends Field<String> {
-  const Str(String name, String value)
-      : super(name: name, value: value, kind: FieldKind.string);
-}
-
-/// A field with value of [bool] type.
-class Bool extends Field<bool> {
-  // ignore: avoid_positional_boolean_parameters
-  const Bool(String name, bool value)
-      : super(name: name, value: value, kind: FieldKind.boolean);
-}
-
-/// A field with value of [DateTime] type.
-class DTM extends Field<DateTime> {
-  const DTM(String name, DateTime value)
-      : super(name: name, value: value, kind: FieldKind.dateTime);
-}
-
-/// A field with value of custom type (i.e. class that implements
-/// [Loggable]).
-class Obj extends Field<Iterable<Field>> {
-  Obj(String name, Loggable value)
-      : super(name: name, value: value?.toFields(), kind: FieldKind.object);
-}
-
-/// [Loggable] provides the ability to object to be logged as part of
-/// logging context field set.
-abstract class Loggable {
-  /// Marshals this class to a field set.
-  Iterable<Field> toFields();
+  @override
+  bool operator ==(Object other) => other is Field && other.name == name;
 }

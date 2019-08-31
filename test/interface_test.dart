@@ -339,8 +339,8 @@ void main() {
         final logger = Logger.detached()..handler = handler;
 
         final context1 = logger.bind([
-          const Str('string', 'string1'),
-          const Dur('duration', Duration.zero)
+          Str('string', 'string1'),
+          Dur('duration', Duration.zero)
         ]);
 
         context1.info('Message');
@@ -368,7 +368,7 @@ void main() {
         final logger = Logger.detached()..handler = handler;
 
         final context = logger.bind([
-          const Field<int>(
+          Field<int>(
               name: 'custom-field', value: 0x10, kind: FieldKind(0x100))
         ]);
 
@@ -393,15 +393,15 @@ void main() {
           ..level = Level.info;
 
         final context1 = logger.bind([
-          const Dur('dur', Duration.zero),
-          const Str('str', 'str'),
+          Dur('dur', Duration.zero),
+          Str('str', 'str'),
         ]);
 
         context1.info('info');
 
         final context2 = context1.bind([
-          const Int('int', 0x10),
-          const Double('double', 0.3),
+          Int('int', 0x10),
+          Double('double', 0.3),
         ]);
 
         context2.info('info');
