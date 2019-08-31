@@ -11,39 +11,6 @@ class NoopTracer implements Tracer {
   void stop(String message) {}
 }
 
-class NoopLazyContext implements LazyInterface {
-  @override
-  void danger(String Function() message) {
-    /* noop */
-  }
-
-  @override
-  void debug(String Function() message) {
-    /* noop */
-  }
-
-  @override
-  void fatal(String Function() message) {
-    /* noop */
-  }
-
-  @override
-  void info(String Function() message) {
-    /* noop */
-  }
-
-  @override
-  void log(Level level, String Function() message) {
-    /* noop */
-  }
-
-  @override
-  Tracer trace(String Function() message) => NoopTracer();
-
-  @override
-  void warning(String Function() message) {}
-}
-
 class NoopLogger with LoggerBase {
   NoopLogger([this.name]);
 
@@ -52,9 +19,6 @@ class NoopLogger with LoggerBase {
 
   @override
   final String name;
-
-  @override
-  LazyInterface get lazy => NoopLazyContext();
 
   @override
   Interface bind([Iterable<Field> fields]) => NoopLogger();

@@ -6,47 +6,11 @@ import 'package:jetlog/src/tracer.dart';
 import 'package:jetlog/src/level.dart';
 import 'package:jetlog/src/tracer_impl.dart';
 
-class LazyLoggingContext implements LazyInterface {
-  LazyLoggingContext(this._context);
-
-  final LoggingContext _context;
-
-  @override
-  void log(Level level, String Function() message) {
-    if (_context._logger.isEnabledFor(level)) {
-      _context.log(level, message());
-    }
-  }
-
-  @override
-  void debug(String Function() message) => log(Level.debug, message);
-
-  @override
-  Tracer trace(String Function() message) =>
-      TracerImpl(_context)..lazyStart(message);
-
-  @override
-  void info(String Function() message) => log(Level.info, message);
-
-  @override
-  void warning(String Function() message) => log(Level.warning, message);
-
-  @override
-  void danger(String Function() message) => log(Level.danger, message);
-
-  @override
-  void fatal(String Function() message) => log(Level.fatal, message);
-}
-
 class LoggingContext implements Interface {
   LoggingContext(this._logger, [this._fields]);
 
   final LoggerImpl _logger;
   final Set<Field> _fields;
-  LazyLoggingContext _lazyContext;
-
-  @override
-  LazyInterface get lazy => _lazyContext ??= LazyLoggingContext(this);
 
   @override
   void log(Level level, String message) {

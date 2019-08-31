@@ -20,14 +20,6 @@ class TracerImpl implements Tracer {
     _timer.start();
   }
 
-  void lazyStart(String Function() message) {
-    startAt = DateTime.now();
-    _context = _context.bind({DTM('start', startAt)})
-      ..lazy.log(Level.trace, message);
-
-    _timer.start();
-  }
-
   @override
   void stop(String message) {
     if (_timer.isRunning) {

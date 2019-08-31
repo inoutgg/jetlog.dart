@@ -31,9 +31,6 @@ class LoggerImpl with LoggerBase {
   final String name;
 
   @override
-  LazyInterface get lazy => _context.lazy;
-
-  @override
   set level(Level level) => _level = level;
 
   @override
