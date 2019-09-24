@@ -3,19 +3,19 @@ part of jetlog.internals.fields;
 class _StaticBool extends _StaticField<bool> implements Bool {
   // ignore:avoid_positional_boolean_parameters
   const _StaticBool(String name, bool value)
-      : super(name, value, FieldKind.boolean);
+      : super(name: name, value: value, kind: FieldKind.boolean);
 }
 
 class _LazyBool extends _LazyField<bool> implements Bool {
-  _LazyBool(String name, ValueProducer<bool> value)
-      : super(name, value, FieldKind.boolean);
+  _LazyBool(String name, ValueProducer<bool> producer)
+      : super(name: name, producer: producer, kind: FieldKind.boolean);
 }
 
 /// A field with value of a [bool] type.
 abstract class Bool extends Field<bool> {
   // ignore:avoid_positional_boolean_parameters
-  factory Bool(String name, bool value) => _StaticBool(name, value);
+  const factory Bool(String name, bool value) = _StaticBool;
 
-  factory Bool.lazy(String name, ValueProducer<bool> producer) =>
-      _LazyBool(name, producer);
+  factory Bool.lazy(String name, ValueProducer<bool> producer) =
+      _LazyBool;
 }

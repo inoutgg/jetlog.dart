@@ -52,17 +52,15 @@ class FieldKind {
 
 /// A [Field] used to add a key-value pair to a logger's context.
 abstract class Field<V> {
-  factory Field(
+  const factory Field(
           {@required String name,
           @required V value,
-          @required FieldKind kind}) =>
-      _StaticField<V>(name, value, kind);
+          @required FieldKind kind}) = _StaticField<V>;
 
   factory Field.lazy(
           {@required String name,
-          @required ValueProducer<V> value,
-          @required FieldKind kind}) =>
-      _LazyField<V>(name, value, kind);
+          @required ValueProducer<V> producer,
+          @required FieldKind kind}) = _LazyField<V>;
 
   /// Name of this field (a key).
   String get name;
@@ -76,7 +74,7 @@ abstract class Field<V> {
 }
 
 class _StaticField<V> implements Field<V> {
-  const _StaticField(this.name, this.value, this.kind);
+  const _StaticField({this.name, this.value, this.kind});
 
   @override
   final String name;
@@ -95,8 +93,9 @@ class _StaticField<V> implements Field<V> {
 }
 
 class _LazyField<V> implements Field<V> {
-  _LazyField(this.name, this.producer, this.kind);
+  _LazyField({this.name, this.producer, this.kind});
 
+  // TODO: update to late final once available in the Dart SDK.
   V _value;
 
   final V Function() producer;
@@ -105,13 +104,7 @@ class _LazyField<V> implements Field<V> {
   final String name;
 
   @override
-  V get value {
-    if (_value != null) {
-      _value = producer();
-    }
-
-    return _value;
-  }
+  V get value => _value ??= producer();
 
   @override
   final FieldKind kind;

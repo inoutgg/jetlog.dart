@@ -2,12 +2,12 @@ part of jetlog.internals.fields;
 
 class _StaticObj extends _StaticField<Iterable<Field>> implements Obj {
   _StaticObj(String name, Loggable value)
-      : super(name, value?.toFields(), FieldKind.object);
+      : super(name: name, value: value?.toFields(), kind: FieldKind.object);
 }
 
 class _LazyObj extends _LazyField<Iterable<Field>> implements Obj {
-  _LazyObj(String name, ValueProducer<Iterable<Field>> value)
-      : super(name, value, FieldKind.object);
+  _LazyObj(String name, ValueProducer<Iterable<Field>> producer)
+      : super(name: name, producer: producer, kind: FieldKind.object);
 }
 
 /// A field with value of custom type (i.e. class that implements
