@@ -6,9 +6,9 @@ without losing performance. jetlog allows to format logging records
 into different representations and supports formatting to JSON and text
 out of the box.
 
-There are a couple of other features developer may benefit from:
+There are a couple of features developer may benefit from:
 * Blazing fast logging
-* Efficient logging of structured data
+* Efficient logging of structured data (with support to lazy evaluation)
 * Unambiguous support for loggers hierarchy
 * Exchangeable logging handlers
 * Logging filters
@@ -34,6 +34,8 @@ void main() async {
 
 // => '2019-06-27 15:37:38.046859 [INFO]: Greeting hello=world'
 ```
+
+
 
 ## License
 Released under the [MIT] license.
