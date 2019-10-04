@@ -4,12 +4,12 @@ import 'package:jetlog/jetlog.dart';
 void main() {
   group('Field', () {
     test('fields are equals when both have the same name', () {
-      final f1 = Field<dynamic>(name: 'name', value: 123, kind: FieldKind.any);
-      final f2 =
+      const f1 = Field<dynamic>(name: 'name', value: 123, kind: FieldKind.any);
+      const f2 =
           Field<dynamic>(name: 'name', value: 'str', kind: FieldKind.any);
-      final f3 =
+      const f3 =
           Field<dynamic>(name: 'name', value: 'str', kind: FieldKind.any);
-      final f4 =
+      const f4 =
           Field<dynamic>(name: 'other-name', value: 'str', kind: FieldKind.any);
 
       // reflectivity
@@ -29,7 +29,7 @@ void main() {
 
     group('Dur', () {
       test('Sets correct `FieldKind`', () {
-        final field = Dur('Dur', Duration.zero);
+        const field = Dur('Dur', Duration.zero);
 
         expect(field.kind, FieldKind.duration);
       });
@@ -37,7 +37,7 @@ void main() {
 
     group('Double', () {
       test('Sets correct `FieldKind`', () {
-        final field = Double('Double', 0.2);
+        const field = Double('Double', 0.2);
 
         expect(field.kind, FieldKind.double);
       });
@@ -45,7 +45,7 @@ void main() {
 
     group('Num', () {
       test('Sets correct `FieldKind`', () {
-        final field = Num('Num', 10);
+        const field = Num('Num', 10);
 
         expect(field.kind, FieldKind.number);
       });
@@ -53,7 +53,7 @@ void main() {
 
     group('Int', () {
       test('Sets correct `FieldKind`', () {
-        final field = Int('Int', 12);
+        const field = Int('Int', 12);
 
         expect(field.kind, FieldKind.integer);
       });
@@ -61,7 +61,7 @@ void main() {
 
     group('Str', () {
       test('Sets correct `FieldKind`', () {
-        final field = Str('Str', 'str');
+        const field = Str('Str', 'str');
 
         expect(field.kind, FieldKind.string);
       });
@@ -69,7 +69,7 @@ void main() {
 
     group('Bool', () {
       test('Sets correct `FieldKind`', () {
-        final field = Bool('Bool', false);
+        const field = Bool('Bool', false);
 
         expect(field.kind, FieldKind.boolean);
       });

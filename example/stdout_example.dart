@@ -36,7 +36,7 @@ Future<void> main() async {
   final tracer = context.trace('Uploading!');
 
   // Emulate uploading, wait for 1 sec.
-  await Future<void>.delayed(Duration(seconds: 1));
+  await Future<void>.delayed(const Duration(seconds: 1));
 
   tracer.stop('Aborting...');
   context.fatal('Failed to upload!');

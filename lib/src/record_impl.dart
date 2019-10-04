@@ -4,7 +4,7 @@ import 'package:jetlog/src/level.dart';
 import 'package:jetlog/src/record.dart';
 
 class RecordImpl implements Record {
-  RecordImpl(
+  const RecordImpl(
       {@required this.level,
       @required this.timestamp,
       @required this.message,

@@ -368,7 +368,7 @@ void main() {
         final logger = Logger.detached()..handler = handler;
 
         final context = logger.bind([
-          Field<int>(
+          const Field<int>(
               name: 'custom-field', value: 0x10, kind: FieldKind(0x100))
         ]);
 
