@@ -195,7 +195,7 @@ void main() {
         expect(() => l.warning('test'), returnsNormally);
         expect(() => l.danger('test'), returnsNormally);
         expect(() => l.fatal('test'), returnsNormally);
-        expect(() => l.bind(), returnsNormally);
+        expect(l.bind, returnsNormally);
 
         final b = l.bind();
 

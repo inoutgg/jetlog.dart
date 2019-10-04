@@ -1,6 +1,7 @@
 import 'dart:async' show StreamController;
 import 'dart:convert' show utf8;
 
+import 'package:jetlog/formatters.dart';
 import 'package:test/test.dart';
 
 import 'package:jetlog/jetlog.dart' show Level, Record;
@@ -27,7 +28,8 @@ void main() {
 
     group('constructor', () {
       test('throws on null stream', () {
-        expect(() => StreamHandler(null), throwsArgumentError);
+        expect(() => StreamHandler(null, formatter: JsonFormatter()),
+            throwsArgumentError);
       });
 
       test('throws on null formatter', () {
@@ -76,6 +78,7 @@ void main() {
         handler.handle(RecordImpl(
             timestamp: DateTime.now(), level: Level.danger, message: 'Test 2'));
 
+        // ignore:unawaited_futures
         controller.close();
 
         await expectLater(

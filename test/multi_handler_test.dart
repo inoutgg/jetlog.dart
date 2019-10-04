@@ -85,7 +85,7 @@ void main() {
         final h3 = MemoryHandler();
         final handler = MultiHandler([h1, h2, h3]);
 
-        expect(() => handler.close(), returnsNormally);
+        expect(handler.close, returnsNormally);
       });
     });
   });
