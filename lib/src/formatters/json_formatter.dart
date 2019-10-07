@@ -32,9 +32,9 @@ class JsonFormatter implements Formatter {
   final Utf8Encoder _utf8;
   final JsonEncoder _json;
 
-  final LevelFormatCallback<dynamic> formatLevel;
-  final TimestampFormatCallback<dynamic> formatTimestamp;
-  final FieldsFormatCallback<Map<String, dynamic>> formatFields;
+  final LevelFormatter<dynamic> formatLevel;
+  final TimestampFormatter<dynamic> formatTimestamp;
+  final FieldsFormatter<Map<String, dynamic>> formatFields;
 
   /// Returns a default [JSONFormatter].
   static JsonFormatter get defaultFormatter => JsonFormatter();

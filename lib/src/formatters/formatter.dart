@@ -1,16 +1,8 @@
 import 'package:jetlog/jetlog.dart' show Record, Level, Field;
 
-typedef LevelFormatCallback<L> = L Function(Level);
-typedef TimestampFormatCallback<T> = T Function(DateTime);
-typedef FieldsFormatCallback<F> = F Function(Iterable<Field> fields);
-
-typedef FormatCallback<R, T, L, F> = R Function({
-  String name,
-  T timestamp,
-  L level,
-  String message,
-  F fields,
-});
+typedef LevelFormatter<L> = L Function(Level);
+typedef TimestampFormatter<T> = T Function(DateTime);
+typedef FieldsFormatter<F> = F Function(Iterable<Field>);
 
 /// [Formatter] is capable to format single [Record] entry.
 abstract class Formatter {
