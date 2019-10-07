@@ -26,11 +26,11 @@ class Klass extends Loggable {
 void main() {
   group('TextFormatter', () {
     test('formats correctly with defaults', () {
-      final encoder1 = TextFormatter((
-              {name, level, timestamp, message, fields}) =>
-          '$name $level $timestamp $message $fields'.trim());
+      final encoder1 = TextFormatter(
+          (name, timestamp, level, message, fields) =>
+              '$name $level $timestamp $message $fields'.trim());
       final encoder2 =
-          TextFormatter(({name, level, timestamp, message, fields}) => '');
+          TextFormatter((name, timestamp, level, message, fields) => '');
 
       final timestamp = DateTime.now();
       const level = Level.info;
@@ -79,8 +79,7 @@ void main() {
     });
 
     test('supports nested fields with defaults', () {
-      final encoder = TextFormatter((
-              {name, level, timestamp, message, fields}) =>
+      final encoder = TextFormatter((name, timestamp, level, message, fields) =>
           '$name $level $timestamp $message $fields'.trim());
 
       final timestamp = DateTime.now();
@@ -109,7 +108,7 @@ void main() {
 
     test('uses custom level encoder', () {
       final encoder = TextFormatter(
-          ({name, timestamp, message, level, fields}) => '$level',
+          (name, timestamp, level, message, fields) => '$level',
           formatLevel: (level) => '$level');
 
       const level = Level.info;
@@ -123,7 +122,7 @@ void main() {
 
     test('uses custom time encoder', () {
       final encoder = TextFormatter(
-          ({name, timestamp, message, level, fields}) => '$timestamp',
+          (name, timestamp, level, message, fields) => '$timestamp',
           formatTimestamp: (timestamp) =>
               timestamp.millisecondsSinceEpoch.toString());
 
@@ -138,7 +137,7 @@ void main() {
 
     test('uses custom field encoder', () {
       final encoder = TextFormatter(
-          ({name, timestamp, message, level, fields}) => '$fields',
+          (name, timestamp, level, message, fields) => '$fields',
           formatFields: (fields) => 'fields');
 
       final timestamp = DateTime.now();

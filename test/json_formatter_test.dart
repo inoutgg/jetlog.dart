@@ -39,7 +39,7 @@ void main() {
           timestamp: timestamp,
           level: level,
           message: message,
-          fields: [Dur('dur', Duration.zero), DTM('dtm', timestamp)]);
+          fields: [const Dur('dur', Duration.zero), DTM('dtm', timestamp)]);
     });
 
     test('formats correctly with defaults', () {
@@ -165,7 +165,7 @@ void main() {
           level: level,
           message: message,
           fields: [
-            Dur('dur', Duration.zero),
+            const Dur('dur', Duration.zero),
             DTM('dtm', timestamp),
             Obj('klass', Klass(Duration.zero, 'test'))
           ]);
