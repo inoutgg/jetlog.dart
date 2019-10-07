@@ -41,9 +41,9 @@ void main() {
     group('#handler', () {
       test('delegates records to downstream', () async {
         final handler = StreamHandler(controller,
-            formatter: TextFormatter((
-                    {message, level, timestamp, name, fields}) =>
-                '$level: $message'));
+            formatter: TextFormatter(
+                (name, timestamp, level, message, fields) =>
+                    '$level: $message'));
 
         handler.handle(RecordImpl(
             timestamp: DateTime.now(),
@@ -64,9 +64,9 @@ void main() {
 
       test('filters record conditionally', () async {
         final handler = StreamHandler(controller,
-            formatter: TextFormatter((
-                    {message, level, timestamp, name, fields}) =>
-                '$level: $message'));
+            formatter: TextFormatter(
+                (name, timestamp, level, message, fields) =>
+                    '$level: $message'));
 
         handler.filter = _DebugOnlyFilter();
 

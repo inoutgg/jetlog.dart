@@ -24,7 +24,7 @@ void main() {
     setUp(() {
       handler = ConsoleHandler(
           formatter: TextFormatter(
-              ({message, timestamp, fields, level, name}) => message));
+              (name, timestamp, level, message, fields) => message));
       records.clear();
     });
 

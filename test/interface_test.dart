@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:jetlog/formatters.dart';
+import 'package:jetlog/handlers.dart';
 import 'package:test/test.dart';
 import 'package:jetlog/jetlog.dart';
 import 'package:jetlog/handlers.dart' show MemoryHandler;
@@ -5,6 +9,14 @@ import 'package:jetlog/handlers.dart' show MemoryHandler;
 Future<void> later(void action()) => Future.delayed(Duration.zero, action);
 
 bool _testFilter(Record record) => record.level == Level.danger;
+
+class CustomObject implements Loggable {
+  @override
+  Iterable<Field> toFields() => {
+        Str.lazy('LazyStr', () => 'logger'),
+        Str('Str', 'string'),
+      };
+}
 
 void main() {
   group('Interface', () {
@@ -338,10 +350,8 @@ void main() {
         final handler = MemoryHandler();
         final logger = Logger.detached()..handler = handler;
 
-        final context1 = logger.bind([
-          Str('string', 'string1'),
-          Dur('duration', Duration.zero)
-        ]);
+        final context1 = logger
+            .bind([Str('string', 'string1'), Dur('duration', Duration.zero)]);
 
         context1.info('Message');
 
@@ -384,6 +394,57 @@ void main() {
           expect(field.name, 'custom-field');
           expect(field.value, 0x10);
         });
+      });
+
+      test('correctly evaluates lazy fields', () {
+        final records = <String>[];
+
+        runZoned<void>(() async {
+          final logger = Logger.detached()
+            ..handler = ConsoleHandler(
+                formatter: TextFormatter(
+                        (name, timestamp, level, message, fields) => '$fields'));
+
+          final context = logger.bind({
+            Bool('StaticBool', false),
+            Bool.lazy('LazyBool', () => true),
+            Double.lazy('LazyDouble', () => 0.2),
+            DTM.lazy(
+                'LazyDTM', () => DateTime.parse('2019-10-07 15:11:39.373703')),
+            Dur.lazy('LazyDur', () => Duration.zero),
+            Int.lazy('LazyInt', () => 1),
+            Num.lazy('LazyNum', () => 123.1),
+            Obj.lazy('LazyObj', () => CustomObject()),
+            Str.lazy('LazyStr', () {
+              print('LazyString print!');
+
+              return 'str';
+            }),
+          });
+
+          expect(records.length, equals(0));
+
+          context.info('Test');
+
+          await later(() {
+            expect(records.length, equals(2));
+            expect(records.first, 'LazyString print!');
+            expect(
+                records.last,
+                'StaticBool=false '
+                    'LazyBool=true '
+                    'LazyDouble=0.2 '
+                    'LazyDTM=2019-10-07 15:11:39.373703 '
+                    'LazyDur=0:00:00.000000 '
+                    'LazyInt=1 '
+                    'LazyNum=123.1 '
+                    'LazyObj.LazyStr=logger '
+                    'LazyObj.Str=string '
+                    'LazyStr=str');
+          });
+        },
+            zoneSpecification: ZoneSpecification(
+                print: (self, parent, zone, line) => records.add(line)));
       });
 
       test('extends previous context', () async {

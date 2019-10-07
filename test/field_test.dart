@@ -30,64 +30,80 @@ void main() {
     group('Dur', () {
       test('Sets correct `FieldKind`', () {
         const field = Dur('Dur', Duration.zero);
+        final lazyField = Dur.lazy('LazyDur', () => Duration.zero);
 
         expect(field.kind, FieldKind.duration);
+        expect(lazyField.kind, FieldKind.duration);
       });
     });
 
     group('Double', () {
       test('Sets correct `FieldKind`', () {
         const field = Double('Double', 0.2);
+        final lazyField = Double.lazy('LazyDouble', () => 2);
 
         expect(field.kind, FieldKind.double);
+        expect(lazyField.kind, FieldKind.double);
       });
     });
 
     group('Num', () {
       test('Sets correct `FieldKind`', () {
         const field = Num('Num', 10);
+        final lazyField = Num.lazy('LazyNum', () => 10);
 
         expect(field.kind, FieldKind.number);
+        expect(lazyField.kind, FieldKind.number);
       });
     });
 
     group('Int', () {
       test('Sets correct `FieldKind`', () {
         const field = Int('Int', 12);
+        final lazyField = Int.lazy('LazyInt', () => 12);
 
         expect(field.kind, FieldKind.integer);
+        expect(lazyField.kind, FieldKind.integer);
       });
     });
 
     group('Str', () {
       test('Sets correct `FieldKind`', () {
         const field = Str('Str', 'str');
+        final lazyField = Str.lazy('LazyStr', () => '');
 
         expect(field.kind, FieldKind.string);
+        expect(lazyField.kind, FieldKind.string);
       });
     });
 
     group('Bool', () {
       test('Sets correct `FieldKind`', () {
         const field = Bool('Bool', false);
+        final lazyField = Bool.lazy('LazyBool', () => false);
 
         expect(field.kind, FieldKind.boolean);
+        expect(lazyField.kind, FieldKind.boolean);
       });
     });
 
     group('DTM', () {
       test('Sets correct `FieldKind`', () {
         final field = DTM('DTM', DateTime.now());
+        final lazyField = DTM.lazy('LazyDTM', () => DateTime.now());
 
         expect(field.kind, FieldKind.dateTime);
+        expect(lazyField.kind, FieldKind.dateTime);
       });
     });
 
     group('Obj', () {
       test('Sets correct `FieldKind`', () {
         final field = Obj('Obj', null);
+        final lazyField = Obj.lazy('LazyObj', () => null);
 
         expect(field.kind, FieldKind.object);
+        expect(lazyField.kind, FieldKind.object);
       });
     });
   });
