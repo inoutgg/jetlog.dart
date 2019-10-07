@@ -6,6 +6,9 @@ import 'package:jetlog/src/formatters/formatter.dart';
 
 const String _eol = '\r\n';
 
+typedef FormatHandler = String Function(
+    String name, String timestamp, String level, String message, String fields);
+
 /// [TextFormatter] is used to encode [Record] to formatted string.
 class TextFormatter extends Formatter {
   /// Creates a new [TextFormatter] instance with [format] callback used to
@@ -25,14 +28,14 @@ class TextFormatter extends Formatter {
   }) : _utf8 = const Utf8Encoder();
 
   final Utf8Encoder _utf8;
-  final FormatCallback<String, String, String, String> format;
-  final LevelFormatCallback<String> formatLevel;
-  final TimestampFormatCallback<String> formatTimestamp;
-  final FieldsFormatCallback<String> formatFields;
+  final FormatHandler format;
+  final LevelFormatter<String> formatLevel;
+  final TimestampFormatter<String> formatTimestamp;
+  final FieldsFormatter<String> formatFields;
 
   /// Returns a new [TextFormatter] with set `format` callback.
   static TextFormatter get defaultFormatter =>
-      TextFormatter(({name, timestamp, level, message, fields}) =>
+      TextFormatter((name, timestamp, level, message, fields) =>
           '$name $timestamp [$level]: $message $fields'.trim());
 
   /// Encodes given [record] to formatted string.
@@ -46,11 +49,11 @@ class TextFormatter extends Formatter {
   @override
   List<int> call(Record record) {
     final message = format(
-      name: record.name ?? '',
-      level: formatLevel(record.level),
-      timestamp: formatTimestamp(record.timestamp),
-      message: record.message,
-      fields: formatFields(record.fields),
+      record.name ?? '',
+      formatTimestamp(record.timestamp),
+      formatLevel(record.level),
+      record.message,
+      formatFields(record.fields),
     );
 
     if (message.isEmpty) {
