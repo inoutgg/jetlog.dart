@@ -10,7 +10,7 @@ typedef FormatHandler = String Function(
     String name, String timestamp, String level, String message, String fields);
 
 /// [TextFormatter] is used to encode [Record] to formatted string.
-class TextFormatter extends Formatter {
+class TextFormatter {
   /// Creates a new [TextFormatter] instance with [format] callback used to
   /// composite the final logging message.
   ///
@@ -46,7 +46,6 @@ class TextFormatter extends Formatter {
   /// Each [record] is passed to [format] (with optionally preformatted `level`,
   /// `timestamp` and `fields` using [formatLevel], [formatTimestamp],
   /// [formatFields]) and finally formatted string is appended with `\r\n`.
-  @override
   List<int> call(Record record) {
     final message = format(
       record.name ?? '',

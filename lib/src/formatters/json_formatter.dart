@@ -10,7 +10,7 @@ import 'package:jetlog/src/formatters/formatter.dart';
 /// single field is included to the final output. As such we strongly recommend
 /// not to put fields in to any collections fields with key such as `level`,
 /// `message`, `name` and `timestamp`.
-class JsonFormatter implements Formatter {
+class JsonFormatter {
   /// Creates a new [JsonFormatter].
   ///
   /// Optional [formatLevel], [formatTimestamp] and [formatFields] callbacks
@@ -39,7 +39,6 @@ class JsonFormatter implements Formatter {
   /// Returns a default [JSONFormatter].
   static JsonFormatter get defaultFormatter => JsonFormatter();
 
-  @override
   List<int> call(Record record) {
     final fields = formatFields(record.fields);
     final dict = <String, dynamic>{
