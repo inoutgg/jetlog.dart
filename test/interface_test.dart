@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:jetlog/formatters.dart';
 import 'package:jetlog/handlers.dart';
-import 'package:jetlog/handlers.dart' show MemoryHandler;
 import 'package:jetlog/jetlog.dart';
 import 'package:test/test.dart';
 
@@ -404,7 +403,6 @@ void main() {
             ..handler = ConsoleHandler(
                 formatter: TextFormatter(
                     (name, timestamp, level, message, fields) => '$fields'));
-
           final context = logger.bind({
             Bool('StaticBool', false),
             Bool.lazy('LazyBool', () => true),
