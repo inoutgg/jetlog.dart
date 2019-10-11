@@ -1,9 +1,9 @@
 import 'package:jetlog/src/field.dart';
 import 'package:jetlog/src/interface.dart';
+import 'package:jetlog/src/level.dart';
 import 'package:jetlog/src/logger_impl.dart';
 import 'package:jetlog/src/record_impl.dart';
 import 'package:jetlog/src/tracer.dart';
-import 'package:jetlog/src/level.dart';
 import 'package:jetlog/src/tracer_impl.dart';
 
 class LoggingContext implements Interface {

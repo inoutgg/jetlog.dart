@@ -1,8 +1,7 @@
-import 'package:test/test.dart';
-import 'package:jetlog/jetlog.dart';
 import 'package:jetlog/filters.dart' show MultiFilter;
-
+import 'package:jetlog/jetlog.dart';
 import 'package:jetlog/src/record_impl.dart';
+import 'package:test/test.dart';
 
 class _TestFilter1 {
   bool call(Record record) => record.name == 'Test';
@@ -64,7 +63,6 @@ void main() {
           level: Level.info,
           message: 'Test',
           fields: []);
-
 
       expect(filter.call(record1), isTrue);
       expect(filter.call(record2), isFalse);

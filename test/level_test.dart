@@ -1,6 +1,5 @@
-import 'package:test/test.dart';
-
 import 'package:jetlog/src/level.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('Level', () {

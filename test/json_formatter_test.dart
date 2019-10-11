@@ -1,11 +1,10 @@
 import 'dart:convert' show utf8, json, JsonEncoder;
 
-import 'package:test/test.dart';
+import 'package:jetlog/formatters.dart' show JsonFormatter;
 import 'package:jetlog/jetlog.dart'
     show Dur, DTM, Str, Record, Obj, Field, Level, Loggable;
-import 'package:jetlog/formatters.dart' show JsonFormatter;
-
 import 'package:jetlog/src/record_impl.dart';
+import 'package:test/test.dart';
 
 class Klass extends Loggable {
   Klass(this.dur, this.name);

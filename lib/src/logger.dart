@@ -2,10 +2,10 @@ import 'package:jetlog/handlers.dart' show MultiHandler;
 import 'package:jetlog/src/filter.dart';
 import 'package:jetlog/src/handler.dart';
 import 'package:jetlog/src/interface.dart';
+import 'package:jetlog/src/level.dart';
 import 'package:jetlog/src/logger_impl.dart';
 import 'package:jetlog/src/logger_manager.dart';
 import 'package:jetlog/src/noop_logger.dart';
-import 'package:jetlog/src/level.dart';
 
 final _root = LoggerImpl.managed('ROOT_LOGGER');
 final _loggers = LoggerManager(_root);

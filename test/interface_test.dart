@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:jetlog/formatters.dart';
 import 'package:jetlog/handlers.dart';
-import 'package:test/test.dart';
-import 'package:jetlog/jetlog.dart';
 import 'package:jetlog/handlers.dart' show MemoryHandler;
+import 'package:jetlog/jetlog.dart';
+import 'package:test/test.dart';
 
 Future<void> later(void action()) => Future.delayed(Duration.zero, action);
 
@@ -403,7 +403,7 @@ void main() {
           final logger = Logger.detached()
             ..handler = ConsoleHandler(
                 formatter: TextFormatter(
-                        (name, timestamp, level, message, fields) => '$fields'));
+                    (name, timestamp, level, message, fields) => '$fields'));
 
           final context = logger.bind({
             Bool('StaticBool', false),
@@ -432,15 +432,15 @@ void main() {
             expect(
                 records.last,
                 'StaticBool=false '
-                    'LazyBool=true '
-                    'LazyDouble=0.2 '
-                    'LazyDTM=2019-10-07 15:11:39.373703 '
-                    'LazyDur=0:00:00.000000 '
-                    'LazyInt=1 '
-                    'LazyNum=123.1 '
-                    'LazyObj.LazyStr=logger '
-                    'LazyObj.Str=string '
-                    'LazyStr=str');
+                'LazyBool=true '
+                'LazyDouble=0.2 '
+                'LazyDTM=2019-10-07 15:11:39.373703 '
+                'LazyDur=0:00:00.000000 '
+                'LazyInt=1 '
+                'LazyNum=123.1 '
+                'LazyObj.LazyStr=logger '
+                'LazyObj.Str=string '
+                'LazyStr=str');
           });
         },
             zoneSpecification: ZoneSpecification(

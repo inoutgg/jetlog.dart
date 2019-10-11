@@ -1,5 +1,5 @@
-import 'package:test/test.dart';
 import 'package:jetlog/jetlog.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('Field', () {
@@ -19,6 +19,8 @@ void main() {
       // symmetry
       expect(f1, equals(f2));
       expect(f2, equals(f1));
+      expect(f1 == f1, isTrue);
+      expect(f1 == f2, isTrue);
 
       // transitivity
       expect(f1, equals(f3));
