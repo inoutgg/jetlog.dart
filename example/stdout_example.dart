@@ -12,9 +12,7 @@ bool _stderrOnlyFilter(Record record) =>
 
 @override
 bool _stdoutOnlyFilter(Record record) =>
-    record.level == Level.trace ||
-    record.level == Level.debug ||
-    record.level == Level.info;
+    record.level == Level.debug || record.level == Level.info;
 
 final _stderrHandler =
     StreamHandler(stderr, formatter: TextFormatter.defaultFormatter)

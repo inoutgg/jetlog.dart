@@ -524,8 +524,8 @@ void main() {
 
         await later(() {
           final records = handler.records;
-          expect(records.elementAt(0).level, same(Level.trace));
-          expect(records.elementAt(1).level, same(Level.trace));
+          expect(records.elementAt(0).level, same(Level.debug));
+          expect(records.elementAt(1).level, same(Level.debug));
         });
       });
 
@@ -553,6 +553,19 @@ void main() {
                   .firstWhere((f) => f.name == 'duration')
                   .value,
               isNotNull);
+        });
+      });
+
+      test('accepts custom severity level', () async {
+        final handler = MemoryHandler();
+        final logger = Logger.detached()
+          ..handler = handler
+          ..level = Level.all;
+
+        logger.trace('start', Level.fatal).stop('stop');
+
+        await later(() {
+          expect(handler.records.first.level == Level.fatal, isTrue);
         });
       });
 

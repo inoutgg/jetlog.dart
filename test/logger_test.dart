@@ -152,7 +152,6 @@ void main() {
         expect(a.isEnabledFor(Level.info), isTrue);
         expect(a.isEnabledFor(Level.fatal), isTrue);
 
-        expect(b.isEnabledFor(Level.trace), isFalse);
         expect(b.isEnabledFor(Level.warning), isFalse);
         expect(b.isEnabledFor(Level.danger), isFalse);
 
