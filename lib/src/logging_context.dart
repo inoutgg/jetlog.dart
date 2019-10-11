@@ -1,9 +1,9 @@
 import 'package:jetlog/src/field.dart';
 import 'package:jetlog/src/interface.dart';
+import 'package:jetlog/src/level.dart';
 import 'package:jetlog/src/logger_impl.dart';
 import 'package:jetlog/src/record_impl.dart';
 import 'package:jetlog/src/tracer.dart';
-import 'package:jetlog/src/level.dart';
 import 'package:jetlog/src/tracer_impl.dart';
 
 class LoggingContext implements Interface {
@@ -30,7 +30,8 @@ class LoggingContext implements Interface {
   void debug(String message) => log(Level.debug, message);
 
   @override
-  Tracer trace(String message) => TracerImpl(this)..start(message);
+  Tracer trace(String message, [Level level = Level.debug]) =>
+      TracerImpl(this, level)..start(message);
 
   @override
   void info(String message) => log(Level.info, message);

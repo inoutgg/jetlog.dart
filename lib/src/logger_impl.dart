@@ -75,7 +75,7 @@ class LoggerImpl with LoggerBase {
   void debug(String message) => _context.debug(message);
 
   @override
-  Tracer trace(String message) => _context.trace(message);
+  Tracer trace(String message, [Level level = Level.debug]) => _context.trace(message, level);
 
   @override
   void info(String message) => _context.info(message);

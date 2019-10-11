@@ -1,6 +1,5 @@
-import 'package:test/test.dart';
-
 import 'package:jetlog/src/level.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('Level', () {
@@ -25,9 +24,8 @@ void main() {
     });
 
     test('Builtin levels to be sorted by severity', () {
-      expect(Level.all < Level.trace, isTrue);
-      expect(Level.debug < Level.trace, isTrue);
-      expect(Level.trace < Level.info, isTrue);
+      expect(Level.all < Level.debug, isTrue);
+      expect(Level.debug < Level.info, isTrue);
       expect(Level.info < Level.warning, isTrue);
       expect(Level.warning < Level.danger, isTrue);
       expect(Level.danger < Level.fatal, isTrue);
@@ -37,7 +35,6 @@ void main() {
     test('To be comparable', () {
       final sortedLevels = <Level>[
         Level.debug,
-        Level.trace,
         Level.info,
         Level.warning,
         Level.danger,
@@ -45,7 +42,6 @@ void main() {
       ];
 
       final levels = <Level>[
-        Level.trace,
         Level.danger,
         Level.info,
         Level.fatal,
@@ -65,8 +61,7 @@ void main() {
     test('To be hashable', () {
       const customLevel = Level(name: 'CUSTOM_LEVEL', value: 0xff);
       final levels = <Level, int>{
-        Level.debug: 0,
-        Level.trace: 1,
+        Level.debug: 1,
         Level.info: 2,
         Level.warning: 3,
         Level.danger: 4,
@@ -74,8 +69,7 @@ void main() {
         customLevel: 6,
       };
 
-      expect(levels[Level.debug], 0);
-      expect(levels[Level.trace], 1);
+      expect(levels[Level.debug], 1);
       expect(levels[Level.info], 2);
       expect(levels[Level.warning], 3);
       expect(levels[Level.danger], 4);

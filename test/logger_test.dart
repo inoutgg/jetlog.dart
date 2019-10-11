@@ -1,8 +1,7 @@
-import 'package:test/test.dart';
-import 'package:jetlog/jetlog.dart' show Logger, Level, Record;
 import 'package:jetlog/handlers.dart' show MemoryHandler;
-
+import 'package:jetlog/jetlog.dart' show Logger, Level, Record;
 import 'package:jetlog/src/logger_impl.dart' show LoggerImpl;
+import 'package:test/test.dart';
 
 class _Filter {
   bool call(Record record) => true;
@@ -152,7 +151,6 @@ void main() {
         expect(a.isEnabledFor(Level.info), isTrue);
         expect(a.isEnabledFor(Level.fatal), isTrue);
 
-        expect(b.isEnabledFor(Level.trace), isFalse);
         expect(b.isEnabledFor(Level.warning), isFalse);
         expect(b.isEnabledFor(Level.danger), isFalse);
 

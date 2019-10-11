@@ -11,8 +11,8 @@
 /// using [TextFormatter.defaultFormatter].
 library jetlog.global_logger;
 
-import 'package:jetlog/handlers.dart' show ConsoleHandler;
 import 'package:jetlog/formatters.dart' show TextFormatter;
+import 'package:jetlog/handlers.dart' show ConsoleHandler;
 import 'package:jetlog/jetlog.dart';
 
 final Logger _logger = Logger.detached()

@@ -16,6 +16,5 @@ abstract class Bool extends Field<bool> {
   // ignore:avoid_positional_boolean_parameters
   const factory Bool(String name, bool value) = _StaticBool;
 
-  factory Bool.lazy(String name, ValueProducer<bool> producer) =
-      _LazyBool;
+  factory Bool.lazy(String name, ValueProducer<bool> producer) = _LazyBool;
 }

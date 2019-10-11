@@ -9,7 +9,7 @@
 /// This package exposes the main class [Logger] used to instantiate both
 /// detached and hierarchical loggers, [Field] class and its custom
 /// extensions for builtin types (e.g. [Bool], [Int], etc.) - elementary
-/// blocks for building context bound logging entries.
+/// blocks for building context bound structured logging entries.
 ///
 /// Example
 /// ```dart

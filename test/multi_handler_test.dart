@@ -1,9 +1,7 @@
-import 'package:test/test.dart';
-
-import 'package:jetlog/jetlog.dart' show Level, Record;
 import 'package:jetlog/handlers.dart' show MultiHandler, MemoryHandler;
-
+import 'package:jetlog/jetlog.dart' show Level, Record;
 import 'package:jetlog/src/record_impl.dart' show RecordImpl;
+import 'package:test/test.dart';
 
 class _DebugOnlyFilter {
   bool call(Record record) => record.level == Level.debug;

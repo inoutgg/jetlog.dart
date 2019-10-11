@@ -17,7 +17,7 @@ abstract class Interface {
 
   /// Starts tracing and emits a record with [message] and [Level.trace]
   /// severity level; to stop tracing call [Tracer.stop] on the returned tracer.
-  Tracer trace(String message);
+  Tracer trace(String message, [Level level = Level.debug]);
 
   /// Emits a record with [message] and [Level.info] severity level.
   void info(String message);

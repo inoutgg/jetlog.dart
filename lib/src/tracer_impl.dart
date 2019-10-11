@@ -4,18 +4,18 @@ import 'package:jetlog/src/level.dart';
 import 'package:jetlog/src/tracer.dart';
 
 class TracerImpl implements Tracer {
-  TracerImpl(this._context) : _timer = Stopwatch();
+  TracerImpl(this._context, [this._level]) : _timer = Stopwatch();
 
   DateTime startAt;
   DateTime stopAt;
 
   final Stopwatch _timer;
+  final Level _level;
   Interface _context;
 
   void start(String message) {
     startAt = DateTime.now();
-    _context = _context.bind({DTM('start', startAt)})
-      ..log(Level.trace, message);
+    _context = _context.bind({DTM('start', startAt)})..log(_level, message);
 
     _timer.start();
   }
@@ -29,7 +29,7 @@ class TracerImpl implements Tracer {
     }
 
     stopAt = DateTime.now();
-    _context.bind({Dur('duration', _timer.elapsed)}).log(Level.trace, message);
+    _context.bind({Dur('duration', _timer.elapsed)}).log(_level, message);
   }
 
   @override
@@ -38,6 +38,9 @@ class TracerImpl implements Tracer {
 
     buffer
       ..write('Tracer(')
+      ..write('level=')
+      ..write(_level)
+      ..write(' ')
       ..write('isRunning=')
       ..write(_timer.isRunning)
       ..write(' ')

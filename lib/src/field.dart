@@ -53,14 +53,14 @@ class FieldKind {
 /// A [Field] used to add a key-value pair to a logger's context.
 abstract class Field<V> {
   const factory Field(
-          {@required String name,
-          @required V value,
-          @required FieldKind kind}) = _StaticField<V>;
+      {@required String name,
+      @required V value,
+      @required FieldKind kind}) = _StaticField<V>;
 
   factory Field.lazy(
-          {@required String name,
-          @required ValueProducer<V> producer,
-          @required FieldKind kind}) = _LazyField<V>;
+      {@required String name,
+      @required ValueProducer<V> producer,
+      @required FieldKind kind}) = _LazyField<V>;
 
   /// Name of this field (a key).
   String get name;

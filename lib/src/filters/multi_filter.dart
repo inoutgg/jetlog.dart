@@ -3,6 +3,13 @@ import 'package:jetlog/jetlog.dart' show Filter, Record;
 /// [MultiFilter] composites multiple filters, each of enclosing filters
 /// receives incoming record. Record is discarded once one of the filters
 /// filter it out.
+///
+/// Example:
+/// ```dart
+/// final filters = {filterOne, filterTwo, filterThree};
+/// final logger = Logger.getLogger('example.multi_filter')
+///   ..filter = MultiFilter(filters);
+/// ```
 class MultiFilter {
   MultiFilter(this._filters);
 

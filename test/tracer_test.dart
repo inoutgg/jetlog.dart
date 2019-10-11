@@ -1,6 +1,6 @@
-import 'package:test/test.dart';
 import 'package:jetlog/jetlog.dart' show Logger;
 import 'package:jetlog/src/tracer_impl.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('Tracer', () {
@@ -11,15 +11,19 @@ void main() {
 
         expect(
             t.toString(),
-            equals(
-                'Tracer(isRunning=true startAt=${t.startAt} stopAt=${t.stopAt})'));
+            equals('Tracer(level=Level(name=DEBUG) '
+                'isRunning=true '
+                'startAt=${t.startAt} '
+                'stopAt=${t.stopAt})'));
 
         t.stop('stop');
 
         expect(
             t.toString(),
-            equals(
-                'Tracer(isRunning=false startAt=${t.startAt} stopAt=${t.stopAt})'));
+            equals('Tracer(level=Level(name=DEBUG) '
+                'isRunning=false '
+                'startAt=${t.startAt} '
+                'stopAt=${t.stopAt})'));
       });
     });
   });

@@ -1,8 +1,8 @@
 import 'dart:async' show StreamSink;
 
-import 'package:meta/meta.dart' show required;
-import 'package:jetlog/jetlog.dart' show Handler, Record, Filter;
 import 'package:jetlog/formatters.dart' show Formatter;
+import 'package:jetlog/jetlog.dart' show Handler, Record, Filter;
+import 'package:meta/meta.dart' show required;
 
 /// [StreamHandler] delegates log records downstream.
 ///
