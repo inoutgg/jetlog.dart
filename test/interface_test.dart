@@ -13,7 +13,7 @@ class CustomObject implements Loggable {
   @override
   Iterable<Field> toFields() => {
         Str.lazy('LazyStr', () => 'logger'),
-        Str('Str', 'string'),
+        const Str('Str', 'string'),
       };
 }
 
@@ -349,8 +349,10 @@ void main() {
         final handler = MemoryHandler();
         final logger = Logger.detached()..handler = handler;
 
-        final context1 = logger
-            .bind([Str('string', 'string1'), Dur('duration', Duration.zero)]);
+        final context1 = logger.bind([
+          const Str('string', 'string1'),
+          const Dur('duration', Duration.zero)
+        ]);
 
         context1.info('Message');
 
@@ -376,10 +378,10 @@ void main() {
         final handler = MemoryHandler();
         final logger = Logger.detached()..handler = handler;
 
-        final context = logger.bind([
+        final context = logger.bind({
           const Field<int>(
-              name: 'custom-field', value: 0x10, kind: FieldKind(0x100))
-        ]);
+              name: 'custom-field', value: 0x10, kind: FieldKind(0x100)),
+        });
 
         context.info('Test');
 
@@ -404,7 +406,7 @@ void main() {
                 formatter: TextFormatter(
                     (name, timestamp, level, message, fields) => '$fields'));
           final context = logger.bind({
-            Bool('StaticBool', false),
+            const Bool('StaticBool', false),
             Bool.lazy('LazyBool', () => true),
             Double.lazy('LazyDouble', () => 0.2),
             DTM.lazy(
@@ -445,6 +447,81 @@ void main() {
                 print: (self, parent, zone, line) => records.add(line)));
       });
 
+      group('Any', () {
+        test('correctly handles known "static" types', () async {
+          final handler = MemoryHandler();
+          final logger = Logger.detached()..handler = handler;
+          final dt = DateTime.now();
+
+          final context = logger.bind({
+            Any('f1', true),
+            Any('f2', 1.0),
+            Any('f3', dt),
+            Any('f4', Duration.zero),
+            Any('f5', 0x1),
+            Any('f6', num.parse('1')),
+            Any('f7', 'string')
+          });
+
+          context.info('Test');
+
+          await later(() {
+            final record = handler.records.first;
+
+            expect(
+                record.fields.toList(),
+                orderedEquals(<Field>[
+                  const Bool('f1', true),
+                  const Double('f2', 1.0),
+                  DTM('f3', dt),
+                  const Dur('f4', Duration.zero),
+                  const Int('f5', 0x1),
+                  Num('f6', num.parse('1')),
+                  const Str('f7', 'string'),
+                ]));
+          });
+        });
+
+        test('correctly evaluates "lazy" types', () {
+          final records = <String>[];
+
+          runZoned<void>(() async {
+            final logger = Logger.detached()
+              ..handler = ConsoleHandler(
+                  formatter: TextFormatter(
+                      (name, timestamp, level, message, fields) => '$fields'));
+            final dt = DateTime.now();
+
+            final context = logger.bind({
+              Any.lazy('f1', () => true),
+              Any.lazy('f2', () => 1.0),
+              Any.lazy('f3', () => dt),
+              Any.lazy('f4', () => Duration.zero),
+              Any.lazy('f5', () => 0x1),
+              Any.lazy('f6', () => num.parse('1')),
+              Any.lazy('f7', () => 'string')
+            });
+
+            context.info('Test');
+
+            await later(() {
+              expect(records.length, equals(1));
+              expect(
+                  records.first,
+                  'f1=true '
+                  'f2=1.0 '
+                  'f3=${dt.toString()} '
+                  'f4=${Duration.zero} '
+                  'f5=1 '
+                  'f6=1 '
+                  'f7=string');
+            });
+          },
+              zoneSpecification: ZoneSpecification(
+                  print: (self, parent, zone, line) => records.add(line)));
+        });
+      });
+
       test('extends previous context', () async {
         final handler = MemoryHandler();
         final logger = Logger.detached()
@@ -452,15 +529,15 @@ void main() {
           ..level = Level.info;
 
         final context1 = logger.bind([
-          Dur('dur', Duration.zero),
-          Str('str', 'str'),
+          const Dur('dur', Duration.zero),
+          const Str('str', 'str'),
         ]);
 
         context1.info('info');
 
         final context2 = context1.bind([
-          Int('int', 0x10),
-          Double('double', 0.3),
+          const Int('int', 0x10),
+          const Double('double', 0.3),
         ]);
 
         context2.info('info');

@@ -2,6 +2,7 @@ library jetlog.internals.fields;
 
 import 'package:meta/meta.dart';
 
+part 'fields/any.dart';
 part 'fields/bool.dart';
 part 'fields/double.dart';
 part 'fields/dtm.dart';
@@ -20,9 +21,6 @@ class FieldKind {
 
   /// Unique value for type.
   final int value;
-
-  /// A field kind representing any value type.
-  static const FieldKind any = FieldKind(0x1);
 
   /// A field kind representing [bool] value type.
   static const FieldKind boolean = FieldKind(0x2);

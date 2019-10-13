@@ -4,13 +4,14 @@ import 'package:test/test.dart';
 void main() {
   group('Field', () {
     test('fields are equals when both have the same name', () {
-      const f1 = Field<dynamic>(name: 'name', value: 123, kind: FieldKind.any);
+      const f1 =
+          Field<dynamic>(name: 'name', value: 123, kind: FieldKind.integer);
       const f2 =
-          Field<dynamic>(name: 'name', value: 'str', kind: FieldKind.any);
+          Field<dynamic>(name: 'name', value: 'str', kind: FieldKind.integer);
       const f3 =
-          Field<dynamic>(name: 'name', value: 'str', kind: FieldKind.any);
-      const f4 =
-          Field<dynamic>(name: 'other-name', value: 'str', kind: FieldKind.any);
+          Field<dynamic>(name: 'name', value: 'str', kind: FieldKind.integer);
+      const f4 = Field<dynamic>(
+          name: 'other-name', value: 'str', kind: FieldKind.integer);
 
       // reflectivity
       expect(f1, equals(f1));
