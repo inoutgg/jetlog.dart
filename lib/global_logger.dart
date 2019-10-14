@@ -50,11 +50,12 @@ void log(Level level, String message) => _logger.log(level, message);
 /// See more [Interface.debug].
 void debug(String message) => _logger.debug(message);
 
-/// Starts tracing and emits a record with [message] and [Level.trace]
+/// Starts tracing and emits a record with [message] and [level]
 /// severity level; to stop tracing call [Tracer.stop] on the returned tracer.
 ///
 /// See more [Interface.trace].
-Tracer trace(String message) => _logger.trace(message);
+Tracer trace(String message, [Level level = Level.debug]) =>
+    _logger.trace(message, level);
 
 /// Emits a record with [message] and [Level.info] severity level.
 ///
