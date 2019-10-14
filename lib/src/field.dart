@@ -23,38 +23,46 @@ class FieldKind {
   final int value;
 
   /// A field kind representing [bool] value type.
-  static const FieldKind boolean = FieldKind(0x2);
+  static const FieldKind boolean = FieldKind(0x1);
 
   /// A field kind representing [DateTime] value type.
-  static const FieldKind dateTime = FieldKind(0x3);
+  static const FieldKind dateTime = FieldKind(0x2);
 
   /// A field kind representing [double] value type.
-  static const FieldKind double = FieldKind(0x4);
+  static const FieldKind double = FieldKind(0x3);
 
   /// A field kind representing [Duration] value type.
-  static const FieldKind duration = FieldKind(0x5);
+  static const FieldKind duration = FieldKind(0x4);
 
   /// A field kind representing [int] value type.
-  static const FieldKind integer = FieldKind(0x6);
+  static const FieldKind integer = FieldKind(0x5);
 
   /// A field kind representing [num] value type.
-  static const FieldKind number = FieldKind(0x7);
+  static const FieldKind number = FieldKind(0x6);
 
   /// A field kind representing custom value type (a class implementing
   /// [Loggable]).
-  static const FieldKind object = FieldKind(0x8);
+  static const FieldKind object = FieldKind(0x7);
 
   /// A field kind representing a [String] value type.
-  static const FieldKind string = FieldKind(0x9);
+  static const FieldKind string = FieldKind(0x8);
 }
 
 /// A [Field] used to add a key-value pair to a logger's context.
 abstract class Field<V> {
+  /// Creates a new [Field] with [name] and [value].
   const factory Field(
       {@required String name,
       @required V value,
       @required FieldKind kind}) = _StaticField<V>;
 
+  /// Creates a new [Field] with [value] that is evaluated on access.
+  ///
+  /// Typically, this factory should be used to create a field with value that
+  /// involves heavy computation.
+  ///
+  /// Note that [Field] specializations like [Bool], [Str], etc. also support
+  /// factory with lazy evaluation of [value].
   factory Field.lazy(
       {@required String name,
       @required ValueProducer<V> producer,

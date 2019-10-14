@@ -21,7 +21,35 @@ abstract class Obj extends Field<Iterable<Field>> {
 
 /// [Loggable] provides the ability to object to be logged as part of
 /// logging context field set.
+///
+/// Example:
+/// ```dart
+/// class User implements Loggable {
+///   final String name;
+///   final String email;
+///   final DateTime createdAt;
+///
+///   User({this.name, this.email, this.createdAt});
+///
+///   @override
+///   Iterable<Field> toFields() =>
+///       {
+///         Str('name', name),
+///         Str('email', email),
+///         DTM('createdAt', createdAt),
+///       };
+/// }
+///
+/// final user = User(
+///    name: 'Roman Vanesyan',
+///    email: 'roman@vanesyan.me',
+///    createdAt: DateTime.now());
+///
+///  logger
+///      .bind(Obj('user', user), DTM('authenticatedAt', DateTime.now()))
+///      .info('successfully authenticated');
+/// ```
 abstract class Loggable {
-  /// Marshals this class to a field set.
+  /// Marshals this class to set of [Field]s.
   Iterable<Field> toFields();
 }
