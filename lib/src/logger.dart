@@ -13,7 +13,7 @@ final _loggers = LoggerManager(_root);
 /// [Logger] is used to emit logging messages.
 ///
 /// There are three types of [Logger]: hierarchical logger - named logger using a
-/// hierarchical dot-separated namespaces and detached logger - optionally named
+/// hierarchical dot-separated namespaces; detached logger - optionally named
 /// logger that isn't part of any logger hierarchy and noop logger - logger
 /// that does nothing.
 ///
@@ -86,8 +86,10 @@ abstract class Logger implements Interface {
   ///
   /// No handlers are register for a freshly created logger and any records
   /// that are emitted using the logger are discarded, unless handler is set.
+  /// As such make sure to set up handler for an appropriated logger as soon
+  /// as possible.
   ///
-  /// To define multiple handlers for a logger use [MultiHandler] class.
+  /// To define multiple handlers for a logger use [MultiHandler].
   ///
   /// If provided value is `null`, previously created event stream is closed
   /// if any.

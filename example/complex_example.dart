@@ -1,3 +1,7 @@
+/// This example shows how to setup a logger that delegates logging records
+/// either to `stdout` or `stderr` based on severity level of the emitted record.
+library example.complex;
+
 import 'dart:async' show Future;
 import 'dart:io' show stdout, stderr;
 
@@ -31,7 +35,8 @@ Future<void> main() async {
     Str('filename', 'avatar.png'),
     Str('mime', 'image/png'),
   });
-  final tracer = context.trace('Uploading!');
+
+  final tracer = context.trace('Uploading!', Level.info);
 
   // Emulate uploading, wait for 1 sec.
   await Future<void>.delayed(const Duration(seconds: 1));

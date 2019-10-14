@@ -1,6 +1,7 @@
+import 'package:jetlog/src/logger.dart';
 import 'package:jetlog/src/record.dart';
 
-/// Severity level of the record. It controls output of particular logger.
+/// Severity level of the record used to controls output of particular logger.
 ///
 /// There are 5 predefined levels: [Level.fatal], [Level.danger],
 /// [Level.warning], [Level.info] and [Level.debug] (sorted in ascending order
@@ -14,8 +15,8 @@ import 'package:jetlog/src/record.dart';
 ///
 /// User-defined severity levels are also supported. Use [Level] constructor
 /// to define a new severity level. Make sure that defined level's
-/// unique [value] is between `0x0` ([Level.all]) and `0xffff` ([Level.off]) and
-/// does not overlap with `0x100`, `0x200`, `0x300`, `0x400`, `0x500` and
+/// unique [value] is between `0x0` ([Level.all]) and `0xffff` ([Level.off]);
+/// and does not overlap with `0x100`, `0x200`, `0x300`, `0x400`, `0x500` and
 /// `0x600` reserved for [debug], [info], [warning], [danger] and [fatal]
 /// levels respectively.
 class Level implements Comparable<Level> {

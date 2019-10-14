@@ -8,7 +8,9 @@ import 'package:jetlog/src/record.dart' show Record;
 abstract class Handler {
   StreamSubscription<Record> _subscription;
 
-  /// Sets subscription to a specific logger. DO NOT set this field directly.
+  /// Sets subscription to a specific logger.
+  ///
+  /// DO NOT set this field directly.
   set subscription(StreamSubscription<Record> subscription) =>
       _subscription = subscription;
 

@@ -6,7 +6,7 @@
 /// import 'package:jetlog/global_logger.dart';
 /// ```
 ///
-/// Severity level of global logger is set to [Level.debug], logging record
+/// Severity level of global logger is set to [Level.debug], logging records
 /// handler is set to [ConsoleHandler] with default formatting to text
 /// using [TextFormatter.defaultFormatter].
 library jetlog.global_logger;

@@ -20,11 +20,11 @@ class ConsoleHandler extends Handler {
 
   @override
   void handle(Record record) {
-    if (_filter != null && !_filter.call(record)) {
+    if (_filter != null && !_filter(record)) {
       return;
     }
 
-    final message = _formatter.call(record);
+    final message = _formatter(record);
 
     print(utf8.decode(message).trim());
   }
