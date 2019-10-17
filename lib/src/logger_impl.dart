@@ -69,27 +69,35 @@ class LoggerImpl with LoggerBase {
   }
 
   @override
+  @pragma('vm:prefer-inline')
   void log(Level level, String message) => _context.log(level, message);
 
   @override
+  @pragma('vm:prefer-inline')
   void debug(String message) => _context.debug(message);
 
   @override
+  @pragma('vm:prefer-inline')
   Tracer trace(String message, [Level level = Level.debug]) => _context.trace(message, level);
 
   @override
+  @pragma('vm:prefer-inline')
   void info(String message) => _context.info(message);
 
   @override
+  @pragma('vm:prefer-inline')
   void warning(String message) => _context.warning(message);
 
   @override
+  @pragma('vm:prefer-inline')
   void danger(String message) => _context.danger(message);
 
   @override
+  @pragma('vm:prefer-inline')
   void fatal(String message) => _context.fatal(message);
 
   @override
+  @pragma('vm:prefer-inline')
   Interface bind([Iterable<Field> fields]) => _context.bind(fields);
 
   @override

@@ -13,6 +13,7 @@ class TracerImpl implements Tracer {
   final Level _level;
   Interface _context;
 
+  @pragma('vm:prefer-inline')
   void start(String message) {
     startAt = DateTime.now();
     _context = _context.bind({DTM('start', startAt)})..log(_level, message);

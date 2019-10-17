@@ -114,6 +114,7 @@ abstract class Logger implements Interface {
 /// Contains default implementations of common methods across loggers.
 mixin LoggerBase implements Logger {
   @override
+  @pragma('vm:prefer-inline')
   bool isEnabledFor(Level level) {
     ArgumentError.checkNotNull(level, 'level');
 
