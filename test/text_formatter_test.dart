@@ -39,7 +39,7 @@ void main() {
           timestamp: timestamp,
           level: level,
           message: message,
-          fields: [Dur('dur', Duration.zero), DTM('dtm', timestamp)]);
+          fields: [const Dur('dur', Duration.zero), DTM('dtm', timestamp)]);
       final result1 = encoder1.call(record);
       final result2 = encoder2.call(record);
 
@@ -61,13 +61,13 @@ void main() {
           timestamp: timestamp,
           level: level,
           message: message,
-          fields: [Dur('dur', Duration.zero), DTM('dtm', timestamp)]);
+          fields: [const Dur('dur', Duration.zero), DTM('dtm', timestamp)]);
       final record2 = RecordImpl(
           name: null,
           timestamp: timestamp,
           level: level,
           message: message,
-          fields: [Dur('dur', Duration.zero), DTM('dtm', timestamp)]);
+          fields: [const Dur('dur', Duration.zero), DTM('dtm', timestamp)]);
       final result1 = f.call(record1);
       final result2 = f.call(record2);
 
@@ -91,7 +91,7 @@ void main() {
           level: level,
           message: message,
           fields: [
-            Dur('dur', Duration.zero),
+            const Dur('dur', Duration.zero),
             DTM('dtm', timestamp),
             Obj('klass', klass)
           ]);
@@ -145,7 +145,7 @@ void main() {
           timestamp: timestamp,
           level: Level.info,
           message: '',
-          fields: [Dur('dur', Duration.zero)]);
+          fields: const [Dur('dur', Duration.zero)]);
 
       final result = encoder.call(record);
 

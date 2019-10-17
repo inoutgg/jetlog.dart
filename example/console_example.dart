@@ -11,7 +11,7 @@ final _logger = Logger.detached()
   ..level = Level.all
   ..handler = ConsoleHandler(formatter: TextFormatter.defaultFormatter);
 
-void main() async {
+Future<void> main() async {
   final context = _logger.bind({
     Str('username', 'vanesyan'),
     Str('filename', 'avatar.png'),

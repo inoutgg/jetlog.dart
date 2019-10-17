@@ -3,6 +3,7 @@ part of jetlog.internals.fields;
 class _Any {
   const _Any();
 
+  // ignore:avoid_annotating_with_dynamic
   Field<dynamic> call(String name, dynamic value) {
     if (value is bool) {
       return Bool(name, value);
