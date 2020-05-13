@@ -21,6 +21,7 @@
 /// ```
 library jetlog;
 
+export 'src/default_log.dart';
 export 'src/field.dart';
 export 'src/filter.dart';
 export 'src/handler.dart';

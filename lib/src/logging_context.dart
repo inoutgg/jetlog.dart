@@ -4,7 +4,7 @@ import 'package:jetlog/src/level.dart';
 import 'package:jetlog/src/logger_impl.dart';
 import 'package:jetlog/src/record_impl.dart';
 
-class LoggingContext extends Interface {
+class LoggingContext implements Interface {
   LoggingContext(this._logger, [this._fields]);
 
   final LoggerImpl _logger;

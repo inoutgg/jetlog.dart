@@ -8,7 +8,7 @@ import 'dart:io' show stdout, stderr;
 import 'package:jetlog/formatters.dart' show TextFormatter;
 import 'package:jetlog/handlers.dart' show MultiHandler, StreamHandler;
 import 'package:jetlog/jetlog.dart'
-    show Level, Logger, Record, Str, DefaultLevelLog;
+    show Level, Logger, Record, Str, DefaultLog, TraceLog;
 
 bool _stderrOnlyFilter(Record record) =>
     record.level == Level.warning ||
