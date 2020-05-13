@@ -9,7 +9,7 @@ import 'package:jetlog/src/level.dart';
 import 'package:jetlog/src/logger.dart';
 import 'package:jetlog/src/record.dart';
 
-class LoggerImpl extends LoggerBase {
+class LoggerImpl with LoggerBase implements Logger {
   LoggerImpl._(this.name, [this.children]) {
     _context = LoggingContext(this);
   }
