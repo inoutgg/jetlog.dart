@@ -37,40 +37,6 @@ class NoopLogger with LoggerBase {
 
   @override
   @pragma('vm:prefer-inline')
-  void debug(String message) {
-    /* noop */
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  Tracer trace(String message, [Level level = Level.debug]) => NoopTracer();
-
-  @override
-  @pragma('vm:prefer-inline')
-  void info(String message) {
-    /* noop */
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  void warning(String message) {
-    /* noop */
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  void danger(String message) {
-    /* noop */
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  void fatal(String message) {
-    /* noop */
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
   void log(Level level, String message) {
     /* noop */
   }
