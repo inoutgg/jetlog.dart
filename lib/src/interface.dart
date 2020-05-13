@@ -1,6 +1,7 @@
 import 'package:jetlog/src/field.dart' show Field;
 import 'package:jetlog/src/level.dart';
 import 'package:jetlog/src/logger.dart';
+import 'package:jetlog/src/tracer.dart';
 
 /// [Interface] represents a set of common methods that is implemented by both
 /// [Logger] and logging context returned by [Interface.bind].
@@ -10,6 +11,10 @@ abstract class Interface {
   /// If [level] is either [Level.all] or [Level.off] it will immediately
   /// throw [ArgumentError].
   void log(Level level, String message);
+
+  /// Starts tracing and emits a record with [message] and [level]
+  /// severity level; to stop tracing call [Tracer.stop] on the returned tracer.
+  Tracer trace(String message, [Level level = Level.debug]);
 
   /// Creates and returns a new logging context with bound collection of
   /// [fields] added to existing one.

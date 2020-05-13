@@ -6,7 +6,7 @@ library example.console;
 import 'package:jetlog/formatters.dart' show TextFormatter;
 import 'package:jetlog/handlers.dart' show ConsoleHandler;
 import 'package:jetlog/jetlog.dart'
-    show Level, Logger, Str, DefaultLog, TraceLog;
+    show Level, Logger, Str, DefaultLog;
 
 final _logger = Logger.detached()
   ..level = Level.all

@@ -4,10 +4,11 @@ import 'package:jetlog/src/field.dart' show Field;
 import 'package:jetlog/src/filter.dart';
 import 'package:jetlog/src/handler.dart';
 import 'package:jetlog/src/interface.dart';
-import 'package:jetlog/src/logging_context.dart';
 import 'package:jetlog/src/level.dart';
 import 'package:jetlog/src/logger.dart';
+import 'package:jetlog/src/logging_context.dart';
 import 'package:jetlog/src/record.dart';
+import 'package:jetlog/src/tracer.dart';
 
 class LoggerImpl with LoggerBase implements Logger {
   LoggerImpl._(this.name, [this.children]) {
@@ -70,6 +71,10 @@ class LoggerImpl with LoggerBase implements Logger {
   @override
   @pragma('vm:prefer-inline')
   void log(Level level, String message) => _context.log(level, message);
+
+  @override
+  Tracer trace(String message, [Level level = Level.debug]) =>
+      _context.trace(message, level);
 
   @override
   @pragma('vm:prefer-inline')

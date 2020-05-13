@@ -1,6 +1,6 @@
 import 'package:jetlog/handlers.dart' show MemoryHandler;
 import 'package:jetlog/jetlog.dart'
-    show Logger, Level, Record, DefaultLog, TraceLog;
+    show Logger, Level, Record, DefaultLog;
 import 'package:jetlog/src/logger_impl.dart' show LoggerImpl;
 import 'package:test/test.dart';
 

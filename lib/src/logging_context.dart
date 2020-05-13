@@ -3,6 +3,8 @@ import 'package:jetlog/src/interface.dart';
 import 'package:jetlog/src/level.dart';
 import 'package:jetlog/src/logger_impl.dart';
 import 'package:jetlog/src/record_impl.dart';
+import 'package:jetlog/src/tracer.dart';
+import 'package:jetlog/src/tracer_impl.dart';
 
 class LoggingContext implements Interface {
   LoggingContext(this._logger, [this._fields]);
@@ -30,4 +32,8 @@ class LoggingContext implements Interface {
         if (fields != null) ...fields,
         if (_fields != null) ..._fields,
       });
+
+  @override
+  Tracer trace(String message, [Level level = Level.debug]) =>
+      TracerImpl(this, level)..start(message);
 }

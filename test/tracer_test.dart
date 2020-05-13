@@ -1,4 +1,4 @@
-import 'package:jetlog/jetlog.dart' show Logger, TraceLog;
+import 'package:jetlog/jetlog.dart' show Logger;
 import 'package:jetlog/src/tracer_impl.dart';
 import 'package:test/test.dart';
 

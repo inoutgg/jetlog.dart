@@ -1,16 +1,5 @@
 import 'package:jetlog/src/interface.dart';
 import 'package:jetlog/src/level.dart';
-import 'package:jetlog/src/tracer.dart' show Tracer;
-import 'package:jetlog/src/tracer_impl.dart' show TracerImpl;
-
-/// [TraceLog] defines a trace method on [Interface].
-extension TraceLog on Interface {
-  /// Starts tracing and emits a record with [message] and [level]
-  /// severity level; to stop tracing call [Tracer.stop] on the returned tracer.
-  @pragma('vm:prefer-inline')
-  Tracer trace(String message, [Level level = Level.debug]) =>
-      TracerImpl(this, level)..start(message);
-}
 
 /// [DefaultLog] defines [Interface.log] aliases on [Interface] for some predefined [Level]s.
 extension DefaultLog on Interface {
