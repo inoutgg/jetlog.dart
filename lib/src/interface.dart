@@ -2,6 +2,7 @@ import 'package:jetlog/src/field.dart' show Field;
 import 'package:jetlog/src/level.dart';
 import 'package:jetlog/src/logger.dart';
 import 'package:jetlog/src/tracer.dart' show Tracer;
+import 'package:jetlog/src/tracer_impl.dart' show TracerImpl;
 
 /// [Interface] represents a set of common methods that is implemented by both
 /// [Logger] and logging context returned by [Interface.bind].
@@ -11,25 +12,6 @@ abstract class Interface {
   /// If [level] is either [Level.all] or [Level.off] it will immediately
   /// throw [ArgumentError].
   void log(Level level, String message);
-
-  /// Emits a record with [message] and [Level.debug] severity level.
-  void debug(String message);
-
-  /// Starts tracing and emits a record with [message] and [level]
-  /// severity level; to stop tracing call [Tracer.stop] on the returned tracer.
-  Tracer trace(String message, [Level level = Level.debug]);
-
-  /// Emits a record with [message] and [Level.info] severity level.
-  void info(String message);
-
-  /// Emits a record with [message] and [Level.warning] severity level.
-  void warning(String message);
-
-  /// Emits a record with [message] and [Level.danger] severity level.
-  void danger(String message);
-
-  /// Emits a record with [message] and [Level.fatal] severity level.
-  void fatal(String message);
 
   /// Creates and returns a new logging context with bound collection of
   /// [fields] added to existing one.
@@ -59,4 +41,26 @@ abstract class Interface {
   /// context = context.bind({Str('second', '2nd'}); // => { "first": "1st", "second": "2nd" }
   /// ```
   Interface bind([Iterable<Field> fields]);
+}
+
+extension DefaultLevelLog on Interface {
+  /// Emits a record with [message] and [Level.debug] severity level.
+  void debug(String message) => log(Level.debug, message);
+
+  /// Starts tracing and emits a record with [message] and [level]
+  /// severity level; to stop tracing call [Tracer.stop] on the returned tracer.
+  Tracer trace(String message, [Level level = Level.debug]) =>
+      TracerImpl(this, level)..start(message);
+
+  /// Emits a record with [message] and [Level.info] severity level.
+  void info(String message) => log(Level.info, message);
+
+  /// Emits a record with [message] and [Level.warning] severity level.
+  void warning(String message) => log(Level.warning, message);
+
+  /// Emits a record with [message] and [Level.danger] severity level.
+  void danger(String message) => log(Level.danger, message);
+
+  /// Emits a record with [message] and [Level.fatal] severity level.
+  void fatal(String message) => log(Level.fatal, message);
 }

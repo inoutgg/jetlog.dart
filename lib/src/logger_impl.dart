@@ -8,9 +8,8 @@ import 'package:jetlog/src/logging_context.dart';
 import 'package:jetlog/src/level.dart';
 import 'package:jetlog/src/logger.dart';
 import 'package:jetlog/src/record.dart';
-import 'package:jetlog/src/tracer.dart';
 
-class LoggerImpl with LoggerBase {
+class LoggerImpl extends LoggerBase {
   LoggerImpl._(this.name, [this.children]) {
     _context = LoggingContext(this);
   }
@@ -71,30 +70,6 @@ class LoggerImpl with LoggerBase {
   @override
   @pragma('vm:prefer-inline')
   void log(Level level, String message) => _context.log(level, message);
-
-  @override
-  @pragma('vm:prefer-inline')
-  void debug(String message) => _context.debug(message);
-
-  @override
-  @pragma('vm:prefer-inline')
-  Tracer trace(String message, [Level level = Level.debug]) => _context.trace(message, level);
-
-  @override
-  @pragma('vm:prefer-inline')
-  void info(String message) => _context.info(message);
-
-  @override
-  @pragma('vm:prefer-inline')
-  void warning(String message) => _context.warning(message);
-
-  @override
-  @pragma('vm:prefer-inline')
-  void danger(String message) => _context.danger(message);
-
-  @override
-  @pragma('vm:prefer-inline')
-  void fatal(String message) => _context.fatal(message);
 
   @override
   @pragma('vm:prefer-inline')

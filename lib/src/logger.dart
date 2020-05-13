@@ -42,7 +42,7 @@ final _loggers = LoggerManager(_root);
 /// data represented as a collection of [Field]s. Calling to [Logger.bind] will
 /// result into a new context with logging capabilities and bound collection of
 /// fields has been created.
-abstract class Logger implements Interface {
+abstract class Logger extends Interface {
   /// Creates a new detached logger.
   ///
   /// Created logger has no parent and children and is not a part of
@@ -112,7 +112,7 @@ abstract class Logger implements Interface {
 /// Base mixin for implementing [Logger].
 ///
 /// Contains default implementations of common methods across loggers.
-mixin LoggerBase implements Logger {
+abstract class LoggerBase implements Logger {
   @override
   @pragma('vm:prefer-inline')
   bool isEnabledFor(Level level) {

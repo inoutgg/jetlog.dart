@@ -5,7 +5,7 @@ library example.console;
 
 import 'package:jetlog/formatters.dart' show TextFormatter;
 import 'package:jetlog/handlers.dart' show ConsoleHandler;
-import 'package:jetlog/jetlog.dart' show Level, Logger, Str;
+import 'package:jetlog/jetlog.dart' show Level, Logger, Str, DefaultLevelLog;
 
 final _logger = Logger.detached()
   ..level = Level.all
@@ -13,9 +13,9 @@ final _logger = Logger.detached()
 
 Future<void> main() async {
   final context = _logger.bind({
-    Str('username', 'vanesyan'),
-    Str('filename', 'avatar.png'),
-    Str('mime', 'image/png'),
+    const Str('username', 'vanesyan'),
+    const Str('filename', 'avatar.png'),
+    const Str('mime', 'image/png'),
   });
 
   final tracer = context.trace('Uploading!', Level.info);
