@@ -17,6 +17,13 @@ class CustomObject implements Loggable {
       };
 }
 
+const Level customLevel = Level(name: 'custom', value: 0x600);
+
+extension CustomLevelLog on Interface {
+  void customLog(String message) =>
+      log(customLevel, message);
+}
+
 void main() {
   group('Interface', () {
     group('#log', () {
@@ -650,6 +657,18 @@ void main() {
 
         expect(() => t.stop('stop 2'),
             throwsA(const TypeMatcher<TracerStoppedError>()));
+      });
+    });
+
+    test('allows custom level method extensions', () async {
+      final handler = MemoryHandler();
+      final logger = Logger.detached()..handler = handler
+        ..level = Level.all;
+
+      logger.customLog('Log with custom handler!');
+
+      await later(() {
+        expect(handler.records.first.level == customLevel, isTrue);
       });
     });
   });

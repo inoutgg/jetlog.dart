@@ -28,33 +28,12 @@ class LoggingContext implements Interface {
 
   @override
   @pragma('vm:prefer-inline')
-  void debug(String message) => log(Level.debug, message);
-
-  @override
-  @pragma('vm:prefer-inline')
-  Tracer trace(String message, [Level level = Level.debug]) =>
-      TracerImpl(this, level)..start(message);
-
-  @override
-  @pragma('vm:prefer-inline')
-  void info(String message) => log(Level.info, message);
-
-  @override
-  @pragma('vm:prefer-inline')
-  void warning(String message) => log(Level.warning, message);
-
-  @override
-  @pragma('vm:prefer-inline')
-  void danger(String message) => log(Level.danger, message);
-
-  @override
-  @pragma('vm:prefer-inline')
-  void fatal(String message) => log(Level.fatal, message);
-
-  @override
-  @pragma('vm:prefer-inline')
   Interface bind([Iterable<Field> fields]) => LoggingContext(_logger, {
         if (fields != null) ...fields,
         if (_fields != null) ..._fields,
       });
+
+  @override
+  Tracer trace(String message, [Level level = Level.debug]) =>
+      TracerImpl(this, level)..start(message);
 }

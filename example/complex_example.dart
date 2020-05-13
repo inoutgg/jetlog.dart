@@ -7,7 +7,7 @@ import 'dart:io' show stdout, stderr;
 
 import 'package:jetlog/formatters.dart' show TextFormatter;
 import 'package:jetlog/handlers.dart' show MultiHandler, StreamHandler;
-import 'package:jetlog/jetlog.dart' show Level, Logger, Record, Str;
+import 'package:jetlog/jetlog.dart' show Level, Logger, Record, Str, DefaultLog;
 
 bool _stderrOnlyFilter(Record record) =>
     record.level == Level.warning ||
@@ -31,9 +31,9 @@ final _logger = Logger.getLogger('example.stdout')
 
 Future<void> main() async {
   final context = _logger.bind({
-    Str('username', 'vanesyan'),
-    Str('filename', 'avatar.png'),
-    Str('mime', 'image/png'),
+    const Str('username', 'vanesyan'),
+    const Str('filename', 'avatar.png'),
+    const Str('mime', 'image/png'),
   });
 
   final tracer = context.trace('Uploading!', Level.info);
