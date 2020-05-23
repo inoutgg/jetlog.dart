@@ -20,7 +20,7 @@ import 'package:jetlog/src/record.dart';
 /// `0x600` reserved for [debug], [info], [warning], [danger] and [fatal]
 /// levels respectively.
 class Level implements Comparable<Level> {
-  const Level({this.name, this.value});
+  const Level({required this.name, required this.value});
 
   /// User-readable name of this severity level.
   final String name;

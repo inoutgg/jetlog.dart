@@ -23,7 +23,7 @@ class JsonFormatter {
       {this.formatLevel = _formatLevel,
       this.formatTimestamp = _formatTimestamp,
       this.formatFields = _formatFields,
-      int indent})
+      int? indent})
       : _utf8 = const Utf8Encoder(),
         _json = indent != null
             ? JsonEncoder.withIndent(' ' * indent)
@@ -34,7 +34,7 @@ class JsonFormatter {
 
   final LevelFormatter<dynamic> formatLevel;
   final TimestampFormatter<dynamic> formatTimestamp;
-  final FieldsFormatter<Map<String, dynamic>> formatFields;
+  final FieldsFormatter<Map<String, dynamic>?> formatFields;
 
   /// Returns a default [JSONFormatter].
   static JsonFormatter get defaultFormatter => JsonFormatter();
@@ -58,10 +58,10 @@ Map<String, dynamic> _formatLevel(Level level) =>
 
 String _formatTimestamp(DateTime timestamp) => timestamp.toString();
 
-Map<String, dynamic> _formatFields(Iterable<Field> fields) {
-  final dict = <String, dynamic>{};
-
+Map<String, dynamic>? _formatFields(Iterable<Field>? fields) {
   if (fields != null) {
+    final dict = <String, dynamic>{};
+
     for (final field in fields) {
       switch (field.kind) {
         case FieldKind.object:
@@ -73,7 +73,9 @@ Map<String, dynamic> _formatFields(Iterable<Field> fields) {
           break;
       }
     }
+
+    return dict;
   }
 
-  return dict;
+  return null;
 }

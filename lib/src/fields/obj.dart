@@ -2,7 +2,7 @@ part of jetlog.internals.fields;
 
 class _StaticObj extends _StaticField<Iterable<Field>> implements Obj {
   _StaticObj(String name, Loggable value)
-      : super(name: name, value: value?.toFields(), kind: FieldKind.object);
+      : super(name: name, value: value.toFields(), kind: FieldKind.object);
 }
 
 class _LazyObj extends _LazyField<Iterable<Field>> implements Obj {
@@ -16,7 +16,7 @@ abstract class Obj extends Field<Iterable<Field>> {
   factory Obj(String name, Loggable value) => _StaticObj(name, value);
 
   factory Obj.lazy(String name, ValueProducer<Loggable> producer) =>
-      _LazyObj(name, () => producer()?.toFields());
+      _LazyObj(name, () => producer().toFields());
 }
 
 /// [Loggable] provides the ability to object to be logged as part of

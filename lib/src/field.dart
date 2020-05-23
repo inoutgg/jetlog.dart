@@ -1,15 +1,21 @@
 library jetlog.internals.fields;
 
-import 'package:meta/meta.dart';
-
 part 'fields/any.dart';
+
 part 'fields/bool.dart';
+
 part 'fields/double.dart';
+
 part 'fields/dtm.dart';
+
 part 'fields/dur.dart';
+
 part 'fields/int.dart';
+
 part 'fields/num.dart';
+
 part 'fields/obj.dart';
+
 part 'fields/str.dart';
 
 typedef ValueProducer<V> = V Function();
@@ -52,9 +58,9 @@ class FieldKind {
 abstract class Field<V> {
   /// Creates a new [Field] with [name] and [value].
   const factory Field(
-      {@required String name,
-      @required V value,
-      @required FieldKind kind}) = _StaticField<V>;
+      {required String name,
+      required V value,
+      required FieldKind kind}) = _StaticField<V>;
 
   /// Creates a new [Field] with [value] that is evaluated on access.
   ///
@@ -64,9 +70,9 @@ abstract class Field<V> {
   /// Note that [Field] specializations like [Bool], [Str], etc. also support
   /// factory with lazy evaluation of [value].
   factory Field.lazy(
-      {@required String name,
-      @required ValueProducer<V> producer,
-      @required FieldKind kind}) = _LazyField<V>;
+      {required String name,
+      required ValueProducer<V> producer,
+      required FieldKind kind}) = _LazyField<V>;
 
   /// Name of this field (a key).
   String get name;
@@ -80,7 +86,8 @@ abstract class Field<V> {
 }
 
 class _StaticField<V> implements Field<V> {
-  const _StaticField({this.name, this.value, this.kind});
+  const _StaticField(
+      {required this.name, required this.value, required this.kind});
 
   @override
   final String name;
@@ -99,10 +106,9 @@ class _StaticField<V> implements Field<V> {
 }
 
 class _LazyField<V> implements Field<V> {
-  _LazyField({this.name, this.producer, this.kind});
+  _LazyField({required this.name, required this.producer, required this.kind});
 
-  // TODO: update to late final once available in the Dart SDK.
-  V _value;
+  late final V _value;
 
   final V Function() producer;
 

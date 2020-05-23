@@ -15,56 +15,56 @@ class LoggerImpl with LoggerBase {
     _context = LoggingContext(this);
   }
 
-  factory LoggerImpl.detached([String name]) => LoggerImpl._(name);
+  factory LoggerImpl.detached([String? name]) => LoggerImpl._(name);
 
-  factory LoggerImpl.managed([String name]) => LoggerImpl._(name, {});
+  factory LoggerImpl.managed(String name) => LoggerImpl._(name, {});
 
-  StreamController<Record> _controller;
-  Filter _filter;
-  LoggingContext _context;
-  Level _level;
+  late final LoggingContext _context;
+  StreamController<Record>? _controller;
+  Filter? _filter;
+  Level? _level;
 
-  final Set<LoggerImpl> children;
-  LoggerImpl parent;
-
-  @override
-  final String name;
+  final Set<LoggerImpl>? children;
+  LoggerImpl? parent;
 
   @override
-  set level(Level level) => _level = level;
+  final String? name;
+
+  @override
+  set level(Level? level) => _level = level;
 
   @override
   Level get level {
-    if (_level != null) return _level;
-    if (parent != null) return parent.level;
+    if (_level != null) return _level!;
+    if (parent != null) return parent!.level;
 
     // Defaults to `Level.info`.
     return Level.info;
   }
 
   @override
-  set handler(Handler handler) {
+  set handler(Handler? handler) {
     _controller?.close();
 
     if (handler != null) {
       _controller = StreamController();
       handler.subscription =
-          _controller.stream.listen(handler.handle, onDone: handler.close);
+          _controller!.stream.listen(handler.handle, onDone: handler.close);
     }
   }
 
   @override
-  set filter(Filter filter) => _filter = filter;
+  set filter(Filter? filter) => _filter = filter;
 
   void add(Record record) {
     if (isEnabledFor(record.level)) {
-      if (_filter != null && !_filter.call(record)) {
+      if (_filter != null && !_filter!(record)) {
         return;
       }
 
       _controller?.add(record);
 
-      if (parent != null) parent.add(record);
+      if (parent != null) parent!.add(record);
     }
   }
 
@@ -78,7 +78,7 @@ class LoggerImpl with LoggerBase {
 
   @override
   @pragma('vm:prefer-inline')
-  Interface bind([Iterable<Field> fields]) => _context.bind(fields);
+  Interface bind([Iterable<Field>? fields]) => _context.bind(fields);
 
   @override
   String toString() {

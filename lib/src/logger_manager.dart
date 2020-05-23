@@ -15,7 +15,7 @@ class LoggerManager {
     LoggerImpl logger;
 
     if (_loggers.containsKey(name)) {
-      logger = _loggers[name];
+      logger = _loggers[name]!;
     } else {
       logger = LoggerImpl.managed(name);
       _loggers[name] = logger;
@@ -27,7 +27,7 @@ class LoggerManager {
         : get(name.substring(0, lastIndexOfDot));
 
     logger.parent = parent;
-    parent.children.add(logger);
+    parent.children!.add(logger);
 
     return logger;
   }

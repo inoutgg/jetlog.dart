@@ -66,7 +66,7 @@ String _formatLevel(Level level) => level.name;
 
 String _formatTimestamp(DateTime timestamp) => timestamp.toString();
 
-String _formatField(Field field, [String owner]) {
+String _formatField(Field field, [String? owner]) {
   final buffer = StringBuffer();
 
   switch (field.kind) {
@@ -89,7 +89,7 @@ String _formatField(Field field, [String owner]) {
   return buffer.toString();
 }
 
-String _formatFields(Iterable<Field> fields) => (StringBuffer()
+String _formatFields(Iterable<Field>? fields) => (StringBuffer()
       ..writeAll(<String>[
         if (fields != null) for (final f in fields) _formatField(f)
       ]))
