@@ -8,7 +8,7 @@ class TracerImpl implements Tracer {
 
   late final DateTime startAt;
   late final DateTime stopAt;
-  late final Interface _context;
+  Interface _context;
 
   final Stopwatch _timer;
   final Level _level;

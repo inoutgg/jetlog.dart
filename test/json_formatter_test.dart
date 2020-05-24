@@ -24,10 +24,10 @@ class Klass extends Loggable {
 
 void main() {
   group('JsonFormatter', () {
-    DateTime timestamp;
-    String message;
-    Level level;
-    Record record;
+    late final DateTime timestamp;
+    late final String message;
+    late final Level level;
+    late final Record record;
 
     setUp(() {
       timestamp = DateTime.now();

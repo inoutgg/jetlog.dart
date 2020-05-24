@@ -14,7 +14,7 @@ class _DebugOnlyFilter {
 
 void main() {
   group('StreamHandler', () {
-    StreamController<List<int>> controller;
+    late final StreamController<List<int>> controller;
 
     setUp(() {
       controller = StreamController<List<int>>();
@@ -22,18 +22,6 @@ void main() {
 
     tearDown(() {
       controller.close();
-    });
-
-    group('constructor', () {
-      test('throws on null stream', () {
-        expect(() => StreamHandler(null, formatter: JsonFormatter()),
-            throwsArgumentError);
-      });
-
-      test('throws on null formatter', () {
-        expect(() => StreamHandler(controller, formatter: null),
-            throwsArgumentError);
-      });
     });
 
     group('#handler', () {

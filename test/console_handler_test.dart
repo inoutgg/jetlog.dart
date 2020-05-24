@@ -13,7 +13,7 @@ class _DebugOnlyFilter {
 void main() {
   group('ConsoleHandler', () {
     final records = <String>[];
-    ConsoleHandler handler;
+    late final ConsoleHandler handler;
 
     void newPrint(Zone self, ZoneDelegate parent, Zone zone, String message) =>
         records.add(message);
