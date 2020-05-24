@@ -1,4 +1,4 @@
-library jetlog.internals.fields;
+library jetlog.fields;
 
 part 'fields/any.dart';
 

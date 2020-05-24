@@ -1,4 +1,4 @@
-part of jetlog.internals.fields;
+part of jetlog.fields;
 
 class _Any {
   const _Any();

@@ -1,4 +1,4 @@
-part of jetlog.internals.fields;
+part of jetlog.fields;
 
 class _StaticDouble extends _StaticField<double> implements Double {
   const _StaticDouble(String name, double value)

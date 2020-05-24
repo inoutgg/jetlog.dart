@@ -1,4 +1,4 @@
-part of jetlog.internals.fields;
+part of jetlog.fields;
 
 class _StaticDTM extends _StaticField<DateTime> implements DTM {
   const _StaticDTM(String name, DateTime value)

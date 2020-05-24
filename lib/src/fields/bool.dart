@@ -1,4 +1,4 @@
-part of jetlog.internals.fields;
+part of jetlog.fields;
 
 class _StaticBool extends _StaticField<bool> implements Bool {
   // ignore:avoid_positional_boolean_parameters

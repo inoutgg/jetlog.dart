@@ -1,4 +1,4 @@
-part of jetlog.internals.fields;
+part of jetlog.fields;
 
 class _StaticNum extends _StaticField<num> implements Num {
   const _StaticNum(String name, num value)

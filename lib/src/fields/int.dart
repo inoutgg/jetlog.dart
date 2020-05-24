@@ -1,4 +1,4 @@
-part of jetlog.internals.fields;
+part of jetlog.fields;
 
 class _StaticInt extends _StaticField<int> implements Int {
   const _StaticInt(String name, int value)

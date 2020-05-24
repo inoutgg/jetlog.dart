@@ -1,4 +1,4 @@
-part of jetlog.internals.fields;
+part of jetlog.fields;
 
 class _StaticDur extends _StaticField<Duration> implements Dur {
   const _StaticDur(String name, Duration value)
