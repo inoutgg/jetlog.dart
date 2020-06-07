@@ -34,13 +34,9 @@ class LoggerImpl with LoggerBase {
   set level(Level? level) => _level = level;
 
   @override
-  Level get level {
-    if (_level != null) return _level!;
-    if (parent != null) return parent!.level;
-
-    // Defaults to `Level.info`.
-    return Level.info;
-  }
+  Level get level =>
+      // If level is not set and logger is out of hierarchy default to `Level.info`.
+      _level ?? parent?.level ?? Level.info;
 
   @override
   set handler(Handler? handler) {
@@ -50,6 +46,8 @@ class LoggerImpl with LoggerBase {
       _controller = StreamController();
       handler.subscription =
           _controller!.stream.listen(handler.handle, onDone: handler.close);
+    } else {
+      _controller = null;
     }
   }
 
@@ -63,8 +61,7 @@ class LoggerImpl with LoggerBase {
       }
 
       _controller?.add(record);
-
-      if (parent != null) parent!.add(record);
+      parent?.add(record);
     }
   }
 

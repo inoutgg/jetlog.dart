@@ -23,12 +23,7 @@ class NoopLogger with LoggerBase {
   }
 
   @override
-  Level get level {
-    if (_level != null) return _level!;
-
-    // Default level.
-    return Level.info;
-  }
+  Level get level => _level ?? Level.info;
 
   @override
   final String? name;
@@ -39,21 +34,20 @@ class NoopLogger with LoggerBase {
 
   @override
   set handler(Handler? handler) {
-    /* noop */
+    // noop
   }
 
   @override
   set filter(Filter? handler) {
-    /* noop */
+    // noop
   }
 
   @override
   Tracer trace(String message, [Level level = Level.debug]) => NoopTracer();
 
   @override
-  @pragma('vm:prefer-inline')
   void log(Level level, String message) {
-    /* noop */
+    // noop
   }
 
   @override

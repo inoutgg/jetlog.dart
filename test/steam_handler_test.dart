@@ -20,9 +20,7 @@ void main() {
       controller = StreamController<List<int>>();
     });
 
-    tearDown(() {
-      controller.close();
-    });
+    tearDown(controller.close);
 
     group('#handler', () {
       test('delegates records to downstream', () async {

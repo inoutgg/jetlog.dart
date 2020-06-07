@@ -21,19 +21,19 @@ void main() {
           name: 'abc',
           level: Level.info,
           message: 'abc',
-          fields: []);
+          fields: const []);
       final record2 = RecordImpl(
           timestamp: DateTime.now(),
           name: 'cba',
           level: Level.info,
           message: 'baz',
-          fields: []);
+          fields: const []);
       final record3 = RecordImpl(
           timestamp: DateTime.now(),
           name: 'foo',
           level: Level.info,
           message: 'bar',
-          fields: []);
+          fields: const []);
 
       expect(filter.call(record1), isTrue);
       expect(filter.call(record2), isTrue);
@@ -50,19 +50,19 @@ void main() {
           name: 'Test',
           level: Level.info,
           message: 'Test',
-          fields: []);
+          fields: const []);
       final record2 = RecordImpl(
           timestamp: DateTime.now(),
           name: 'Test',
           level: Level.info,
           message: 'Test2',
-          fields: []);
+          fields: const []);
       final record3 = RecordImpl(
           timestamp: DateTime.now(),
           name: 'Test2',
           level: Level.info,
           message: 'Test',
-          fields: []);
+          fields: const []);
 
       expect(filter.call(record1), isTrue);
       expect(filter.call(record2), isFalse);
