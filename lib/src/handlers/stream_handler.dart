@@ -26,6 +26,6 @@ class StreamHandler extends Handler {
       return;
     }
 
-    _stream.add(_formatter(record));
+    _sink.add(_formatter(record));
   }
 }
