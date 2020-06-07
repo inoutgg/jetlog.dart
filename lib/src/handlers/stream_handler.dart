@@ -9,14 +9,14 @@ import 'package:meta/meta.dart' show required;
 /// Each log record is formatted using the `formatter` before
 /// submitting it to the downstream.
 class StreamHandler extends Handler {
-  StreamHandler(this._stream, {@required Formatter formatter})
+  StreamHandler(this._sink, {@required Formatter formatter})
       : _formatter = formatter {
-    ArgumentError.checkNotNull(_stream, 'stream');
+    ArgumentError.checkNotNull(_sink, 'sink');
     ArgumentError.checkNotNull(formatter, 'formatter');
   }
 
   final Formatter _formatter;
-  final StreamSink<List<int>> _stream;
+  final StreamSink<List<int>> _sink;
   Filter _filter;
 
   /// Sets records filterer.
@@ -30,6 +30,6 @@ class StreamHandler extends Handler {
       return;
     }
 
-    _stream.add(_formatter(record));
+    _sink.add(_formatter(record));
   }
 }
