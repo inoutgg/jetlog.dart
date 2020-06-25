@@ -7,7 +7,6 @@ description: >
   This library provides a strongly typed APIs for logging records
   with structured data.
 
-author: Roman Vanesyan <romain.vanesyan@gmail.com>
 homepage: https://github.com/vanesyan/jetlog.dart
 
 environment:
