@@ -4,7 +4,7 @@ class _Any {
   const _Any();
 
   // ignore:avoid_annotating_with_dynamic
-  Field<dynamic> call(String name, dynamic value) {
+  Field call(String name, dynamic value) {
     if (value is bool) {
       return Bool(name, value);
     } else if (value is double) {
@@ -26,7 +26,7 @@ class _Any {
     throw StateError('Unknown `value` type!');
   }
 
-  Field<dynamic> lazy(String name, ValueProducer<dynamic> producer) {
+  Field lazy(String name, ValueProducer<dynamic> producer) {
     if (producer is ValueProducer<bool>) {
       return Bool.lazy(name, producer);
     } else if (producer is ValueProducer<double>) {
@@ -53,8 +53,7 @@ class _Any {
 ///
 /// Note that the [Any] unlike other particular types of [Field] is not a
 /// subclass of it, but rather an instance of callable class that
-/// is designed to mimic `Field`'s API. As so runtime checks like `field is Any`
-/// won't produce anything meaningful.
+/// is designed to mimic `Field`'s API.
 ///
 /// As [Any] makes runtime type checking make sure that it is used only
 /// where it is necessary, otherwise use one of predefined fields.
