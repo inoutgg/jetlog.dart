@@ -7,6 +7,7 @@ typedef FieldFormatter<R> = R Function(Field<Object>);
 /// [Formatter] is capable to format single [Record] entry.
 typedef Formatter = List<int> Function(Record);
 
+///
 mixin FormatterBase<R> {
   final Map<FieldKind, FieldFormatter<R>> _registeredFieldFormatters = {};
 

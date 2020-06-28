@@ -2,7 +2,7 @@ import 'dart:convert' show utf8, json, JsonEncoder;
 
 import 'package:jetlog/formatters.dart' show JsonFormatter;
 import 'package:jetlog/jetlog.dart'
-    show Dur, DTM, Str, Record, Obj, Field, Level, Loggable;
+    show DTM, Dur, Field, FieldKind, Level, Loggable, Obj, Record, Str;
 import 'package:jetlog/src/record_impl.dart';
 import 'package:test/test.dart';
 
@@ -83,41 +83,54 @@ void main() {
       expect(dict, equals(json.decode(utf8.decode(result))));
     });
 
-//    test('uses custom fields formatter', () {
-//      final formatter = JsonFormatter(
-//          formatFields: (fields) => <String, dynamic>{'foo': 'bar'});
-//      final result = formatter(record);
-//
-//      final dict = {
-//        'name': null,
-//        'level': {
-//          'severity': level.value,
-//          'name': level.name,
-//        },
-//        'message': message,
-//        'timestamp': timestamp.toString(),
-//        'foo': 'bar'
-//      };
-//
-//      expect(dict, equals(json.decode(utf8.decode(result))));
-//    });
+    test('uses custom fields encoders', () {
+      final formatter = JsonFormatter()
+        ..setFieldFormatter(
+            FieldKind.dateTime, (_) => const MapEntry('foo', 'bar'));
+      final record = RecordImpl(
+          name: null,
+          timestamp: timestamp,
+          level: level,
+          message: message,
+          fields: [DTM('dateTime', DateTime.now())]);
+      final result = formatter(record);
 
-//    test('does not throw on null fields', () {
-//      final formatter = JsonFormatter(formatFields: (fields) => null);
-//      final result = formatter(record);
-//
-//      final dict = {
-//        'name': null,
-//        'level': {
-//          'severity': level.value,
-//          'name': level.name,
-//        },
-//        'message': message,
-//        'timestamp': timestamp.toString(),
-//      };
-//
-//      expect(dict, equals(json.decode(utf8.decode(result))));
-//    });
+      final dict = {
+        'name': null,
+        'level': {
+          'severity': level.value,
+          'name': level.name,
+        },
+        'message': message,
+        'timestamp': timestamp.toString(),
+        'foo': 'bar'
+      };
+
+      expect(dict, equals(json.decode(utf8.decode(result))));
+    });
+
+    test('does not throw on null fields', () {
+      final formatter = JsonFormatter();
+      final record = RecordImpl(
+          name: null,
+          timestamp: timestamp,
+          level: level,
+          message: message,
+          fields: null);
+      final result = formatter(record);
+
+      final dict = {
+        'name': null,
+        'level': {
+          'severity': level.value,
+          'name': level.name,
+        },
+        'message': message,
+        'timestamp': timestamp.toString(),
+      };
+
+      expect(dict, equals(json.decode(utf8.decode(result))));
+    });
 
     test('uses custom timestamps formatter', () {
       final newTimestamp = DateTime.now();
@@ -199,6 +212,46 @@ void main() {
       };
 
       expect(utf8.decode(result), json.encode(dict));
+    });
+
+    test('defines formatters for all builtin field kinds', () {
+      final formatter1 = JsonFormatter();
+
+      expect(() => formatter1.getFieldFormatter(FieldKind.boolean),
+          returnsNormally);
+      expect(() => formatter1.getFieldFormatter(FieldKind.dateTime),
+          returnsNormally);
+      expect(() => formatter1.getFieldFormatter(FieldKind.double),
+          returnsNormally);
+      expect(() => formatter1.getFieldFormatter(FieldKind.duration),
+          returnsNormally);
+      expect(() => formatter1.getFieldFormatter(FieldKind.integer),
+          returnsNormally);
+      expect(() => formatter1.getFieldFormatter(FieldKind.number),
+          returnsNormally);
+      expect(() => formatter1.getFieldFormatter(FieldKind.object),
+          returnsNormally);
+      expect(() => formatter1.getFieldFormatter(FieldKind.string),
+          returnsNormally);
+
+      final formatter2 = JsonFormatter.withIndent(4);
+
+      expect(() => formatter2.getFieldFormatter(FieldKind.boolean),
+          returnsNormally);
+      expect(() => formatter2.getFieldFormatter(FieldKind.dateTime),
+          returnsNormally);
+      expect(() => formatter2.getFieldFormatter(FieldKind.double),
+          returnsNormally);
+      expect(() => formatter2.getFieldFormatter(FieldKind.duration),
+          returnsNormally);
+      expect(() => formatter2.getFieldFormatter(FieldKind.integer),
+          returnsNormally);
+      expect(() => formatter2.getFieldFormatter(FieldKind.number),
+          returnsNormally);
+      expect(() => formatter2.getFieldFormatter(FieldKind.object),
+          returnsNormally);
+      expect(() => formatter2.getFieldFormatter(FieldKind.string),
+          returnsNormally);
     });
   });
 }

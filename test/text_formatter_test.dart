@@ -2,7 +2,7 @@ import 'dart:convert' show utf8;
 
 import 'package:jetlog/formatters.dart' show TextFormatter;
 import 'package:jetlog/jetlog.dart'
-    show Dur, DTM, Str, Obj, Field, Level, Loggable;
+    show DTM, Dur, Field, FieldKind, Level, Loggable, Obj, Str;
 import 'package:jetlog/src/record_impl.dart';
 import 'package:test/test.dart';
 
@@ -140,22 +140,43 @@ void main() {
       expect(utf8.decode(result), '${timestamp.millisecondsSinceEpoch}\r\n');
     });
 
-//    test('uses custom field encoder', () {
-//      final encoder = TextFormatter(
-//          (name, timestamp, level, message, fields) => '$fields',
-//          formatFields: (fields) => 'fields');
-//
-//      final timestamp = DateTime.now();
-//      final record = RecordImpl(
-//          name: null,
-//          timestamp: timestamp,
-//          level: Level.info,
-//          message: '',
-//          fields: const [Dur('dur', Duration.zero)]);
-//
-//      final result = encoder.call(record);
-//
-//      expect(utf8.decode(result), 'fields\r\n');
-//    });
+    test('uses custom field encoder', () {
+      final encoder =
+          TextFormatter((name, timestamp, level, message, fields) => '$fields')
+            ..setFieldFormatter(FieldKind.duration, (field) => 'custom-field');
+
+      final timestamp = DateTime.now();
+      final record = RecordImpl(
+          name: null,
+          timestamp: timestamp,
+          level: Level.info,
+          message: '',
+          fields: const [Dur('dur', Duration.zero)]);
+
+      final result = encoder.call(record);
+
+      expect(utf8.decode(result), 'custom-field\r\n');
+    });
+
+    test('defines formatters for all builtin field kinds', () {
+      final formatter = TextFormatter.defaultFormatter;
+
+      expect(() => formatter.getFieldFormatter(FieldKind.boolean),
+          returnsNormally);
+      expect(() => formatter.getFieldFormatter(FieldKind.dateTime),
+          returnsNormally);
+      expect(
+          () => formatter.getFieldFormatter(FieldKind.double), returnsNormally);
+      expect(() => formatter.getFieldFormatter(FieldKind.duration),
+          returnsNormally);
+      expect(() => formatter.getFieldFormatter(FieldKind.integer),
+          returnsNormally);
+      expect(
+          () => formatter.getFieldFormatter(FieldKind.number), returnsNormally);
+      expect(
+          () => formatter.getFieldFormatter(FieldKind.object), returnsNormally);
+      expect(
+          () => formatter.getFieldFormatter(FieldKind.string), returnsNormally);
+    });
   });
 }

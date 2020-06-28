@@ -39,10 +39,11 @@ class JsonFormatter with FormatterBase<MapEntry<String, Object>> {
   }
 
   factory JsonFormatter.withIndent(final int indent,
-          {LevelFormatter<Object> formatLevel = _formatLevel,
+          {bool useTabs = false,
+          LevelFormatter<Object> formatLevel = _formatLevel,
           TimestampFormatter<Object> formatTimestamp = _formatTimestamp}) =>
-      JsonFormatter._(
-          JsonEncoder.withIndent(' ' * indent), formatLevel, formatTimestamp);
+      JsonFormatter._(JsonEncoder.withIndent((useTabs ? '\t' : ' ') * indent),
+          formatLevel, formatTimestamp);
 
   final Utf8Encoder _utf8;
   final JsonEncoder _json;
