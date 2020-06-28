@@ -7,16 +7,20 @@ import 'package:jetlog/src/record_impl.dart';
 import 'package:test/test.dart';
 
 class Klass extends Loggable {
-  Klass(this.dur, this.name);
+  Klass(this.dur, this.name, [this.klass]);
 
   final String name;
   final Duration dur;
+  final Klass klass;
 
   @override
   Iterable<Field> toFields() {
     final result = <Field>{};
 
-    result..add(Str('name', name))..add(Dur('dur', dur));
+    result
+      ..add(Str('name', name))
+      ..add(Dur('dur', dur))
+      ..add(Obj('klass', klass));
 
     return result;
   }
@@ -79,41 +83,41 @@ void main() {
       expect(dict, equals(json.decode(utf8.decode(result))));
     });
 
-    test('uses custom fields formatter', () {
-      final formatter = JsonFormatter(
-          formatFields: (fields) => <String, dynamic>{'foo': 'bar'});
-      final result = formatter(record);
+//    test('uses custom fields formatter', () {
+//      final formatter = JsonFormatter(
+//          formatFields: (fields) => <String, dynamic>{'foo': 'bar'});
+//      final result = formatter(record);
+//
+//      final dict = {
+//        'name': null,
+//        'level': {
+//          'severity': level.value,
+//          'name': level.name,
+//        },
+//        'message': message,
+//        'timestamp': timestamp.toString(),
+//        'foo': 'bar'
+//      };
+//
+//      expect(dict, equals(json.decode(utf8.decode(result))));
+//    });
 
-      final dict = {
-        'name': null,
-        'level': {
-          'severity': level.value,
-          'name': level.name,
-        },
-        'message': message,
-        'timestamp': timestamp.toString(),
-        'foo': 'bar'
-      };
-
-      expect(dict, equals(json.decode(utf8.decode(result))));
-    });
-
-    test('does not throw on null fields', () {
-      final formatter = JsonFormatter(formatFields: (fields) => null);
-      final result = formatter(record);
-
-      final dict = {
-        'name': null,
-        'level': {
-          'severity': level.value,
-          'name': level.name,
-        },
-        'message': message,
-        'timestamp': timestamp.toString(),
-      };
-
-      expect(dict, equals(json.decode(utf8.decode(result))));
-    });
+//    test('does not throw on null fields', () {
+//      final formatter = JsonFormatter(formatFields: (fields) => null);
+//      final result = formatter(record);
+//
+//      final dict = {
+//        'name': null,
+//        'level': {
+//          'severity': level.value,
+//          'name': level.name,
+//        },
+//        'message': message,
+//        'timestamp': timestamp.toString(),
+//      };
+//
+//      expect(dict, equals(json.decode(utf8.decode(result))));
+//    });
 
     test('uses custom timestamps formatter', () {
       final newTimestamp = DateTime.now();
@@ -137,7 +141,7 @@ void main() {
     });
 
     test('support indentation', () {
-      final formatter = JsonFormatter(indent: 4);
+      final formatter = JsonFormatter.withIndent(4);
       final result = formatter(record);
 
       final dict = {
@@ -166,7 +170,10 @@ void main() {
           fields: [
             const Dur('dur', Duration.zero),
             DTM('dtm', timestamp),
-            Obj('klass', Klass(Duration.zero, 'test'))
+            Obj(
+                'klass',
+                Klass(
+                    Duration.zero, 'test', Klass(Duration.zero, 'nested-test')))
           ]);
       final result = formatter(record);
 
@@ -183,6 +190,11 @@ void main() {
         'klass': {
           'name': 'test',
           'dur': Duration.zero.toString(),
+          'klass': {
+            'name': 'nested-test',
+            'dur': Duration.zero.toString(),
+            'klass': null,
+          }
         }
       };
 
