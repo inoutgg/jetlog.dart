@@ -12,11 +12,12 @@ String _formatTimestamp(DateTime timestamp) => timestamp.toString();
 
 /// [JsonFormatter] is used to encode [Record] to JSON format.
 ///
-/// Known pitfall is that this formatter de-duplicates and overrides
-/// collapsing fields. Using the same key multiple time results only to
-/// single field is included to the final output. As such we strongly recommend
-/// not to put fields in to any collections fields with key such as `level`,
-/// `message`, `name` and `timestamp`.
+/// Make sure that no fields with overlapping names are provided as
+/// formatter de-duplicates collapsing fields, i.e. providing fields with
+/// the same key results only to a single field is include into the output.
+///
+/// As such we strongly recommend not to put fields in to any collections
+/// fields with key such as `level`, `message`, `name` and `timestamp`.
 class JsonFormatter with FormatterBase<MapEntry<String, Object>> {
   JsonFormatter._(this._json, this.formatLevel, this.formatTimestamp)
       : _utf8 = const Utf8Encoder() {
@@ -25,9 +26,8 @@ class JsonFormatter with FormatterBase<MapEntry<String, Object>> {
 
   /// Creates a new [JsonFormatter].
   ///
-  /// Optional [formatLevel], [formatTimestamp] and [formatFields] callbacks
-  /// may be provided used to format severity levels, timestamp and collection
-  /// fields respectively.
+  /// Optional [formatLevel] and [formatTimestamp] callbacks
+  /// may be provided and are used to format severity levels and timestamp.
   // ignore: sort_unnamed_constructors_first
   factory JsonFormatter(
       {LevelFormatter<Object> formatLevel = _formatLevel,
@@ -38,7 +38,14 @@ class JsonFormatter with FormatterBase<MapEntry<String, Object>> {
     return formatter;
   }
 
-  factory JsonFormatter.withIndent(final int indent,
+  /// Creates a new [JsonFormatter] with specified [indent] level.
+  ///
+  /// By default produced JSON is indented with space character, however
+  /// it is possible to use tabs instead by setting [useTabs] to `true`.
+  ///
+  /// Optional [formatLevel] and [formatTimestamp] callbacks
+  /// may be provided and are used to format severity levels and timestamp.
+  factory JsonFormatter.withIndent(int indent,
           {bool useTabs = false,
           LevelFormatter<Object> formatLevel = _formatLevel,
           TimestampFormatter<Object> formatTimestamp = _formatTimestamp}) =>
