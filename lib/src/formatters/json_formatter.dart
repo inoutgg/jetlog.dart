@@ -64,9 +64,9 @@ class JsonFormatter with FormatterBase<MapEntry<String, Object>> {
   @pragma('vm:prefer-inline')
   void _init() {
     setFieldFormatter(FieldKind.boolean, _formatPrimitiveField);
-    setFieldFormatter(FieldKind.dateTime, _formatPrimitiveField);
+    setFieldFormatter(FieldKind.dateTime, _formatPrimitiveFieldToString);
     setFieldFormatter(FieldKind.double, _formatPrimitiveField);
-    setFieldFormatter(FieldKind.duration, _formatPrimitiveField);
+    setFieldFormatter(FieldKind.duration, _formatPrimitiveFieldToString);
     setFieldFormatter(FieldKind.integer, _formatPrimitiveField);
     setFieldFormatter(FieldKind.number, _formatPrimitiveField);
     setFieldFormatter(FieldKind.string, _formatPrimitiveField);
@@ -101,6 +101,11 @@ class JsonFormatter with FormatterBase<MapEntry<String, Object>> {
 
   @pragma('vm:prefer-inline')
   MapEntry<String, Object> _formatPrimitiveField(Field<dynamic> field) =>
+      MapEntry(field.name, field.value);
+
+  @pragma('vm:prefer-inline')
+  MapEntry<String, Object> _formatPrimitiveFieldToString(
+          Field<dynamic> field) =>
       MapEntry(field.name, field.value.toString());
 
   List<int> call(Record record) {
