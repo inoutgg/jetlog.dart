@@ -1,13 +1,14 @@
 library example.file.never_policy;
 
 import 'package:jetlog/formatters.dart' show TextFormatter;
-import 'package:jetlog/handlers.dart' show FileHandler;
+import 'package:jetlog/handlers.dart' show FileHandler, RotationPolicy;
 import 'package:jetlog/jetlog.dart' show Level, Logger, Str, DefaultLog;
 
 final _logger = Logger.detached()
   ..level = Level.all
   ..handler = FileHandler(Uri.file('./file.log'),
-      formatter: TextFormatter.defaultFormatter);
+      formatter: TextFormatter.defaultFormatter,
+      rotationPolicy: const RotationPolicy.never());
 
 Future<void> main() async {
   final context = _logger.bind({

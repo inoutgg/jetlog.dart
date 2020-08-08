@@ -1,3 +1,4 @@
+import 'dart:async' show FutureOr;
 import 'dart:collection' show Queue;
 import 'dart:io'
     show
@@ -13,8 +14,7 @@ import 'package:jetlog/formatters.dart' show Formatter;
 import 'package:jetlog/jetlog.dart' show Handler, Record;
 import 'package:meta/meta.dart' show required;
 
-/// Minimum allowed value of maxSize for [RotationPolicy.sized].
-const int minSize = 1024; // 1kb
+const int minSize = 1024;
 
 class _State {
   static const int opening = 2;
@@ -23,14 +23,14 @@ class _State {
   static const int closed = 2 << 3;
 }
 
-/// Logging file current stats.
 class Stat {
-  const Stat._({@required this.size, @required this.modified});
+  const Stat._({@required this.size, @required this.modified, this.newSize});
 
-  /// Logging file size.
   final int size;
 
-  /// Time logging file was last modified at.
+  /// @nodoc
+  final int newSize;
+
   final DateTime modified;
 }
 
@@ -42,7 +42,6 @@ abstract class RotationPolicy {
 
   const factory RotationPolicy.sized({int maxSize}) = _SizedRotatePolicy;
 
-  /// Determines whether logging file should be rotated.
   bool shouldRotate(Stat stat);
 }
 
@@ -61,7 +60,7 @@ class _SizedRotatePolicy implements RotationPolicy {
   final int maxSize;
 
   @override
-  bool shouldRotate(Stat stat) => stat.size > maxSize;
+  bool shouldRotate(Stat stat) => stat.size > 0 && stat.newSize > maxSize;
 }
 
 class _IntervalRotatePolicy implements RotationPolicy {
@@ -78,23 +77,7 @@ class _IntervalRotatePolicy implements RotationPolicy {
   }
 }
 
-/// [FileHandler] is used to write logging records to specified file.
-///
-/// An optional rotation policy can be set to set file rotation condition.
-/// On rotating file is gotten a logfile index suffix.
 class FileHandler extends Handler {
-  /// Creates a new [FileHandler] targeting file under given URI.
-  ///
-  /// An optional [rotationPolicy] can be provided to set rotation conditions.
-  /// There available different kinds of rotation policy auto of the box
-  /// such as time, size rotation policy, etc. It is also possible to define
-  /// custom policy to control rotation.
-  ///
-  /// If [maxBackUps] is non-zero, at most [maxBackUps] backup files will be
-  /// kept.
-  ///
-  /// If [compress] is set, backup file will be compressed using gzip.
-  /// By default compression is off.
   FileHandler(this._uri,
       {@required Formatter formatter,
       RotationPolicy rotationPolicy = const RotationPolicy.never(),
@@ -130,7 +113,6 @@ class FileHandler extends Handler {
   DateTime _modified;
   int _size;
 
-  /// Returns current logging file stats.
   Stat get stat => Stat._(
         size: _size,
         modified: _modified,
@@ -228,7 +210,7 @@ class FileHandler extends Handler {
 
   Future<void> _rotate() async {
     if (_state & _State.rotating > 0) {
-      throw StateError('Invalid!');
+      throw StateError('Logging file is already been rotated!');
     }
 
     _state |= _State.rotating;
@@ -253,7 +235,7 @@ class FileHandler extends Handler {
     while (_queue.isNotEmpty) {
       final bytes = _queue.first;
       final size = _size + bytes.lengthInBytes;
-      final newStat = Stat._(size: size, modified: _modified);
+      final newStat = Stat._(size: _size, newSize: size, modified: _modified);
 
       if (_shouldRotate(newStat)) {
         _rotate();
@@ -272,8 +254,7 @@ class FileHandler extends Handler {
     await _sink.close();
   }
 
-  /// Rotates logging file.
-  Future<void> rotate() => _rotate();
+  FutureOr<void> rotate() => _rotate();
 
   @override
   void handle(Record record) {
@@ -281,7 +262,7 @@ class FileHandler extends Handler {
       throw StateError('The file handler has been closed!');
     }
 
-    // Do not accept a new message if we are closing.
+    // Do not accept a new message if file is closing.
     if (_state & _State.closing > 0) {
       return;
     }
