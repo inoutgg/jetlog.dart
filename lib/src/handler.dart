@@ -11,6 +11,7 @@ abstract class Handler {
   /// Sets subscription to a specific logger.
   ///
   /// DO NOT set this field directly.
+  /// @nodoc
   set subscription(StreamSubscription<Record> subscription) =>
       _subscription = subscription;
 
