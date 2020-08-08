@@ -109,7 +109,7 @@ class TextFormatter with FormatterBase<String> {
   }
 
   @pragma('vm:prefer-inline')
-  String _formatFields(Iterable<Field> fields) {
+  String _formatFields(Iterable<Field>? fields) {
     if (fields == null || fields.isEmpty) {
       return '';
     }

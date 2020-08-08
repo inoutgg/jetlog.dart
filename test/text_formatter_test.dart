@@ -11,7 +11,7 @@ class Klass extends Loggable {
 
   final String name;
   final Duration dur;
-  final Klass klass;
+  final Klass? klass;
 
   @override
   Iterable<Field> toFields() {

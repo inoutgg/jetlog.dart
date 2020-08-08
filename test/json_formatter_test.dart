@@ -24,7 +24,7 @@ class Klass extends Loggable {
 
   final String name;
   final Duration dur;
-  final Klass klass;
+  final Klass? klass;
 
   @override
   Iterable<Field> toFields() {
@@ -284,11 +284,11 @@ void main() {
           timestamp: timestamp,
           level: level,
           message: message,
-          fields: [
-            const Dur('dur', Duration.zero),
-            const Int('int', 10),
-            const Int('int', 20),
-            const Str('name', 'test-name'),
+          fields: const [
+            Dur('dur', Duration.zero),
+            Int('int', 10),
+            Int('int', 20),
+            Str('name', 'test-name'),
           ]);
       final result1 = formatter(record1);
       final result2 = formatter(record2);
