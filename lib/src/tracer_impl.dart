@@ -4,14 +4,14 @@ import 'package:jetlog/src/level.dart';
 import 'package:jetlog/src/tracer.dart';
 
 class TracerImpl implements Tracer {
-  TracerImpl(this._context, [this._level]) : _timer = Stopwatch();
+  TracerImpl(this._context, [this._level = Level.info]) : _timer = Stopwatch();
 
-  DateTime startAt;
-  DateTime stopAt;
+  late final DateTime startAt;
+  DateTime? stopAt;
+  Interface _context;
 
   final Stopwatch _timer;
   final Level _level;
-  Interface _context;
 
   @pragma('vm:prefer-inline')
   void start(String message) {

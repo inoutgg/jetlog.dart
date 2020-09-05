@@ -13,10 +13,6 @@ void main() {
       test('throws on empty filters list', () {
         expect(() => MultiHandler([]), throwsArgumentError);
       });
-
-      test('throws on null', () {
-        expect(() => MultiHandler(null), throwsArgumentError);
-      });
     });
 
     group('#handler', () {

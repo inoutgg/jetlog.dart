@@ -1,13 +1,14 @@
-import 'package:meta/meta.dart' show required;
 import 'package:jetlog/src/field.dart';
 import 'package:jetlog/src/level.dart';
 import 'package:jetlog/src/record.dart';
+import 'package:meta/meta.dart' show immutable;
 
+@immutable
 class RecordImpl implements Record {
   const RecordImpl(
-      {@required this.level,
-      @required this.timestamp,
-      @required this.message,
+      {required this.level,
+      required this.timestamp,
+      required this.message,
       this.fields,
       this.name});
 
@@ -18,11 +19,11 @@ class RecordImpl implements Record {
   final String message;
 
   @override
-  final String name;
+  final String? name;
 
   @override
   final DateTime timestamp;
 
   @override
-  final Iterable<Field> fields;
+  final Iterable<Field>? fields;
 }

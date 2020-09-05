@@ -15,33 +15,39 @@ class NoopTracer implements Tracer {
 class NoopLogger with LoggerBase {
   NoopLogger([this.name]);
 
-  @override
-  Level level;
+  Level? _level;
 
   @override
-  final String name;
-
-  @override
-  @pragma('vm:prefer-inline')
-  Interface bind([Iterable<Field> fields]) => NoopLogger();
-
-  @override
-  set handler(Handler handler) {
-    /* noop */
+  set level(Level? level) {
+    _level = level;
   }
 
   @override
-  set filter(Filter handler) {
-    /* noop */
+  Level get level => _level ?? Level.info;
+
+  @override
+  final String? name;
+
+  @override
+  @pragma('vm:prefer-inline')
+  Interface bind([Iterable<Field>? fields]) => NoopLogger();
+
+  @override
+  set handler(Handler? handler) {
+    // noop
+  }
+
+  @override
+  set filter(Filter? handler) {
+    // noop
   }
 
   @override
   Tracer trace(String message, [Level level = Level.debug]) => NoopTracer();
 
   @override
-  @pragma('vm:prefer-inline')
   void log(Level level, String message) {
-    /* noop */
+    // noop
   }
 
   @override

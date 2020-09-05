@@ -18,7 +18,7 @@ class MultiFilter {
   bool call(Record record) {
     if (_filters.isNotEmpty) {
       for (final f in _filters) {
-        if (!f.call(record)) {
+        if (!f(record)) {
           return false;
         }
       }

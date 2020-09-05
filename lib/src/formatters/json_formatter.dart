@@ -18,7 +18,7 @@ String _formatTimestamp(DateTime timestamp) => timestamp.toString();
 ///
 /// As such we strongly recommend not to put fields in to any collections
 /// fields with key such as `level`, `message`, `name` and `timestamp`.
-class JsonFormatter with FormatterBase<MapEntry<String, Object>> {
+class JsonFormatter with FormatterBase<MapEntry<String, Object?>> {
   JsonFormatter._(this._json, this.formatLevel, this.formatTimestamp)
       : _utf8 = const Utf8Encoder() {
     _init();
@@ -49,7 +49,7 @@ class JsonFormatter with FormatterBase<MapEntry<String, Object>> {
           {bool useTabs = false,
           LevelFormatter<Object> formatLevel = _formatLevel,
           TimestampFormatter<Object> formatTimestamp = _formatTimestamp}) =>
-      JsonFormatter._(JsonEncoder.withIndent((useTabs ? '\t' : ' ') * indent),
+      JsonFormatter._(JsonEncoder.withIndent(useTabs ? '\t' : ' ' * indent),
           formatLevel, formatTimestamp);
 
   final Utf8Encoder _utf8;
@@ -73,12 +73,12 @@ class JsonFormatter with FormatterBase<MapEntry<String, Object>> {
     setFieldFormatter(FieldKind.object, _formatObjectField);
   }
 
-  Iterable<MapEntry<String, Object>> _formatFields(Iterable<Field> fields) {
+  Iterable<MapEntry<String, Object?>>? _formatFields(Iterable<Field>? fields) {
     if (fields == null || fields.isEmpty) {
       return null;
     }
 
-    final entries = <MapEntry<String, Object>>[];
+    final entries = <MapEntry<String, Object?>>[];
 
     for (final field in fields) {
       final handler = getFieldFormatter(field.kind);
@@ -89,7 +89,7 @@ class JsonFormatter with FormatterBase<MapEntry<String, Object>> {
   }
 
   @pragma('vm:prefer-inline')
-  MapEntry<String, Object> _formatObjectField(Field field) {
+  MapEntry<String, Object?> _formatObjectField(Field field) {
     final entries = _formatFields((field as Obj).value);
     final name = field.name;
     if (entries != null) {
@@ -100,12 +100,11 @@ class JsonFormatter with FormatterBase<MapEntry<String, Object>> {
   }
 
   @pragma('vm:prefer-inline')
-  MapEntry<String, Object> _formatPrimitiveField(Field<dynamic> field) =>
+  MapEntry<String, Object?> _formatPrimitiveField(Field field) =>
       MapEntry(field.name, field.value);
 
   @pragma('vm:prefer-inline')
-  MapEntry<String, Object> _formatPrimitiveFieldToString(
-          Field<dynamic> field) =>
+  MapEntry<String, Object?> _formatPrimitiveFieldToString(Field field) =>
       MapEntry(field.name, field.value.toString());
 
   List<int> call(Record record) {

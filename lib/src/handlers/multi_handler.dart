@@ -9,8 +9,6 @@ class MultiHandler extends Handler {
   /// Creates a new [MultiHandler] with given handlers.
   MultiHandler(Iterable<Handler> handlers)
       : _controller = StreamController.broadcast(sync: true) {
-    ArgumentError.checkNotNull(handlers);
-
     if (handlers.isEmpty) {
       throw ArgumentError.value(
           handlers, 'handlers', 'Must be non empty iterable collection');
@@ -21,7 +19,7 @@ class MultiHandler extends Handler {
     }
   }
 
-  Filter _filter;
+  Filter? _filter;
 
   final StreamController<Record> _controller;
 
@@ -32,7 +30,7 @@ class MultiHandler extends Handler {
 
   @override
   void handle(Record record) {
-    if (_filter != null && !_filter(record)) {
+    if (_filter != null && !_filter!(record)) {
       return;
     }
 

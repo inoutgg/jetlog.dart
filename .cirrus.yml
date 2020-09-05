@@ -1,5 +1,5 @@
 container:
-  image: google/dart
+  image: google/dart:2.10-dev
 
 task:
   pub_cache:
@@ -17,5 +17,5 @@ task:
       env:
         CODECOV_TOKEN: ENCRYPTED[ada9e1997c334439f9fca2a85bc1ebc641a2def20871fc0d79acf92c4ed4aeae1fd4aafffc63798f93252136b70eda6a]
 
-      test_script: pub run test
+      test_script: pub run --enable-experiment=non-nullable test
       coverage_script: bash tool/coverage.sh

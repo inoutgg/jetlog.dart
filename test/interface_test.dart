@@ -20,8 +20,7 @@ class CustomObject implements Loggable {
 const Level customLevel = Level(name: 'custom', value: 0x600);
 
 extension CustomLevelLog on Interface {
-  void customLog(String message) =>
-      log(customLevel, message);
+  void customLog(String message) => log(customLevel, message);
 }
 
 void main() {
@@ -367,17 +366,18 @@ void main() {
           final records = handler.records;
 
           final record = records.elementAt(0);
-          final fields = record.fields.toList();
-          final strField = fields.firstWhere((field) => field.name == 'string');
+          final fields = record.fields?.toList();
+          final strField =
+              fields?.firstWhere((field) => field.name == 'string');
           final durField =
-              fields.firstWhere((field) => field.name == 'duration');
+              fields?.firstWhere((field) => field.name == 'duration');
 
           expect(strField, isNotNull);
-          expect(strField.name, 'string');
-          expect(strField.value, 'string1');
+          expect(strField?.name, 'string');
+          expect(strField?.value, 'string1');
           expect(durField, isNotNull);
-          expect(durField.name, 'duration');
-          expect(durField.value, Duration.zero);
+          expect(durField?.name, 'duration');
+          expect(durField?.value, Duration.zero);
         });
       });
 
@@ -396,11 +396,11 @@ void main() {
           final records = handler.records;
 
           final record = records.elementAt(0);
-          final field =
-              record.fields.firstWhere((field) => field.name == 'custom-field');
+          final field = record.fields
+              ?.firstWhere((field) => field.name == 'custom-field');
 
-          expect(field.name, 'custom-field');
-          expect(field.value, 0x10);
+          expect(field?.name, 'custom-field');
+          expect(field?.value, 0x10);
         });
       });
 
@@ -476,7 +476,7 @@ void main() {
             final record = handler.records.first;
 
             expect(
-                record.fields.toList(),
+                record.fields?.toList(),
                 orderedEquals(<Field>[
                   const Bool('f1', true),
                   const Double('f2', 1.0),
@@ -489,8 +489,8 @@ void main() {
           });
         });
 
-        test('correctly evaluates "lazy" types', () {
-          final records = <String>[];
+        test('correctly evaluates "lazy" types', () async {
+          final records = StreamController<String>();
 
           runZoned<void>(() async {
             final logger = Logger.detached()
@@ -511,18 +511,18 @@ void main() {
 
             context.info('Test');
 
-            await later(() {
-              expect(records.length, equals(1));
-              expect(
-                  records.first,
-                  'f1=true '
-                  'f2=1.0 '
-                  'f3=${dt.toString()} '
-                  'f4=${Duration.zero} '
-                  'f5=1 '
-                  'f6=1 '
-                  'f7=string');
-            });
+            await expectLater(
+                records.stream,
+                emits('f1=true '
+                    'f2=1.0 '
+                    'f3=${dt.toString()} '
+                    'f4=${Duration.zero} '
+                    'f5=1 '
+                    'f6=1 '
+                    'f7=string'));
+
+
+            await records.close();
           },
               zoneSpecification: ZoneSpecification(
                   print: (self, parent, zone, line) => records.add(line)));
@@ -558,14 +558,14 @@ void main() {
               records
                   .elementAt(0)
                   .fields
-                  .firstWhere((f) => f.name == 'dur')
+                  ?.firstWhere((f) => f.name == 'dur')
                   .value,
               Duration.zero);
           expect(
               records
                   .elementAt(1)
                   .fields
-                  .firstWhere((f) => f.name == 'int')
+                  ?.firstWhere((f) => f.name == 'int')
                   .value,
               0x10);
         });
@@ -625,14 +625,14 @@ void main() {
               records
                   .elementAt(0)
                   .fields
-                  .firstWhere((f) => f.name == 'start')
+                  ?.firstWhere((f) => f.name == 'start')
                   .value,
               isNotNull);
           expect(
               records
                   .elementAt(1)
                   .fields
-                  .firstWhere((f) => f.name == 'duration')
+                  ?.firstWhere((f) => f.name == 'duration')
                   .value,
               isNotNull);
         });
@@ -662,7 +662,8 @@ void main() {
 
     test('allows custom level method extensions', () async {
       final handler = MemoryHandler();
-      final logger = Logger.detached()..handler = handler
+      final logger = Logger.detached()
+        ..handler = handler
         ..level = Level.all;
 
       logger.customLog('Log with custom handler!');
