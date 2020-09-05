@@ -14,16 +14,10 @@ class _DebugOnlyFilter {
 
 void main() {
   group('StreamHandler', () {
-    late final StreamController<List<int>> controller;
-
-    setUp(() {
-      controller = StreamController<List<int>>();
-    });
-
-    tearDown(controller.close);
-
     group('#handler', () {
       test('delegates records to downstream', () async {
+        final controller = StreamController<List<int>>();
+
         final handler = StreamHandler(controller,
             formatter: TextFormatter(
                 (name, timestamp, level, message, fields) =>
@@ -44,9 +38,12 @@ void main() {
               utf8.encode('${Level.fatal.name}: Fatal message\r\n'),
               utf8.encode('${Level.info.name}: Info message\r\n'),
             ]));
+
+        controller.close();
       });
 
       test('filters record conditionally', () async {
+        final controller = StreamController<List<int>>();
         final handler = StreamHandler(controller,
             formatter: TextFormatter(
                 (name, timestamp, level, message, fields) =>

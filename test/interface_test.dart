@@ -489,8 +489,8 @@ void main() {
           });
         });
 
-        test('correctly evaluates "lazy" types', () {
-          final records = <String>[];
+        test('correctly evaluates "lazy" types', () async {
+          final records = StreamController<String>();
 
           runZoned<void>(() async {
             final logger = Logger.detached()
@@ -511,18 +511,18 @@ void main() {
 
             context.info('Test');
 
-            await later(() {
-              expect(records.length, equals(1));
-              expect(
-                  records.first,
-                  'f1=true '
-                  'f2=1.0 '
-                  'f3=${dt.toString()} '
-                  'f4=${Duration.zero} '
-                  'f5=1 '
-                  'f6=1 '
-                  'f7=string');
-            });
+            await expectLater(
+                records.stream,
+                emits('f1=true '
+                    'f2=1.0 '
+                    'f3=${dt.toString()} '
+                    'f4=${Duration.zero} '
+                    'f5=1 '
+                    'f6=1 '
+                    'f7=string'));
+
+
+            await records.close();
           },
               zoneSpecification: ZoneSpecification(
                   print: (self, parent, zone, line) => records.add(line)));

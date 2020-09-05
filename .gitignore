@@ -20,3 +20,5 @@
 pubspec.lock
 .dart_tool/
 /doc/api
+
+*.log

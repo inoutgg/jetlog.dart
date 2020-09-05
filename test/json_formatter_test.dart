@@ -14,7 +14,6 @@ import 'package:jetlog/jetlog.dart'
         Loggable,
         Num,
         Obj,
-        Record,
         Str;
 import 'package:jetlog/src/record_impl.dart';
 import 'package:test/test.dart';
@@ -41,22 +40,15 @@ class Klass extends Loggable {
 
 void main() {
   group('JsonFormatter', () {
-    late final DateTime timestamp;
-    late final String message;
-    late final Level level;
-    late final Record record;
-
-    setUp(() {
-      timestamp = DateTime.now();
-      level = Level.info;
-      message = 'Test';
-      record = RecordImpl(
-          name: null,
-          timestamp: timestamp,
-          level: level,
-          message: message,
-          fields: [const Dur('dur', Duration.zero), DTM('dtm', timestamp)]);
-    });
+    final timestamp = DateTime.now();
+    final level = Level.info;
+    final message = 'Test';
+    final record = RecordImpl(
+        name: null,
+        timestamp: timestamp,
+        level: level,
+        message: message,
+        fields: [const Dur('dur', Duration.zero), DTM('dtm', timestamp)]);
 
     test('formats correctly with defaults', () {
       final formatter1 = JsonFormatter();
@@ -188,7 +180,7 @@ void main() {
 
     test('supports nested fields', () {
       final formatter = JsonFormatter();
-      record = RecordImpl(
+      final record = RecordImpl(
           name: null,
           timestamp: timestamp,
           level: level,
@@ -336,7 +328,7 @@ void main() {
             const Str('str', 'test-name'),
           ]);
       final result = formatter(record);
-      final dict = json.decode(utf8.decode(result)) as Map<String, Object>;
+      final dict = json.decode(utf8.decode(result)) as Map<String, dynamic>;
 
       expect(dict['bool'], isA<bool>());
       expect(dict['dtm'], isA<String>());
