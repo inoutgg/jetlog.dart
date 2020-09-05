@@ -1,5 +1,5 @@
 container:
-  image: google/dart
+  image: google/dart:2.10-dev
 
 task:
   pub_cache:
