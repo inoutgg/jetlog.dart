@@ -108,7 +108,7 @@ class _StaticField<V> implements Field<V> {
 class _LazyField<V> implements Field<V> {
   _LazyField({required this.name, required this.producer, required this.kind});
 
-  late final V _value;
+  V? _value;
 
   final V Function() producer;
 

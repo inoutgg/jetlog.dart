@@ -7,7 +7,7 @@ class TracerImpl implements Tracer {
   TracerImpl(this._context, [this._level = Level.info]) : _timer = Stopwatch();
 
   late final DateTime startAt;
-  late final DateTime stopAt;
+  DateTime? stopAt;
   Interface _context;
 
   final Stopwatch _timer;
