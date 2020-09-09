@@ -1,30 +1,37 @@
 #!/usr/bin/env bash
 
-OBSERVATORY_PORT=9999
+# Fast fail the script on failures.
+set -e
 
-echo "Installing coverage package..."
+# Gather coverage and upload to Coveralls.
+if [ "$CODECOV_TOKEN" ]; then
+  OBS_PORT=9292
 
-pub global activate coverage &>/dev/null
+  echo "Installing coverage tool"
+  pub global activate coverage &>/dev/null
 
-echo "Collecting coverage data on port $OBSERVATORY_PORT..."
+  echo "Collecting coverage on port $OBS_PORT..."
 
-dart --enable-experiment=non-nullable \
+  # Start tests in one VM.
+  dart --enable-experiment=non-nullable \
     --disable-service-auth-codes \
-    --enable-vm-service=${OBSERVATORY_PORT} \
+    --enable-vm-service=$OBS_PORT \
     --pause-isolates-on-exit \
     test/all.dart &
 
-pub global run coverage:collect_coverage \
-    --port=${OBSERVATORY_PORT} \
+  # Run the coverage collector to generate the JSON coverage report.
+  echo "Generating LCOV report..."
+  pub global run coverage:collect_coverage \
+    --port=$OBS_PORT \
     --out=/tmp/coverage.json \
     --wait-paused \
-    --resume-isolates
+    --resume-isolates &&
 
-echo "Generating LCOV report..."
-
-pub global run coverage:format_coverage \
+  pub global run coverage:format_coverage \
     --lcov \
     --in=/tmp/coverage.json \
     --out=/tmp/lcov.info \
     --packages=.packages \
-    --report-on=lib
+    --report-on=lib \
+    --check-ignore
+fi
