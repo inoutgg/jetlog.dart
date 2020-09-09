@@ -25,7 +25,7 @@ if [ "$CODECOV_TOKEN" ]; then
     --port=$OBS_PORT \
     --out=/tmp/coverage.json \
     --wait-paused \
-    --resume-isolates &&
+    --resume-isolates && \
 
   pub global run coverage:format_coverage \
     --lcov \
