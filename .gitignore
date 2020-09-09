@@ -22,3 +22,4 @@ pubspec.lock
 /doc/api
 
 *.log
+.coverage

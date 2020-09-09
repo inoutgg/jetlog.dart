@@ -23,14 +23,14 @@ if [ "$CODECOV_TOKEN" ]; then
   echo "Generating LCOV report..."
   pub global run coverage:collect_coverage \
     --port=$OBS_PORT \
-    --out=/tmp/coverage.json \
+    --out=.coverage/coverage.json \
     --wait-paused \
     --resume-isolates && \
 
   pub global run coverage:format_coverage \
     --lcov \
-    --in=/tmp/coverage.json \
-    --out=/tmp/lcov.info \
+    --in=.coverage/coverage.json \
+    --out=.coverage/lcov.info \
     --packages=.packages \
     --report-on=lib \
     --check-ignore
