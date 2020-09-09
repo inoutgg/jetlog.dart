@@ -42,14 +42,14 @@ jobs:
       - run: pub get
 
       - name: Collect coverate
-        run: ./tool/coverage.sh
+        run: bash tool/coverage.sh
         shell: bash
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: tmp/lcov.info
+          file: /tmp/lcov.info
           name: jetlog-master
           fail_ci_if_error: true
           path_to_write_report: ./coverage/codecov_report.gz
