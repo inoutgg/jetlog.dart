@@ -28,3 +28,26 @@ jobs:
           channel: ${{ matrix.channel }}
       - run: pub get
       - run: pub run --enable-experiment=non-nullable test
+
+  coverage:
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Dart VM
+        uses: vanesyan/setup-dart@v0
+        with:
+          version: latest
+          channel: dev
+      - run: pub get
+
+      - name: Collect coverate
+        run: ./tool/coverage.sh
+        shell: bash
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: tmp/lcov.info
+          name: jetlog-master
+          fail_ci_if_error: true
+          path_to_write_report: ./coverage/codecov_report.gz

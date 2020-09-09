@@ -27,7 +27,3 @@ pub global run coverage:format_coverage \
     --out=tmp/lcov.info \
     --packages=.packages \
     --report-on=lib
-
-echo "Send coverage data to codecov..."
-
-bash <(curl -s https://codecov.io/bash) -f tmp/lcov.info
