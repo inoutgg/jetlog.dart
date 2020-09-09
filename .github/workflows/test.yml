@@ -52,4 +52,3 @@ jobs:
           file: /tmp/lcov.info
           name: jetlog-master
           fail_ci_if_error: true
-          path_to_write_report: ./coverage/codecov_report.gz
