@@ -30,6 +30,7 @@ jobs:
       - run: pub run --enable-experiment=non-nullable test
 
   coverage:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Setup Dart VM
@@ -37,6 +38,7 @@ jobs:
         with:
           version: latest
           channel: dev
+
       - run: pub get
 
       - name: Collect coverate
