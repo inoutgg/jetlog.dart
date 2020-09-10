@@ -1,5 +1,5 @@
 # CHANGELOG.md
-# 1.0.0-rc.3
+# 1.0.0-rc.2
 * **BREAKING CHANGE** Null-safety
 
 # 1.0.0-rc.1
