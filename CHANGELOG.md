@@ -1,4 +1,7 @@
 # CHANGELOG.md
+# 1.0.0-rc.3
+* **BREAKING CHANGE** Null-safety
+
 # 1.0.0-rc.1
 * **BREAKING CHANGE** Extract predefined logging methods from `Interface` to `DefaultLog` extension.
 
