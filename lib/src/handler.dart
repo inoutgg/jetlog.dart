@@ -6,11 +6,12 @@ import 'package:jetlog/src/record.dart' show Record;
 /// Handler is capable to process logging [Record]s as the are added to a
 /// [Logger].
 abstract class Handler {
-  StreamSubscription<Record> _subscription;
+  StreamSubscription<Record>? _subscription;
 
   /// Sets subscription to a specific logger.
   ///
   /// DO NOT set this field directly.
+  /// @nodoc
   set subscription(StreamSubscription<Record> subscription) =>
       _subscription = subscription;
 

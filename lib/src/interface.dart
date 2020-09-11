@@ -43,5 +43,5 @@ abstract class Interface {
   /// var context = logger.bind({Str('first', '1st'}); // => { "first": "1st" }
   /// context = context.bind({Str('second', '2nd'}); // => { "first": "1st", "second": "2nd" }
   /// ```
-  Interface bind([Iterable<Field> fields]);
+  Interface bind([Iterable<Field>? fields]);
 }

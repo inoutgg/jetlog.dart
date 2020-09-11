@@ -81,4 +81,4 @@ void fatal(String message) => _logger.fatal(message);
 /// added to existing one.
 ///
 /// See more [Interface.bind].
-Interface bind([Iterable<Field> fields]) => _logger.bind(fields);
+Interface bind([Iterable<Field>? fields]) => _logger.bind(fields);

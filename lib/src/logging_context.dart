@@ -10,7 +10,7 @@ class LoggingContext implements Interface {
   LoggingContext(this._logger, [this._fields]);
 
   final LoggerImpl _logger;
-  final Set<Field> _fields;
+  final Set<Field>? _fields;
 
   @override
   void log(Level level, String message) {
@@ -28,9 +28,9 @@ class LoggingContext implements Interface {
 
   @override
   @pragma('vm:prefer-inline')
-  Interface bind([Iterable<Field> fields]) => LoggingContext(_logger, {
-        if (fields != null) ...fields,
-        if (_fields != null) ..._fields,
+  Interface bind([Iterable<Field>? fields]) => LoggingContext(_logger, {
+        ...?fields,
+        ...?_fields,
       });
 
   @override

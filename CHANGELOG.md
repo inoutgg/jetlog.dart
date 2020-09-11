@@ -1,4 +1,10 @@
 # CHANGELOG.md
+# 1.0.0-rc.2
+* **BREAKING CHANGE** Null-safety
+
+# 1.0.0-rc.1
+* **BREAKING CHANGE** Extract predefined logging methods from `Interface` to `DefaultLog` extension.
+
 # 1.0.0-rc.0
 * Drop `trace` level in favor of `debug`, make `Interface#trace` to accept `level` as optional second parameter.
 * Introduce `Any` field, a special field kind of which is determined based on

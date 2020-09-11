@@ -1,0 +1,111 @@
+name: test
+
+on:
+  pull_request:
+    paths-ignore:
+      - '**.md'
+  push:
+    branches:
+      - master
+      - releases/*
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  test:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ubuntu-latest, windows-latest, macos-latest]
+        channel: [dev]
+    steps:
+      - uses: actions/checkout@v2
+
+      # Caching for Unix-like OPs
+      - uses: actions/cache@v2
+        if: ${{ !startsWith(matrix.operating-system, 'windows') }}
+        with:
+          path: '~/.pub-cache'
+          key: ${{ runner.os }}-${{ hashFiles('pubspec.yaml') }}
+
+      # Caching on Windows.
+      - uses: actions/cache@v2
+        if: ${{ startsWith(matrix.operating-system, 'windows') }}
+        with:
+          path: '%LOCALAPPDATA%\Pub\Cache'
+          key: ${{ runner.os }}-${{ hashFiles('pubspec.yaml') }}
+
+      - name: Setup Dart VM
+        uses: vanesyan/setup-dart@v0
+        with:
+          version: latest
+          channel: ${{ matrix.channel }}
+
+      - run: pub get
+      - run: pub run --enable-experiment=non-nullable test
+
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      # Caching for Unix-like OPs
+      - uses: actions/cache@v2
+        if: ${{ !startsWith(matrix.operating-system, 'windows') }}
+        with:
+          path: '~/.pub-cache'
+          key: ${{ runner.os }}-${{ hashFiles('pubspec.yaml') }}
+
+      # Caching on Windows.
+      - uses: actions/cache@v2
+        if: ${{ startsWith(matrix.operating-system, 'windows') }}
+        with:
+          path: '%LOCALAPPDATA%\Pub\Cache'
+          key: ${{ runner.os }}-${{ hashFiles('pubspec.yaml') }}
+
+      - name: Setup Dart VM
+        uses: vanesyan/setup-dart@v0
+        with:
+          version: latest
+          channel: dev
+
+      - run: pub get
+
+      - name: Collect coverate
+        run: |
+          set -e
+
+          echo "Installing coverage tool"
+          pub global activate coverage &>/dev/null
+
+          echo "Collecting coverage on port 9292..."
+
+          dart --enable-experiment=non-nullable \
+            --disable-service-auth-codes \
+            --enable-vm-service=9292 \
+            --pause-isolates-on-exit \
+            test/all.dart &
+
+          echo "Generating LCOV report..."
+          pub global run coverage:collect_coverage \
+            --port=9292 \
+            --out=.coverage/coverage.json \
+            --wait-paused \
+            --resume-isolates && \
+
+          pub global run coverage:format_coverage \
+            --lcov \
+            --in=.coverage/coverage.json \
+            --out=.coverage/lcov.info \
+            --packages=.packages \
+            --report-on=lib \
+            --check-ignore
+        shell: bash
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: .coverage/lcov.info
+          fail_ci_if_error: true

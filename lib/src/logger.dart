@@ -50,11 +50,11 @@ abstract class Logger implements Interface {
   ///
   /// Typically, this factory should be used if short-living logger is necessary,
   /// which may be garbage collected later.
-  factory Logger.detached([String name]) => LoggerImpl.detached(name);
+  factory Logger.detached([String? name]) => LoggerImpl.detached(name);
 
   /// Creates a new noop logger which never emits logs and never
   /// delegates records to handlers.
-  factory Logger.noop([String name]) => NoopLogger(name);
+  factory Logger.noop([String? name]) => NoopLogger(name);
 
   /// Retrieves a logger with [name]. If the logger already exists, then it will
   /// be returned, otherwise a new logger is created.
@@ -68,7 +68,7 @@ abstract class Logger implements Interface {
   static Logger get root => _root;
 
   /// Name of this logger.
-  String get name;
+  String? get name;
 
   /// Sets a minimum severity level of a [Record]s this logger cares about.
   ///
@@ -77,7 +77,7 @@ abstract class Logger implements Interface {
   /// for example, if [level] set to [Level.info], only records with severity
   /// level equal to [Level.info], [Level.warning], [Level.danger],
   /// or [Level.fatal] will be emitted by this logger.
-  set level(Level level);
+  set level(Level? level);
 
   /// Retrieves minimum severity level of [Record]s this logger cares about.
   Level get level;
@@ -93,7 +93,7 @@ abstract class Logger implements Interface {
   ///
   /// If provided value is `null`, previously created event stream is closed
   /// if any.
-  set handler(Handler handler);
+  set handler(Handler? handler);
 
   /// Set this logger filter.
   ///
@@ -103,7 +103,7 @@ abstract class Logger implements Interface {
   /// To define multiple filters for a logger use [MultiFilter] class.
   ///
   /// Set to `null` to remove previously set filter if any.
-  set filter(Filter handler);
+  set filter(Filter? handler);
 
   /// Tests whether record with severity [level] will be emitted by this logger.
   bool isEnabledFor(Level level);
@@ -116,8 +116,6 @@ mixin LoggerBase implements Logger {
   @override
   @pragma('vm:prefer-inline')
   bool isEnabledFor(Level level) {
-    ArgumentError.checkNotNull(level, 'level');
-
     if (level == Level.off || level == Level.all) {
       throw ArgumentError.value(
           level,

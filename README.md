@@ -1,4 +1,4 @@
-# jetlog &middot; [![Test Status][cirrusci-image]][cirrusci-url] [![Code Coveraege][codecov-image]][codecov-url]
+# jetlog &middot; [![Test Status][gh-actions-image]][gh-actions-url] [![Code Coveraege][codecov-image]][codecov-url]
 Fast, structured, leveled logging for Dart.
 
 jetlog's API is designed to provide great development experience
@@ -41,7 +41,7 @@ void main() async {
 Released under the [MIT] license.
 
 [MIT]: ./LICENSE
-[cirrusci-image]: https://api.cirrus-ci.com/github/vanesyan/jetlog.dart.svg?branch=master
-[cirrusci-url]: https://cirrus-ci.com/github/vanesyan/jetlog.dart
+[gh-actions-image]: https://github.com/vanesyan/jetlog.dart/workflows/test/badge.svg
+[gh-actions-url]: https://github.com/vanesyan/jetlog.dart
 [codecov-image]: https://codecov.io/gh/vanesyan/jetlog.dart/branch/master/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/vanesyan/jetlog.dart

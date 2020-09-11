@@ -15,11 +15,11 @@ void main() {
         final LoggerImpl logger = Logger.getLogger('a.b.c.d') as LoggerImpl;
 
         expect(logger.name, equals('a.b.c.d'));
-        expect(logger.parent.name, equals('a.b.c'));
-        expect(logger.parent.parent.name, equals('a.b'));
-        expect(logger.parent.parent.parent.name, equals('a'));
-        expect(logger.parent.parent.parent.parent.name, equals('ROOT_LOGGER'));
-        expect(logger.parent.parent.parent.parent.parent, isNull);
+        expect(logger.parent?.name, equals('a.b.c'));
+        expect(logger.parent?.parent?.name, equals('a.b'));
+        expect(logger.parent?.parent?.parent?.name, equals('a'));
+        expect(logger.parent?.parent?.parent?.parent?.name, equals('ROOT_LOGGER'));
+        expect(logger.parent?.parent?.parent?.parent?.parent, isNull);
       });
 
       test('Returns a singleton', () {
@@ -168,12 +168,6 @@ void main() {
         expect(() => logger1.isEnabledFor(Level.all), throwsArgumentError);
         expect(() => logger2.isEnabledFor(Level.off), throwsArgumentError);
         expect(() => logger2.isEnabledFor(Level.all), throwsArgumentError);
-      });
-
-      test('throws error if `null` is provided', () {
-        final logger = Logger.detached();
-
-        expect(() => logger.isEnabledFor(null), throwsArgumentError);
       });
     });
 

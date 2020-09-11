@@ -3,6 +3,15 @@ analyzer:
     implicit-casts: false
     implicit-dynamic: false
 
+  errors:
+    unused_element: error
+    unused_import: error
+    unused_local_variable: error
+    dead_code: error
+
+  enable-experiment:
+    - non-nullable
+
 linter:
   rules:
     # errors

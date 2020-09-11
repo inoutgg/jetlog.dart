@@ -13,19 +13,16 @@ class _DebugOnlyFilter {
 void main() {
   group('ConsoleHandler', () {
     final records = <String>[];
-    ConsoleHandler handler;
 
     void newPrint(Zone self, ZoneDelegate parent, Zone zone, String message) =>
         records.add(message);
 
     final zoneSpec = ZoneSpecification(print: newPrint);
+    final handler = ConsoleHandler(
+        formatter: TextFormatter(
+            (name, timestamp, level, message, fields) => message));
 
-    setUp(() {
-      handler = ConsoleHandler(
-          formatter: TextFormatter(
-              (name, timestamp, level, message, fields) => message));
-      records.clear();
-    });
+    setUp(records.clear);
 
     test('works correctly', () {
       runZoned<void>(() {
