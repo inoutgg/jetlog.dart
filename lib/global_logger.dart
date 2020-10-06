@@ -16,8 +16,8 @@ import 'package:jetlog/handlers.dart' show ConsoleHandler;
 import 'package:jetlog/jetlog.dart';
 
 final Logger _logger = Logger.detached()
-  ..level = Level.debug
-  ..handler = ConsoleHandler(formatter: TextFormatter.defaultFormatter);
+  ..level = Level.all
+  ..handler = ConsoleHandler(formatter: TextFormatter.withDefaults());
 
 /// Retrieves minimum severity level global logger allows a [Record] to be emitted
 /// by it.

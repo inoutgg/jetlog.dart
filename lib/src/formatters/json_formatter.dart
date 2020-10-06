@@ -38,6 +38,9 @@ class JsonFormatter with FormatterBase<MapEntry<String, Object?>> {
     return formatter;
   }
 
+  /// Creates a new [JSONFormatter] with default configurations.
+  factory JsonFormatter.withDefaults() => JsonFormatter();
+
   /// Creates a new [JsonFormatter] with specified [indent] level.
   ///
   /// By default produced JSON is indented with space character, however
@@ -57,9 +60,6 @@ class JsonFormatter with FormatterBase<MapEntry<String, Object?>> {
 
   final LevelFormatter<Object> formatLevel;
   final TimestampFormatter<Object> formatTimestamp;
-
-  /// Returns a default [JSONFormatter].
-  static JsonFormatter get defaultFormatter => JsonFormatter();
 
   @pragma('vm:prefer-inline')
   void _init() {
