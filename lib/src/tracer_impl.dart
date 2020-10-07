@@ -25,12 +25,9 @@ class TracerImpl implements Tracer {
   void stop(String message) {
     if (_timer.isRunning) {
       _timer.stop();
-    } else {
-      throw TracerStoppedError('Tracer has been already stopped!');
+      stopAt = DateTime.now();
+      _context.bind({Dur('duration', _timer.elapsed)}).log(_level, message);
     }
-
-    stopAt = DateTime.now();
-    _context.bind({Dur('duration', _timer.elapsed)}).log(_level, message);
   }
 
   @override
