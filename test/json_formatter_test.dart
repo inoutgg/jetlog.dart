@@ -52,7 +52,7 @@ void main() {
 
     test('formats correctly with defaults', () {
       final formatter1 = JsonFormatter();
-      final formatter2 = JsonFormatter.defaultFormatter;
+      final formatter2 = JsonFormatter.withDefaults();
       final result1 = formatter1.call(record);
       final result2 = formatter2.call(record);
 
@@ -260,7 +260,7 @@ void main() {
     });
 
     test('should override duplicated fields', () {
-      final formatter = JsonFormatter.defaultFormatter;
+      final formatter = JsonFormatter.withDefaults();
       final record1 = RecordImpl(
           name: 'json-formatter-test',
           timestamp: timestamp,
@@ -312,7 +312,7 @@ void main() {
     });
 
     test('should translate Date types to equivalent JSON types by default', () {
-      final formatter = JsonFormatter.defaultFormatter;
+      final formatter = JsonFormatter.withDefaults();
       final record = RecordImpl(
           name: 'Hello World',
           timestamp: DateTime.now(),
