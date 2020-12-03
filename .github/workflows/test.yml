@@ -37,7 +37,7 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('pubspec.yaml') }}
 
       - name: Setup Dart VM
-        uses: vanesyan/setup-dart@v0
+        uses: vanesyan/setup-dart@v1
         with:
           version: latest
           channel: ${{ matrix.channel }}
@@ -65,7 +65,7 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('pubspec.yaml') }}
 
       - name: Setup Dart VM
-        uses: vanesyan/setup-dart@v0
+        uses: vanesyan/setup-dart@v1
         with:
           version: latest
           channel: dev
