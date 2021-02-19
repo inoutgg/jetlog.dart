@@ -18,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ubuntu-latest, windows-latest, macos-latest]
-        channel: [dev]
+        channel: [stable, beta]
     steps:
       - uses: actions/checkout@v2
 
@@ -49,26 +49,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      # Caching for Unix-like OPs
       - uses: actions/cache@v2
-        if: ${{ !startsWith(matrix.operating-system, 'windows') }}
         with:
           path: '~/.pub-cache'
-          key: ${{ runner.os }}-${{ hashFiles('pubspec.yaml') }}
-
-      # Caching on Windows.
-      - uses: actions/cache@v2
-        if: ${{ startsWith(matrix.operating-system, 'windows') }}
-        with:
-          path: '%LOCALAPPDATA%\Pub\Cache'
           key: ${{ runner.os }}-${{ hashFiles('pubspec.yaml') }}
 
       - name: Setup Dart VM
         uses: vanesyan/setup-dart@v1
         with:
           version: latest
-          channel: dev
+          channel: beta
 
       - run: pub get
 
