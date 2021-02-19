@@ -41,8 +41,8 @@ class Klass extends Loggable {
 void main() {
   group('JsonFormatter', () {
     final timestamp = DateTime.now();
-    final level = Level.info;
-    final message = 'Test';
+    const level = Level.info;
+    const message = 'Test';
     final record = RecordImpl(
         name: null,
         timestamp: timestamp,

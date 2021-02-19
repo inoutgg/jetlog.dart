@@ -39,7 +39,7 @@ void main() {
               utf8.encode('${Level.info.name}: Info message\r\n'),
             ]));
 
-        controller.close();
+        await controller.close();
       });
 
       test('filters record conditionally', () async {
