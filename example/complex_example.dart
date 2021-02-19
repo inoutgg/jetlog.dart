@@ -19,10 +19,10 @@ bool _stdoutOnlyFilter(Record record) =>
     record.level == Level.debug || record.level == Level.info;
 
 final _stderrHandler =
-    StreamHandler(stderr, formatter: TextFormatter.defaultFormatter)
+    StreamHandler(stderr, formatter: TextFormatter.withDefaults())
       ..filter = _stderrOnlyFilter;
 final _stdoutHandler =
-    StreamHandler(stdout, formatter: TextFormatter.defaultFormatter)
+    StreamHandler(stdout, formatter: TextFormatter.withDefaults())
       ..filter = _stdoutOnlyFilter;
 
 final _logger = Logger.getLogger('example.stdout')

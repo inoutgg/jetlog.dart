@@ -10,7 +10,7 @@ import 'package:jetlog/jetlog.dart'
 
 final _logger = Logger.detached()
   ..level = Level.all
-  ..handler = ConsoleHandler(formatter: TextFormatter.defaultFormatter);
+  ..handler = ConsoleHandler(formatter: TextFormatter.withDefaults());
 
 Future<void> main() async {
   final context = _logger.bind({
