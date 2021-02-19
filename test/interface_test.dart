@@ -521,7 +521,6 @@ void main() {
                     'f6=1 '
                     'f7=string'));
 
-
             await records.close();
           },
               zoneSpecification: ZoneSpecification(

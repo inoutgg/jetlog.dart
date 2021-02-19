@@ -1,6 +1,5 @@
 import 'package:jetlog/handlers.dart' show MemoryHandler;
-import 'package:jetlog/jetlog.dart'
-    show Logger, Level, Record, DefaultLog;
+import 'package:jetlog/jetlog.dart' show Logger, Level, Record, DefaultLog;
 import 'package:jetlog/src/logger_impl.dart' show LoggerImpl;
 import 'package:test/test.dart';
 
@@ -18,7 +17,8 @@ void main() {
         expect(logger.parent?.name, equals('a.b.c'));
         expect(logger.parent?.parent?.name, equals('a.b'));
         expect(logger.parent?.parent?.parent?.name, equals('a'));
-        expect(logger.parent?.parent?.parent?.parent?.name, equals('ROOT_LOGGER'));
+        expect(
+            logger.parent?.parent?.parent?.parent?.name, equals('ROOT_LOGGER'));
         expect(logger.parent?.parent?.parent?.parent?.parent, isNull);
       });
 
