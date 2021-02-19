@@ -43,7 +43,7 @@ jobs:
           channel: ${{ matrix.channel }}
 
       - run: pub get
-      - run: pub run --enable-experiment=non-nullable test
+      - run: pub run test
 
   coverage:
     runs-on: ubuntu-latest
@@ -71,8 +71,7 @@ jobs:
 
           echo "Collecting coverage on port 9292..."
 
-          dart --enable-experiment=non-nullable \
-            --disable-service-auth-codes \
+          dart --disable-service-auth-codes \
             --enable-vm-service=9292 \
             --pause-isolates-on-exit \
             test/all.dart &
