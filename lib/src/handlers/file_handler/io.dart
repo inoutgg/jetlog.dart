@@ -6,14 +6,15 @@ import 'dart:io'
         FileMode,
         FileSystemEntityType,
         FileSystemException,
-        GZipCodec,
-        IOSink;
+        IOSink,
+        Platform;
 import 'dart:typed_data' show Uint8List;
 
 import 'package:jetlog/formatters.dart' show Formatter;
-import 'package:jetlog/jetlog.dart' show Handler, Record;
+import 'package:jetlog/jetlog.dart' show Filter, Handler, Record;
 
 const int minSize = 1024;
+const Duration minInterval = Duration(seconds: 1);
 
 class _State {
   static const int opening = 2;
@@ -28,35 +29,31 @@ class Stat {
 
   final int size;
 
-  /// @nodoc
   final int newSize;
 
   final DateTime modified;
 }
 
 abstract class RotationPolicy {
-  const factory RotationPolicy.never() = _NeverRotatePolicy;
+  const factory RotationPolicy.never() = _NeverRotationPolicy;
 
   const factory RotationPolicy.interval(Duration interval) =
-      _IntervalRotatePolicy;
+      _IntervalRotationPolicy;
 
-  const factory RotationPolicy.sized({required int maxSize}) =
-      _SizedRotatePolicy;
+  const factory RotationPolicy.sized(int maxSize) = _SizedRotationPolicy;
 
   bool shouldRotate(Stat stat);
 }
 
-class _NeverRotatePolicy implements RotationPolicy {
-  const _NeverRotatePolicy();
+class _NeverRotationPolicy implements RotationPolicy {
+  const _NeverRotationPolicy();
 
   @override
   bool shouldRotate(_) => false;
 }
 
-class _SizedRotatePolicy implements RotationPolicy {
-  const _SizedRotatePolicy({
-    required this.maxSize,
-  }) : assert(maxSize >= minSize);
+class _SizedRotationPolicy implements RotationPolicy {
+  const _SizedRotationPolicy(this.maxSize) : assert(maxSize >= minSize);
 
   final int maxSize;
 
@@ -64,8 +61,9 @@ class _SizedRotatePolicy implements RotationPolicy {
   bool shouldRotate(Stat stat) => stat.size > 0 && stat.newSize > maxSize;
 }
 
-class _IntervalRotatePolicy implements RotationPolicy {
-  const _IntervalRotatePolicy(this.interval);
+class _IntervalRotationPolicy implements RotationPolicy {
+  const _IntervalRotationPolicy(this.interval)
+      : assert(interval >= minInterval);
 
   final Duration interval;
 
@@ -78,13 +76,29 @@ class _IntervalRotatePolicy implements RotationPolicy {
   }
 }
 
+typedef Rotator = FutureOr<void> Function(String src, String dest);
+
+FutureOr<void> rotator(String src, String dest) async {
+  final srcFile = File(src);
+
+  try {
+    await srcFile.rename(dest);
+  } on FileSystemException {
+    // If failed to rename file, try to move it.
+    await srcFile.copy(dest);
+    await srcFile.delete();
+  }
+}
+
 class FileHandler extends Handler {
   FileHandler(this._uri,
       {required Formatter formatter,
       RotationPolicy rotationPolicy = const RotationPolicy.never(),
+      Rotator rotator = rotator,
       bool compress = false,
       int maxBackUps = 0})
       : _rotationPolicy = rotationPolicy,
+        _rotator = rotator,
         _queue = Queue(),
         _compress = compress,
         _maxBackUps = maxBackUps,
@@ -94,8 +108,10 @@ class FileHandler extends Handler {
     _open();
   }
 
+  Filter? _filter;
   final Formatter _formatter;
   final RotationPolicy _rotationPolicy;
+  final Rotator _rotator;
   final bool _compress;
   final int _maxBackUps;
 
@@ -114,7 +130,7 @@ class FileHandler extends Handler {
   late DateTime _modified;
   late int _size;
 
-  Stat get stat => Stat._(size: _size, modified: _modified, newSize: 0);
+  set filter(Filter filter) => _filter = filter;
 
   void _processFileName() {
     final segments = _uri.pathSegments;
@@ -122,55 +138,41 @@ class FileHandler extends Handler {
     _basename = _uri.pathSegments.last;
   }
 
-  String _getFileName(int index) =>
-      Uri(pathSegments: [..._dirnameSegments, '$_basename.$index'])
-          .toFilePath();
+  String _getFilePath(int index) => Uri(pathSegments: [
+        ..._dirnameSegments,
+        '$_basename.$index${_compress ? '.gz' : ''}'
+      ]).toFilePath(windows: Platform.isWindows);
 
   Future<void> _rollover() async {
     // Sequentially rename backup files from the tail.
     for (int i = _maxBackUps - 1; i > 0; i--) {
-      final currentBackUpFileName = _getFileName(i);
-      final nextBackUpFileName = _getFileName(i + 1);
-      final currentBackUpFile = File(currentBackUpFileName);
-      final nextBackUpFile = File(nextBackUpFileName);
+      final curPath = _getFilePath(i);
 
-      if (currentBackUpFile.existsSync()) {
+      if (File(curPath).existsSync()) {
+        final nextPath = _getFilePath(i + 1);
+        final nextFile = File(nextPath);
+
         // Remove backup file with index bigger than allowed.
-        if (nextBackUpFile.existsSync()) {
-          await nextBackUpFile.delete();
+        if (nextFile.existsSync()) {
+          await nextFile.delete();
         }
 
-        if (_compress) {
-          final sink = nextBackUpFile.openWrite(mode: FileMode.writeOnly);
-
-          await sink.addStream(
-              currentBackUpFile.openRead().transform(GZipCodec().encoder));
-          await sink.close();
-        } else {
-          try {
-            await currentBackUpFile.rename(nextBackUpFileName);
-
-            // If failed to rename file, try to move it.
-          } on FileSystemException {
-            await currentBackUpFile.copy(nextBackUpFileName);
-            await currentBackUpFile.delete();
-          }
-        }
+        await _rotator(curPath, nextPath);
       }
     }
 
-    final backUpFileName = _getFileName(1);
-    final backUpFile = File(backUpFileName);
-    if (backUpFile.existsSync()) {
-      await backUpFile.delete();
+    final backupPath = _getFilePath(1);
+    final backupFile = File(backupPath);
+    if (backupFile.existsSync()) {
+      await backupFile.delete();
     }
 
-    await _file.rename(backUpFileName);
+    await _rotator(_file.path, backupPath);
   }
 
   Future<void> _open({bool newly = false}) async {
     if (_state & _State.opening > 0) {
-      throw StateError('Invalid!');
+      return;
     }
 
     _state |= _State.opening;
@@ -183,7 +185,9 @@ class FileHandler extends Handler {
         _size = fileStat.size;
 
         // Checks whether we need to rotate file.
-        if (newly || _shouldRotate(stat)) {
+        if (newly ||
+            _shouldRotate(
+                Stat._(size: _size, modified: _modified, newSize: 0))) {
           await _rollover();
 
           _modified = DateTime.now();
@@ -208,7 +212,7 @@ class FileHandler extends Handler {
 
   Future<void> _rotate() async {
     if (_state & _State.rotating > 0) {
-      throw StateError('Logging file has already been rotated!');
+      return;
     }
 
     _state |= _State.rotating;
@@ -265,6 +269,10 @@ class FileHandler extends Handler {
 
     // Do not accept a new message if file is closing.
     if (_state & _State.closing > 0) {
+      return;
+    }
+
+    if (!(_filter?.call(record) ?? true)) {
       return;
     }
 

@@ -7,8 +7,8 @@ import 'package:jetlog/jetlog.dart' show Level, Logger, Str, DefaultLog;
 final _logger = Logger.detached()
   ..level = Level.all
   ..handler = FileHandler(Uri.file('./logfile.log'),
-      rotationPolicy: const RotationPolicy.sized(maxSize: 1024 * 1000), // in bytes
-      maxBackUps: 100,
+      rotationPolicy: const RotationPolicy.sized(1024 * 1000), // in bytes
+      maxBackUps: 5,
       formatter: TextFormatter.withDefaults());
 
 Future<void> main() async {
@@ -24,7 +24,7 @@ Future<void> main() async {
   await Future<void>.delayed(const Duration(seconds: 1));
 
   tracer.stop('Aborting...');
-  for (int i = 0; i < 100000; i++) {
+  for (int i = 0; i < 10000; i++) {
     context.fatal('Failed to upload $i!');
   }
 }
