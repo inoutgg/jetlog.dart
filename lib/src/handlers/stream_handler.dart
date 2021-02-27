@@ -8,11 +8,11 @@ import 'package:jetlog/jetlog.dart' show Handler, Record, Filter;
 /// Each log record is formatted using the `formatter` before
 /// submitting it to the downstream.
 class StreamHandler extends Handler {
-  StreamHandler(this._stream, {required Formatter formatter})
+  StreamHandler(this._sink, {required Formatter formatter})
       : _formatter = formatter;
 
   final Formatter _formatter;
-  final StreamSink<List<int>> _stream;
+  final StreamSink<List<int>> _sink;
   Filter? _filter;
 
   /// Sets records filterer.
@@ -22,10 +22,10 @@ class StreamHandler extends Handler {
 
   @override
   void handle(Record record) {
-    if (_filter != null && !_filter!(record)) {
+    if (!(_filter?.call(record) ?? true)) {
       return;
     }
 
-    _stream.add(_formatter(record));
+    _sink.add(_formatter(record));
   }
 }
