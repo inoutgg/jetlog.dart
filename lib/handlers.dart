@@ -2,8 +2,8 @@
 /// [ConsoleHandler], [MemoryHandler], [StreamHandler], [FileHandler] and
 /// [MultiHandler].
 ///
-/// [FileHandler] is only supported targeting Dart VM (including Flutter)
-/// and will fail on other platforms.
+/// [FileHandler] is only supported on Dart VM (including Flutter) platform
+/// and will fail on other ones.
 ///
 /// To use this library in your code:
 /// ```dart

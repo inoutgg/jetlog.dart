@@ -30,7 +30,7 @@ class MultiHandler extends Handler {
 
   @override
   void handle(Record record) {
-    if (_filter != null && !_filter!(record)) {
+    if (!(_filter?.call(record) ?? true)) {
       return;
     }
 
