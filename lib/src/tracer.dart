@@ -1,13 +1,5 @@
 import 'package:jetlog/src/interface.dart';
 
-/// An error thrown if [Tracer.stop] is called on already stopped [Tracer].
-class TracerStoppedError extends Error {
-  TracerStoppedError(this.message);
-
-  /// This error message.
-  final String message;
-}
-
 /// Tracer is used to measure time between [Interface.trace] and [Tracer.stop]
 /// calls.
 abstract class Tracer {

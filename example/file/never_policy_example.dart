@@ -7,7 +7,7 @@ import 'package:jetlog/jetlog.dart' show Level, Logger, Str, DefaultLog;
 final _logger = Logger.detached()
   ..level = Level.all
   ..handler = FileHandler(Uri.file('./file.log'),
-      formatter: TextFormatter.defaultFormatter,
+      formatter: TextFormatter.withDefaults(),
       rotationPolicy: const RotationPolicy.never());
 
 Future<void> main() async {

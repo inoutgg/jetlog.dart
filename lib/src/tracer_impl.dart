@@ -4,7 +4,7 @@ import 'package:jetlog/src/level.dart';
 import 'package:jetlog/src/tracer.dart';
 
 class TracerImpl implements Tracer {
-  TracerImpl(this._context, [this._level = Level.info]) : _timer = Stopwatch();
+  TracerImpl(this._context, [this._level = Level.debug]) : _timer = Stopwatch();
 
   late final DateTime startAt;
   DateTime? stopAt;
@@ -25,12 +25,9 @@ class TracerImpl implements Tracer {
   void stop(String message) {
     if (_timer.isRunning) {
       _timer.stop();
-    } else {
-      throw TracerStoppedError('Tracer has been already stopped!');
+      stopAt = DateTime.now();
+      _context.bind({Dur('duration', _timer.elapsed)}).log(_level, message);
     }
-
-    stopAt = DateTime.now();
-    _context.bind({Dur('duration', _timer.elapsed)}).log(_level, message);
   }
 
   @override

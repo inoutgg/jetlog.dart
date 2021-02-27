@@ -55,7 +55,7 @@ void main() {
     });
 
     test('TextFormatter.defaultFormatter formats correctly', () {
-      final f = TextFormatter.defaultFormatter;
+      final f = TextFormatter.withDefaults();
 
       final timestamp = DateTime.now();
       const level = Level.info;
@@ -159,7 +159,7 @@ void main() {
     });
 
     test('defines formatters for all builtin field kinds', () {
-      final formatter = TextFormatter.defaultFormatter;
+      final formatter = TextFormatter.withDefaults();
 
       expect(() => formatter.getFieldFormatter(FieldKind.boolean),
           returnsNormally);

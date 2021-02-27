@@ -12,7 +12,6 @@ import 'dart:typed_data' show Uint8List;
 
 import 'package:jetlog/formatters.dart' show Formatter;
 import 'package:jetlog/jetlog.dart' show Handler, Record;
-import 'package:meta/meta.dart' show required;
 
 const int minSize = 1024;
 
@@ -24,7 +23,8 @@ class _State {
 }
 
 class Stat {
-  const Stat._({@required this.size, @required this.modified, this.newSize});
+  const Stat._(
+      {required this.size, required this.modified, required this.newSize});
 
   final int size;
 
@@ -40,7 +40,8 @@ abstract class RotationPolicy {
   const factory RotationPolicy.interval(Duration interval) =
       _IntervalRotatePolicy;
 
-  const factory RotationPolicy.sized({int maxSize}) = _SizedRotatePolicy;
+  const factory RotationPolicy.sized({required int maxSize}) =
+      _SizedRotatePolicy;
 
   bool shouldRotate(Stat stat);
 }
@@ -54,7 +55,7 @@ class _NeverRotatePolicy implements RotationPolicy {
 
 class _SizedRotatePolicy implements RotationPolicy {
   const _SizedRotatePolicy({
-    @required this.maxSize,
+    required this.maxSize,
   }) : assert(maxSize >= minSize);
 
   final int maxSize;
@@ -79,7 +80,7 @@ class _IntervalRotatePolicy implements RotationPolicy {
 
 class FileHandler extends Handler {
   FileHandler(this._uri,
-      {@required Formatter formatter,
+      {required Formatter formatter,
       RotationPolicy rotationPolicy = const RotationPolicy.never(),
       bool compress = false,
       int maxBackUps = 0})
@@ -100,23 +101,20 @@ class FileHandler extends Handler {
 
   // File path.
   final Uri _uri;
-  List<String> _dirnameSegments;
-  String _basename;
+  late final List<String> _dirnameSegments;
+  late final String _basename;
 
   final Queue<Uint8List> _queue;
-  File _file;
-  IOSink _sink;
+  late File _file;
+  late IOSink _sink;
   int _state;
 
   // Internal states tracking info about current size of log file,
   // and date at which it was last updated.
-  DateTime _modified;
-  int _size;
+  late DateTime _modified;
+  late int _size;
 
-  Stat get stat => Stat._(
-        size: _size,
-        modified: _modified,
-      );
+  Stat get stat => Stat._(size: _size, modified: _modified, newSize: 0);
 
   void _processFileName() {
     final segments = _uri.pathSegments;
@@ -210,7 +208,7 @@ class FileHandler extends Handler {
 
   Future<void> _rotate() async {
     if (_state & _State.rotating > 0) {
-      throw StateError('Logging file is already been rotated!');
+      throw StateError('Logging file has already been rotated!');
     }
 
     _state |= _State.rotating;
@@ -224,6 +222,7 @@ class FileHandler extends Handler {
     _processQueue();
   }
 
+  @pragma('vm:prefer-inline')
   bool _shouldRotate(Stat stat) =>
       _maxBackUps > 0 && _rotationPolicy.shouldRotate(stat);
 
@@ -249,11 +248,13 @@ class FileHandler extends Handler {
     }
   }
 
+  @pragma('vm:prefer-inline')
   Future<void> _close() async {
     await _sink.flush();
     await _sink.close();
   }
 
+  @pragma('vm:prefer-inline')
   FutureOr<void> rotate() => _rotate();
 
   @override

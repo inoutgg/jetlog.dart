@@ -521,7 +521,6 @@ void main() {
                     'f6=1 '
                     'f7=string'));
 
-
             await records.close();
           },
               zoneSpecification: ZoneSpecification(
@@ -651,12 +650,13 @@ void main() {
         });
       });
 
-      test('throws when stopping tracer multiple times', () {
+      test('ignores further tracer stop calls after the first one', () {
         final logger = Logger.detached()..level = Level.all;
         final t = logger.trace('start')..stop('stop');
 
-        expect(() => t.stop('stop 2'),
-            throwsA(const TypeMatcher<TracerStoppedError>()));
+        expect(() => t.stop('stop 2'), returnsNormally);
+        expect(() => t.stop('stop 3'), returnsNormally);
+        expect(() => t.stop('stop 4'), returnsNormally);
       });
     });
 

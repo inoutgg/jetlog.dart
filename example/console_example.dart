@@ -5,12 +5,11 @@ library example.console;
 
 import 'package:jetlog/formatters.dart' show TextFormatter;
 import 'package:jetlog/handlers.dart' show ConsoleHandler;
-import 'package:jetlog/jetlog.dart'
-    show DefaultLog, Level, Logger, Str;
+import 'package:jetlog/jetlog.dart' show DefaultLog, Level, Logger, Str;
 
 final _logger = Logger.detached()
   ..level = Level.all
-  ..handler = ConsoleHandler(formatter: TextFormatter.defaultFormatter);
+  ..handler = ConsoleHandler(formatter: TextFormatter.withDefaults());
 
 Future<void> main() async {
   final context = _logger.bind({

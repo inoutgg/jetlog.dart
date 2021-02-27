@@ -2,7 +2,6 @@ import 'dart:async' show FutureOr;
 
 import 'package:jetlog/formatters.dart' show Formatter;
 import 'package:jetlog/jetlog.dart' show Handler, Record;
-import 'package:meta/meta.dart' show required;
 
 /// Minimum allowed value of maxSize for [RotationPolicy.sized].
 const int minSize = 1024; // 1kb
@@ -34,7 +33,7 @@ abstract class RotationPolicy {
   /// Creates a new rotation policy to rotate logging file based
   /// on its size. Once size is equal or bigger than [maxSize]
   /// the logging file must be rotated.
-  const factory RotationPolicy.sized({int maxSize}) = _SizedRotatePolicy;
+  const factory RotationPolicy.sized({required int maxSize}) = _SizedRotatePolicy;
 
   /// Determines whether logging file should be rotated.
   bool shouldRotate(Stat stat);
@@ -51,7 +50,7 @@ class _NeverRotatePolicy implements RotationPolicy {
 
 class _SizedRotatePolicy implements RotationPolicy {
   const _SizedRotatePolicy({
-    @required this.maxSize,
+    required this.maxSize,
   }) : assert(maxSize >= minSize);
 
   final int maxSize;
@@ -97,7 +96,7 @@ class FileHandler extends Handler {
   /// If [compress] is set, backup file will be compressed using gzip.
   /// By default compression is off.
   FileHandler(Uri uri,
-      {@required Formatter formatter,
+      {required Formatter formatter,
       RotationPolicy rotationPolicy = const RotationPolicy.never(),
       bool compress = false,
       int maxBackUps = 0});

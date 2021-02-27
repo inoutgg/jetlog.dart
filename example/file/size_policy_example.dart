@@ -7,9 +7,9 @@ import 'package:jetlog/jetlog.dart' show Level, Logger, Str, DefaultLog;
 final _logger = Logger.detached()
   ..level = Level.all
   ..handler = FileHandler(Uri.file('./logfile.log'),
-      rotationPolicy: const RotationPolicy.sized(maxSize: 1024), // in bytes
+      rotationPolicy: const RotationPolicy.sized(maxSize: 1024 * 1000), // in bytes
       maxBackUps: 100,
-      formatter: TextFormatter.defaultFormatter);
+      formatter: TextFormatter.withDefaults());
 
 Future<void> main() async {
   final context = _logger.bind({

@@ -1,4 +1,4 @@
-import 'dart:convert' show Utf8Encoder;
+import 'dart:convert' show utf8;
 
 import 'package:jetlog/jetlog.dart' show Field, FieldKind, Obj, Record, Level;
 import 'package:jetlog/src/formatters/formatter.dart';
@@ -82,19 +82,18 @@ class TextFormatter with FormatterBase<String> {
     this.format, {
     this.formatLevel = _formatLevel,
     this.formatTimestamp = _formatTimestamp,
-  }) : _utf8 = const Utf8Encoder() {
+  }) {
     _init();
   }
 
-  final Utf8Encoder _utf8;
+  /// Creates a new [TextFormatter] with set `format` callback.
+  factory TextFormatter.withDefaults() =>
+      TextFormatter((name, timestamp, level, message, fields) =>
+          '$name $timestamp [$level]: $message $fields'.trim());
+
   final FormatHandler format;
   final LevelFormatter<String> formatLevel;
   final TimestampFormatter<String> formatTimestamp;
-
-  /// Returns a new [TextFormatter] with set `format` callback.
-  static TextFormatter get defaultFormatter =>
-      TextFormatter((name, timestamp, level, message, fields) =>
-          '$name $timestamp [$level]: $message $fields'.trim());
 
   @pragma('vm:prefer-inline')
   void _init() {
@@ -146,6 +145,6 @@ class TextFormatter with FormatterBase<String> {
       return [];
     }
 
-    return _utf8.convert('$message$_eol');
+    return utf8.encode('$message$_eol');
   }
 }
