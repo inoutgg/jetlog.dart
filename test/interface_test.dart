@@ -673,6 +673,35 @@ void main() {
         });
       });
 
+      test('accepts additional fields on stop', () async {
+        final handler = MemoryHandler();
+        final logger = Logger.detached()
+          ..handler = handler
+          ..level = Level.all;
+
+        const fields = [Str('test1', 'test1'), Str('test2', 'test2')];
+        logger.trace('start').stop('stop', fields: fields);
+
+        await later(() {
+          final record = handler.records.elementAt(1);
+          expect(List<Field>.from(record.fields!), containsAll(fields));
+        });
+      });
+
+      test('accepts custom level on stop', () async {
+        final handler = MemoryHandler();
+        final logger = Logger.detached()
+          ..handler = handler
+          ..level = Level.all;
+
+        logger.trace('start').stop('stop', level: Level.fatal);
+
+        await later(() {
+          final record = handler.records.elementAt(1);
+          expect(record.level, equals(Level.fatal));
+        });
+      });
+
       test('ignores further tracer stop calls after the first one', () {
         final logger = Logger.detached()..level = Level.all;
         final t = logger.startTimer('start')..stop('stop');

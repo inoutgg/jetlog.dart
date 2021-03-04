@@ -15,6 +15,8 @@ final class NoopTimer implements Timer {
 final class NoopLogger with LoggerBase {
   NoopLogger([this.name]);
 
+  static final NoopLogger _noop = NoopLogger();
+
   Level? _level;
 
   static final NoopLogger _logger = NoopLogger();
