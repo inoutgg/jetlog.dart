@@ -54,8 +54,8 @@ void debug(String message) => _logger.debug(message);
 /// severity level; to stop tracing call [Tracer.stop] on the returned tracer.
 ///
 /// See more [Interface.trace].
-Tracer trace(String message, [Level level = Level.debug]) =>
-    _logger.trace(message, level);
+Tracer trace(String message, {Level level = Level.debug}) =>
+    _logger.trace(message, level: level);
 
 /// Emits a record with [message] and [Level.info] severity level.
 ///

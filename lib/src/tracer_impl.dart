@@ -1,4 +1,4 @@
-import 'package:jetlog/src/field.dart' show Dur, DTM;
+import 'package:jetlog/src/field.dart' show Field, Dur, DTM;
 import 'package:jetlog/src/interface.dart';
 import 'package:jetlog/src/level.dart';
 import 'package:jetlog/src/tracer.dart';
@@ -22,11 +22,14 @@ class TracerImpl implements Tracer {
   }
 
   @override
-  void stop(String message) {
+  void stop(String message, {Level? level, Iterable<Field>? fields}) {
     if (_timer.isRunning) {
       _timer.stop();
       stopAt = DateTime.now();
-      _context.bind({Dur('duration', _timer.elapsed)}).log(_level, message);
+      _context.bind({
+        Dur('duration', _timer.elapsed),
+        if (fields != null) ...fields
+      }).log(level ?? _level, message);
     }
   }
 

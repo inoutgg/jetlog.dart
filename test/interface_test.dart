@@ -643,7 +643,7 @@ void main() {
           ..handler = handler
           ..level = Level.all;
 
-        logger.trace('start', Level.fatal).stop('stop');
+        logger.trace('start', level: Level.fatal).stop('stop');
 
         await later(() {
           expect(handler.records.first.level == Level.fatal, isTrue);
@@ -657,6 +657,35 @@ void main() {
         expect(() => t.stop('stop 2'), returnsNormally);
         expect(() => t.stop('stop 3'), returnsNormally);
         expect(() => t.stop('stop 4'), returnsNormally);
+      });
+    });
+
+    test('accepts additional fields on stop', () async {
+      final handler = MemoryHandler();
+      final logger = Logger.detached()
+        ..handler = handler
+        ..level = Level.all;
+
+      const fields = [Str('test1', 'test1'), Str('test2', 'test2')];
+      logger.trace('start').stop('stop', fields: fields);
+
+      await later(() {
+        final record = handler.records.elementAt(1);
+        expect(List<Field>.from(record.fields!), containsAll(fields));
+      });
+    });
+
+    test('accepts custom level on stop', () async {
+      final handler = MemoryHandler();
+      final logger = Logger.detached()
+        ..handler = handler
+        ..level = Level.all;
+
+      logger.trace('start').stop('stop', level: Level.fatal);
+
+      await later(() {
+        final record = handler.records.elementAt(1);
+        expect(record.level, equals(Level.fatal));
       });
     });
 

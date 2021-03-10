@@ -70,8 +70,8 @@ class LoggerImpl with LoggerBase {
   void log(Level level, String message) => _context.log(level, message);
 
   @override
-  Tracer trace(String message, [Level level = Level.debug]) =>
-      _context.trace(message, level);
+  Tracer trace(String message, {Level level = Level.debug}) =>
+      _context.trace(message, level: level);
 
   @override
   @pragma('vm:prefer-inline')

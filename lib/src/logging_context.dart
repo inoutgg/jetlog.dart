@@ -34,6 +34,6 @@ class LoggingContext implements Interface {
       });
 
   @override
-  Tracer trace(String message, [Level level = Level.debug]) =>
+  Tracer trace(String message, {Level level = Level.debug}) =>
       TracerImpl(this, level)..start(message);
 }

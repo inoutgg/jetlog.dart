@@ -9,13 +9,16 @@ import 'package:jetlog/src/tracer.dart';
 class NoopTracer implements Tracer {
   @override
   @pragma('vm:prefer-inline')
-  void stop(String message) {}
+  void stop(String message, {Level? level, Iterable<Field>? fields}) {}
 }
 
 class NoopLogger with LoggerBase {
   NoopLogger([this.name]);
 
   Level? _level;
+
+  static final NoopLogger _logger = NoopLogger();
+  static final NoopTracer _tracer = NoopTracer();
 
   @override
   set level(Level? level) {
@@ -30,7 +33,7 @@ class NoopLogger with LoggerBase {
 
   @override
   @pragma('vm:prefer-inline')
-  Interface bind([Iterable<Field>? fields]) => NoopLogger();
+  Interface bind([Iterable<Field>? fields]) => _logger;
 
   @override
   set handler(Handler? handler) {
@@ -43,7 +46,7 @@ class NoopLogger with LoggerBase {
   }
 
   @override
-  Tracer trace(String message, [Level level = Level.debug]) => NoopTracer();
+  Tracer trace(String message, {Level level = Level.debug}) => _tracer;
 
   @override
   void log(Level level, String message) {

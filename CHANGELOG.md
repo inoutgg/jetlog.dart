@@ -1,4 +1,9 @@
 # CHANGELOG.md
+# 1.0.0
+* Add ability to specify custom severity level on `Tracer.stop` call.
+* Add ability to specify additional context fields on `Tracer.stop` call.
+
+# 1.0.0-rc.3
 # 1.0.0-rc.2
 * **BREAKING CHANGE** Null-safety
 
