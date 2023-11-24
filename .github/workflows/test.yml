@@ -18,49 +18,44 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ubuntu-latest, windows-latest, macos-latest]
-        channel: [stable, beta]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       # Caching for Unix-like OPs
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         if: ${{ !startsWith(matrix.operating-system, 'windows') }}
         with:
           path: '~/.pub-cache'
           key: ${{ runner.os }}-${{ hashFiles('pubspec.yaml') }}
 
       # Caching on Windows.
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         if: ${{ startsWith(matrix.operating-system, 'windows') }}
         with:
           path: '%LOCALAPPDATA%\Pub\Cache'
           key: ${{ runner.os }}-${{ hashFiles('pubspec.yaml') }}
 
       - name: Setup Dart VM
-        uses: vanesyan/setup-dart@v1
-        with:
-          version: latest
-          channel: ${{ matrix.channel }}
+        uses: dart-lang/setup-dart@v1
 
-      - run: pub get
-      - run: pub run test
+      - run: dart pub get
+      - run: dart format --output=none --set-exit-if-changed .
+      - run: dart analyze
+      - run: dart test
 
   coverage:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/cache@v2
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v3
         with:
           path: '~/.pub-cache'
           key: ${{ runner.os }}-${{ hashFiles('pubspec.yaml') }}
 
       - name: Setup Dart VM
-        uses: vanesyan/setup-dart@v1
-        with:
-          version: latest
-          channel: beta
+        uses: dart-lang/setup-dart@v1
 
-      - run: pub get
+      - run: dart pub get
 
       - name: Collect coverate
         run: |
