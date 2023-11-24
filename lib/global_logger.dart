@@ -51,11 +51,11 @@ void log(Level level, String message) => _logger.log(level, message);
 void debug(String message) => _logger.debug(message);
 
 /// Starts tracing and emits a record with [message] and [level]
-/// severity level; to stop tracing call [Tracer.stop] on the returned tracer.
+/// severity level; to stop tracing call [Timer.stop] on the returned tracer.
 ///
-/// See more [Interface.trace].
-Tracer trace(String message, {Level level = Level.debug}) =>
-    _logger.trace(message, level: level);
+/// See more [Interface.startTimer].
+Timer trace(String message, {Level level = Level.debug}) =>
+    _logger.startTimer(message, level: level);
 
 /// Emits a record with [message] and [Level.info] severity level.
 ///

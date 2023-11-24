@@ -1,11 +1,11 @@
 part of jetlog.fields;
 
-class _StaticNum extends _StaticField<num?> implements Num {
+final class _StaticNum extends _StaticField<num?> implements Num {
   const _StaticNum(String name, num? value)
       : super(name: name, value: value, kind: FieldKind.number);
 }
 
-class _LazyNum extends _LazyField<num?> implements Num {
+final class _LazyNum extends _LazyField<num?> implements Num {
   _LazyNum(String name, ValueProducer<num?> producer)
       : super(name: name, producer: producer, kind: FieldKind.number);
 }

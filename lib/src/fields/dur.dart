@@ -1,11 +1,11 @@
 part of jetlog.fields;
 
-class _StaticDur extends _StaticField<Duration?> implements Dur {
+final class _StaticDur extends _StaticField<Duration?> implements Dur {
   const _StaticDur(String name, Duration? value)
       : super(name: name, value: value, kind: FieldKind.duration);
 }
 
-class _LazyDur extends _LazyField<Duration?> implements Dur {
+final class _LazyDur extends _LazyField<Duration?> implements Dur {
   _LazyDur(String name, ValueProducer<Duration?> producer)
       : super(name: name, producer: producer, kind: FieldKind.duration);
 }

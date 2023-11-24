@@ -7,7 +7,7 @@ void main() {
     group('#toString', () {
       test('returns correct string representation', () {
         final l = Logger.detached();
-        final t = l.trace('start') as TracerImpl;
+        final t = l.startTimer('start') as TracerImpl;
 
         expect(
             t.toString(),

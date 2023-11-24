@@ -1,11 +1,11 @@
 part of jetlog.fields;
 
-class _StaticDouble extends _StaticField<double?> implements Double {
+final class _StaticDouble extends _StaticField<double?> implements Double {
   const _StaticDouble(String name, double? value)
       : super(name: name, value: value, kind: FieldKind.double);
 }
 
-class _LazyDouble extends _LazyField<double?> implements Double {
+final class _LazyDouble extends _LazyField<double?> implements Double {
   _LazyDouble(String name, ValueProducer<double?> producer)
       : super(name: name, producer: producer, kind: FieldKind.double);
 }

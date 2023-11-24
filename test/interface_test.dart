@@ -99,7 +99,7 @@ void main() {
 
         logger
           ..debug('debug')
-          ..trace('trace')
+          ..startTimer('trace')
           ..info('info')
           ..warning('warning')
           ..danger('danger')
@@ -574,7 +574,7 @@ void main() {
     group('#trace', () {
       test('returns a non-null tracer', () async {
         final logger = Logger.detached();
-        final trace = logger.trace('Trace');
+        final trace = logger.startTimer('Trace');
 
         expect(trace, isNotNull);
       });
@@ -585,7 +585,7 @@ void main() {
           ..level = Level.all
           ..handler = handler;
 
-        final tracer = logger.trace('start trace');
+        final tracer = logger.startTimer('start trace');
         tracer.stop('stop trace');
 
         await later(() {
@@ -601,7 +601,7 @@ void main() {
           ..level = Level.all
           ..handler = handler;
 
-        logger.trace('start').stop('stop');
+        logger.startTimer('start').stop('stop');
 
         await later(() {
           final records = handler.records;
@@ -616,7 +616,7 @@ void main() {
           ..level = Level.all
           ..handler = handler;
 
-        logger.trace('start').stop('stop');
+        logger.startTimer('start').stop('stop');
 
         await later(() {
           final records = handler.records;
@@ -643,7 +643,7 @@ void main() {
           ..handler = handler
           ..level = Level.all;
 
-        logger.trace('start', level: Level.fatal).stop('stop');
+        logger.startTimer('start', level: Level.fatal).stop('stop');
 
         await later(() {
           expect(handler.records.first.level == Level.fatal, isTrue);
@@ -652,7 +652,7 @@ void main() {
 
       test('ignores further tracer stop calls after the first one', () {
         final logger = Logger.detached()..level = Level.all;
-        final t = logger.trace('start')..stop('stop');
+        final t = logger.startTimer('start')..stop('stop');
 
         expect(() => t.stop('stop 2'), returnsNormally);
         expect(() => t.stop('stop 3'), returnsNormally);
@@ -667,7 +667,7 @@ void main() {
         ..level = Level.all;
 
       const fields = [Str('test1', 'test1'), Str('test2', 'test2')];
-      logger.trace('start').stop('stop', fields: fields);
+      logger.startTimer('start').stop('stop', fields: fields);
 
       await later(() {
         final record = handler.records.elementAt(1);
@@ -681,7 +681,7 @@ void main() {
         ..handler = handler
         ..level = Level.all;
 
-      logger.trace('start').stop('stop', level: Level.fatal);
+      logger.startTimer('start').stop('stop', level: Level.fatal);
 
       await later(() {
         final record = handler.records.elementAt(1);

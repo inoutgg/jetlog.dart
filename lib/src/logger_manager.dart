@@ -1,6 +1,6 @@
 import 'package:jetlog/src/logger_impl.dart';
 
-class LoggerManager {
+final class LoggerManager {
   LoggerManager(this.root) : _loggers = {};
 
   final Map<String, LoggerImpl> _loggers;

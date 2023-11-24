@@ -22,7 +22,7 @@ typedef ValueProducer<V> = V Function();
 
 /// [FieldKind] represents a [Field.value] type. It is used for [Field]
 /// serialization to remove necessity to dynamically probe [Field.value] type.
-class FieldKind {
+final class FieldKind {
   const FieldKind(this.value);
 
   /// Unique value for type.
@@ -55,7 +55,7 @@ class FieldKind {
 }
 
 /// A [Field] used to add a key-value pair to a logger's context.
-abstract class Field<V> {
+abstract interface class Field<V> {
   /// Creates a new [Field] with [name] and [value].
   const factory Field(
       {required String name,
@@ -85,7 +85,7 @@ abstract class Field<V> {
   FieldKind get kind;
 }
 
-class _StaticField<V> implements Field<V> {
+base class _StaticField<V> implements Field<V> {
   const _StaticField(
       {required this.name, required this.value, required this.kind});
 
@@ -105,7 +105,7 @@ class _StaticField<V> implements Field<V> {
   bool operator ==(Object other) => other is Field && other.name == name;
 }
 
-class _LazyField<V> implements Field<V> {
+base class _LazyField<V> implements Field<V> {
   _LazyField({required this.name, required this.producer, required this.kind});
 
   V? _value;

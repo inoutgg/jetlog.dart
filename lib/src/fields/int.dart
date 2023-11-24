@@ -1,11 +1,11 @@
 part of jetlog.fields;
 
-class _StaticInt extends _StaticField<int?> implements Int {
+final class _StaticInt extends _StaticField<int?> implements Int {
   const _StaticInt(String name, int? value)
       : super(name: name, value: value, kind: FieldKind.integer);
 }
 
-class _LazyInt extends _LazyField<int?> implements Int {
+final class _LazyInt extends _LazyField<int?> implements Int {
   _LazyInt(String name, ValueProducer<int?> producer)
       : super(name: name, producer: producer, kind: FieldKind.integer);
 }

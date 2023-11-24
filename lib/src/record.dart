@@ -3,7 +3,7 @@ import 'package:jetlog/src/level.dart';
 import 'package:jetlog/src/logger.dart';
 
 /// A single record emitted by a [Logger].
-abstract class Record {
+abstract interface class Record {
   /// Severity level of this record.
   Level get level;
 

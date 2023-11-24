@@ -183,7 +183,7 @@ void main() {
 
         expect(() => l.log(Level.info, 'test'), returnsNormally);
         expect(() => l.debug('test'), returnsNormally);
-        expect(() => l.trace('test'), returnsNormally);
+        expect(() => l.startTimer('test'), returnsNormally);
         expect(() => l.info('test'), returnsNormally);
         expect(() => l.warning('test'), returnsNormally);
         expect(() => l.danger('test'), returnsNormally);
@@ -194,13 +194,13 @@ void main() {
 
         expect(() => b.log(Level.info, 'bind test'), returnsNormally);
         expect(() => b.debug('bind test'), returnsNormally);
-        expect(() => l.trace('test'), returnsNormally);
+        expect(() => l.startTimer('test'), returnsNormally);
         expect(() => b.info('bind test'), returnsNormally);
         expect(() => b.warning('bind test'), returnsNormally);
         expect(() => b.danger('bind test'), returnsNormally);
         expect(() => b.fatal('bind test'), returnsNormally);
 
-        final t = l.trace('test trace');
+        final t = l.startTimer('test trace');
 
         expect(() => t.stop('test trace'), returnsNormally);
       });

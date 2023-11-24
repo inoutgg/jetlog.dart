@@ -118,7 +118,9 @@ class TextFormatter with FormatterBase<String> {
     for (final field in fields) {
       final handler = getFieldFormatter(field.kind);
 
-      buffer..write(handler(field))..write(' ');
+      buffer
+        ..write(handler(field))
+        ..write(' ');
     }
 
     return buffer.toString().trim();

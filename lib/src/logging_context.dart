@@ -3,14 +3,14 @@ import 'package:jetlog/src/interface.dart';
 import 'package:jetlog/src/level.dart';
 import 'package:jetlog/src/logger_impl.dart';
 import 'package:jetlog/src/record_impl.dart';
-import 'package:jetlog/src/tracer.dart';
-import 'package:jetlog/src/tracer_impl.dart';
+import 'package:jetlog/src/timer.dart';
+import 'package:jetlog/src/timer_impl.dart';
 
 class LoggingContext implements Interface {
-  LoggingContext(this._logger, [this._fields]);
+  LoggingContext(this._logger, [this._fields = const {}]);
 
   final LoggerImpl _logger;
-  final Set<Field>? _fields;
+  final Set<Field> _fields;
 
   @override
   void log(Level level, String message) {
@@ -30,10 +30,10 @@ class LoggingContext implements Interface {
   @pragma('vm:prefer-inline')
   Interface bind([Iterable<Field>? fields]) => LoggingContext(_logger, {
         ...?fields,
-        ...?_fields,
+        ..._fields,
       });
 
   @override
-  Tracer trace(String message, {Level level = Level.debug}) =>
-      TracerImpl(this, level)..start(message);
+  Timer startTimer(String message, {Level level = Level.debug}) =>
+      TimerImpl(this, level)..start(message);
 }

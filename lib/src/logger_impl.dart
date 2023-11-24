@@ -8,9 +8,9 @@ import 'package:jetlog/src/level.dart';
 import 'package:jetlog/src/logger.dart';
 import 'package:jetlog/src/logging_context.dart';
 import 'package:jetlog/src/record.dart';
-import 'package:jetlog/src/tracer.dart';
+import 'package:jetlog/src/timer.dart';
 
-class LoggerImpl with LoggerBase {
+final class LoggerImpl with LoggerBase {
   LoggerImpl._(this.name, [this.children]) {
     _context = LoggingContext(this);
   }
@@ -70,8 +70,8 @@ class LoggerImpl with LoggerBase {
   void log(Level level, String message) => _context.log(level, message);
 
   @override
-  Tracer trace(String message, {Level level = Level.debug}) =>
-      _context.trace(message, level: level);
+  Timer startTimer(String message, {Level level = Level.debug}) =>
+      _context.startTimer(message, level: level);
 
   @override
   @pragma('vm:prefer-inline')
@@ -84,10 +84,16 @@ class LoggerImpl with LoggerBase {
     buffer.write('Logger(');
 
     if (name != null) {
-      buffer..write('name=')..write(name)..write(', ');
+      buffer
+        ..write('name=')
+        ..write(name)
+        ..write(', ');
     }
 
-    buffer..write('level=')..write(level.name)..write(')');
+    buffer
+      ..write('level=')
+      ..write(level.name)
+      ..write(')');
 
     return buffer.toString();
   }

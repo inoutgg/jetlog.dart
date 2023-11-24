@@ -19,7 +19,7 @@ import 'package:jetlog/src/record.dart';
 /// and does not overlap with `0x100`, `0x200`, `0x300`, `0x400`, `0x500` and
 /// `0x600` reserved for [debug], [info], [warning], [danger] and [fatal]
 /// levels respectively.
-class Level implements Comparable<Level> {
+final class Level implements Comparable<Level> {
   const Level({required this.name, required this.value});
 
   /// User-readable name of this severity level.

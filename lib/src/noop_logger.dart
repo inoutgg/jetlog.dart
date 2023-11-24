@@ -1,24 +1,24 @@
 import 'package:jetlog/src/field.dart' show Field;
 import 'package:jetlog/src/filter.dart';
 import 'package:jetlog/src/handler.dart';
+import 'package:jetlog/src/interface.dart';
 import 'package:jetlog/src/level.dart';
 import 'package:jetlog/src/logger.dart';
-import 'package:jetlog/src/interface.dart';
-import 'package:jetlog/src/tracer.dart';
+import 'package:jetlog/src/timer.dart';
 
-class NoopTracer implements Tracer {
+final class NoopTimer implements Timer {
   @override
   @pragma('vm:prefer-inline')
   void stop(String message, {Level? level, Iterable<Field>? fields}) {}
 }
 
-class NoopLogger with LoggerBase {
+final class NoopLogger with LoggerBase {
   NoopLogger([this.name]);
 
   Level? _level;
 
   static final NoopLogger _logger = NoopLogger();
-  static final NoopTracer _tracer = NoopTracer();
+  static final NoopTimer _timer = NoopTimer();
 
   @override
   set level(Level? level) {
@@ -46,7 +46,7 @@ class NoopLogger with LoggerBase {
   }
 
   @override
-  Tracer trace(String message, {Level level = Level.debug}) => _tracer;
+  Timer startTimer(String message, {Level level = Level.debug}) => _timer;
 
   @override
   void log(Level level, String message) {
@@ -60,10 +60,16 @@ class NoopLogger with LoggerBase {
     buffer.write('NoopLogger(');
 
     if (name != null) {
-      buffer..write('name=')..write(name)..write(', ');
+      buffer
+        ..write('name=')
+        ..write(name)
+        ..write(', ');
     }
 
-    buffer..write('level=')..write(level.name)..write(')');
+    buffer
+      ..write('level=')
+      ..write(level.name)
+      ..write(')');
 
     return buffer.toString();
   }

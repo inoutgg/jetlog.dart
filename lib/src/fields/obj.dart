@@ -1,11 +1,11 @@
 part of jetlog.fields;
 
-class _StaticObj extends _StaticField<Iterable<Field>?> implements Obj {
+final class _StaticObj extends _StaticField<Iterable<Field>?> implements Obj {
   _StaticObj(String name, Loggable? value)
       : super(name: name, value: value?.toFields(), kind: FieldKind.object);
 }
 
-class _LazyObj extends _LazyField<Iterable<Field>?> implements Obj {
+final class _LazyObj extends _LazyField<Iterable<Field>?> implements Obj {
   _LazyObj(String name, ValueProducer<Iterable<Field>?> producer)
       : super(name: name, producer: producer, kind: FieldKind.object);
 }

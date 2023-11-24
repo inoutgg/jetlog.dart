@@ -2,9 +2,9 @@ import 'package:jetlog/src/field.dart' show Field;
 import 'package:jetlog/src/interface.dart';
 import 'package:jetlog/src/level.dart' show Level;
 
-/// Tracer is used to measure time between [Interface.trace] and [Tracer.stop]
+/// [Timer] is used to measure time between [Interface.startTimer] and [Timer.stop]
 /// calls.
-abstract class Tracer {
+abstract interface class Timer {
   /// Stops tracing; immediately emits a record with a [message] and
   /// measured time.
   ///
