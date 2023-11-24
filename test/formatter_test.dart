@@ -1,8 +1,6 @@
-import 'package:test/test.dart';
-import 'package:jetlog/jetlog.dart' show Field, FieldKind;
 import 'package:jetlog/formatters.dart' show FormatterBase;
-
-class CustomFormatter with FormatterBase<String> {}
+import 'package:jetlog/jetlog.dart' show Field, FieldKind;
+import 'package:test/test.dart';
 
 void main() {
   group('FormatterBase', () {
@@ -42,3 +40,5 @@ void main() {
     });
   });
 }
+
+class CustomFormatter with FormatterBase<String> {}

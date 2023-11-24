@@ -5,24 +5,6 @@ import 'package:jetlog/handlers.dart';
 import 'package:jetlog/jetlog.dart';
 import 'package:test/test.dart';
 
-Future<void> later(void action()) => Future.delayed(Duration.zero, action);
-
-bool _testFilter(Record record) => record.level == Level.danger;
-
-class CustomObject implements Loggable {
-  @override
-  Iterable<Field> toFields() => {
-        Str.lazy('LazyStr', () => 'logger'),
-        const Str('Str', 'string'),
-      };
-}
-
-const Level customLevel = Level(name: 'custom', value: 0x600);
-
-extension CustomLevelLog on Interface {
-  void customLog(String message) => log(customLevel, message);
-}
-
 void main() {
   group('Interface', () {
     group('#log', () {
@@ -421,7 +403,7 @@ void main() {
             Dur.lazy('LazyDur', () => Duration.zero),
             Int.lazy('LazyInt', () => 1),
             Num.lazy('LazyNum', () => 123.1),
-            Obj.lazy('LazyObj', () => CustomObject()),
+            Obj.lazy('LazyObj', CustomObject.new),
             Str.lazy('LazyStr', () {
               print('LazyString print!');
 
@@ -710,4 +692,22 @@ void main() {
       });
     });
   });
+}
+
+const Level customLevel = Level(name: 'custom', value: 0x600);
+
+Future<void> later(void action()) => Future.delayed(Duration.zero, action);
+
+bool _testFilter(Record record) => record.level == Level.danger;
+
+class CustomObject implements Loggable {
+  @override
+  Iterable<Field> toFields() => {
+        Str.lazy('LazyStr', () => 'logger'),
+        const Str('Str', 'string'),
+      };
+}
+
+extension CustomLevelLog on Interface {
+  void customLog(String message) => log(customLevel, message);
 }

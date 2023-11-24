@@ -9,7 +9,7 @@ import 'multi_filter_test.dart' as multi_filter_test;
 import 'multi_handler_test.dart' as multi_handler_test;
 import 'stream_handler_test.dart' as stream_handler_test;
 import 'text_formatter_test.dart' as text_formatter_test;
-import 'tracer_test.dart' as tracer_test;
+import 'timer_test.dart' as timer_test;
 
 void main() {
   // Core tests
@@ -18,7 +18,7 @@ void main() {
   formatter_test.main();
   interface_test.main();
   logger_test.main();
-  tracer_test.main();
+  timer_test.main();
 
   // Filters tests
   multi_filter_test.main();
