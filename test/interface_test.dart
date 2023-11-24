@@ -63,7 +63,7 @@ void main() {
           expect(record.level, same(Level.info));
           expect(record.message, 'test');
           expect(record.timestamp, isNotNull);
-          expect(record.fields, isNull);
+          expect(record.fields, isEmpty);
         });
       });
 
@@ -571,7 +571,7 @@ void main() {
       });
     });
 
-    group('#trace', () {
+    group('#timer', () {
       test('returns a non-null tracer', () async {
         final logger = Logger.detached();
         final trace = logger.startTimer('Trace');
@@ -620,11 +620,12 @@ void main() {
 
         await later(() {
           final records = handler.records;
+          print(records);
           expect(
               records
                   .elementAt(0)
                   .fields
-                  ?.firstWhere((f) => f.name == 'start')
+                  ?.firstWhere((f) => f.name == 'started_at')
                   .value,
               isNotNull);
           expect(
@@ -632,6 +633,13 @@ void main() {
                   .elementAt(1)
                   .fields
                   ?.firstWhere((f) => f.name == 'duration')
+                  .value,
+              isNotNull);
+          expect(
+              records
+                  .elementAt(1)
+                  .fields
+                  ?.firstWhere((f) => f.name == 'stopped_at')
                   .value,
               isNotNull);
         });

@@ -8,7 +8,7 @@ class TimerImpl implements Timer {
       : _stopwatch = Stopwatch();
 
   late final DateTime startedAt;
-  late final DateTime stoppedAt;
+  DateTime? stoppedAt;
   Interface _context;
   bool _startGuard = false;
 
@@ -34,8 +34,8 @@ class TimerImpl implements Timer {
       _stopwatch.stop();
       stoppedAt = startedAt.add(_stopwatch.elapsed);
       _context.bind({
-        Dur('duration', _stopwatch.elapsed),
         DTM('stopped_at', stoppedAt),
+        Dur('duration', _stopwatch.elapsed),
         ...?fields
       }).log(level ?? _level, message);
     }
