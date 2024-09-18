@@ -1,6 +1,7 @@
-import 'dart:convert' show JsonEncoder, Utf8Encoder;
+import 'dart:convert' show utf8, json, Codec;
 
-import 'package:jetlog/jetlog.dart' show Field, FieldKind, Level, Obj, Record;
+import 'package:jetlog/jetlog.dart'
+    show Field, FieldKind, Level, Obj, Record, Group;
 import 'package:jetlog/src/formatters/formatter.dart';
 
 @pragma('vm:prefer-inline')
@@ -18,9 +19,9 @@ String _formatTimestamp(DateTime timestamp) => timestamp.toString();
 ///
 /// As such we strongly recommend not to put fields in to any collections
 /// fields with key such as `level`, `message`, `name` and `timestamp`.
-class JsonFormatter with FormatterBase<MapEntry<String, Object?>> {
-  JsonFormatter._(this._json, this.formatLevel, this.formatTimestamp)
-      : _utf8 = const Utf8Encoder() {
+final class JsonFormatter with FormatterBase<MapEntry<String, Object?>> {
+  JsonFormatter._(this.formatLevel, this.formatTimestamp)
+      : _codec = json.fuse(utf8) {
     _init();
   }
 
@@ -32,8 +33,7 @@ class JsonFormatter with FormatterBase<MapEntry<String, Object?>> {
   factory JsonFormatter(
       {LevelFormatter<Object> formatLevel = _formatLevel,
       TimestampFormatter<Object> formatTimestamp = _formatTimestamp}) {
-    final formatter =
-        JsonFormatter._(const JsonEncoder(), formatLevel, formatTimestamp);
+    final formatter = JsonFormatter._(formatLevel, formatTimestamp);
 
     return formatter;
   }
@@ -41,22 +41,7 @@ class JsonFormatter with FormatterBase<MapEntry<String, Object?>> {
   /// Creates a new [JSONFormatter] with default configurations.
   factory JsonFormatter.withDefaults() => JsonFormatter();
 
-  /// Creates a new [JsonFormatter] with specified [indent] level.
-  ///
-  /// By default produced JSON is indented with space character, however
-  /// it is possible to use tabs instead by setting [useTabs] to `true`.
-  ///
-  /// Optional [formatLevel] and [formatTimestamp] callbacks
-  /// may be provided and are used to format severity levels and timestamp.
-  factory JsonFormatter.withIndent(int indent,
-          {bool useTabs = false,
-          LevelFormatter<Object> formatLevel = _formatLevel,
-          TimestampFormatter<Object> formatTimestamp = _formatTimestamp}) =>
-      JsonFormatter._(JsonEncoder.withIndent(useTabs ? '\t' : ' ' * indent),
-          formatLevel, formatTimestamp);
-
-  final Utf8Encoder _utf8;
-  final JsonEncoder _json;
+  final Codec<Object?, List<int>> _codec;
 
   final LevelFormatter<Object> formatLevel;
   final TimestampFormatter<Object> formatTimestamp;
@@ -71,6 +56,7 @@ class JsonFormatter with FormatterBase<MapEntry<String, Object?>> {
     setFieldFormatter(FieldKind.number, _formatPrimitiveField);
     setFieldFormatter(FieldKind.string, _formatPrimitiveField);
     setFieldFormatter(FieldKind.object, _formatObjectField);
+    setFieldFormatter(FieldKind.group, _formatGroupField);
   }
 
   Iterable<MapEntry<String, Object?>>? _formatFields(Iterable<Field>? fields) {
@@ -89,8 +75,19 @@ class JsonFormatter with FormatterBase<MapEntry<String, Object?>> {
   }
 
   @pragma('vm:prefer-inline')
-  MapEntry<String, Object?> _formatObjectField(Field field) {
+  MapEntry<String, Map<String, Object?>?> _formatObjectField(Field field) {
     final entries = _formatFields((field as Obj).value);
+    final name = field.name;
+    if (entries != null) {
+      return MapEntry(name, Map.fromEntries(entries));
+    }
+
+    return MapEntry(name, null);
+  }
+
+  @pragma('vm:prefer-inline')
+  MapEntry<String, Map<String, Object?>?> _formatGroupField(Field field) {
+    final entries = _formatFields((field as Group).value);
     final name = field.name;
     if (entries != null) {
       return MapEntry(name, Map.fromEntries(entries));
@@ -116,6 +113,6 @@ class JsonFormatter with FormatterBase<MapEntry<String, Object?>> {
       ...?_formatFields(record.fields),
     ]);
 
-    return _utf8.convert(_json.convert(dict));
+    return _codec.encode(dict);
   }
 }

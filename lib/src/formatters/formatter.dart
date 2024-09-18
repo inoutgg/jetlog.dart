@@ -10,7 +10,7 @@ typedef Formatter = List<int> Function(Record);
 /// Base mixin for implementing [Formatter].
 ///
 /// Contains default implementations of common methods across formatters.
-mixin FormatterBase<R> {
+base mixin FormatterBase<R> {
   final Map<FieldKind, FieldFormatter<R>> _registeredFieldFormatters = {};
 
   /// Registers [formatter] for a given field [kind].

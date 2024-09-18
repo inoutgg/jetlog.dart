@@ -10,6 +10,8 @@ part 'fields/dtm.dart';
 
 part 'fields/dur.dart';
 
+part 'fields/group.dart';
+
 part 'fields/int.dart';
 
 part 'fields/num.dart';
@@ -52,6 +54,9 @@ final class FieldKind {
 
   /// A field kind representing a [String] value type.
   static const FieldKind string = FieldKind(0x8);
+
+  /// A field kind representing a group of values type.
+  static const FieldKind group = FieldKind(0x9);
 }
 
 /// A [Field] used to add a key-value pair to a logger's context.

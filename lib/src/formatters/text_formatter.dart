@@ -1,6 +1,7 @@
 import 'dart:convert' show utf8;
 
-import 'package:jetlog/jetlog.dart' show Field, FieldKind, Obj, Record, Level;
+import 'package:jetlog/jetlog.dart'
+    show Field, FieldKind, Obj, Record, Level, Group;
 import 'package:jetlog/src/formatters/formatter.dart';
 
 const String _eol = '\r\n';
@@ -17,9 +18,8 @@ String _formatPrimitiveField(Field field, String parent) {
   return '${field.name}=${field.value}';
 }
 
-@pragma('vm:prefer-inline')
-String _formatObjectField(Field field, String parent) {
-  final fields = (field as Obj).value;
+String _formatObjectField(Obj field, String parent) {
+  final fields = field.value;
 
   if (fields == null) {
     String result = '${field.name}=null';
@@ -43,7 +43,36 @@ String _formatObjectField(Field field, String parent) {
     }
 
     if (childField.kind == FieldKind.object) {
-      buffer.write(_formatObjectField(childField, nextParent));
+      buffer.write(_formatObjectField(childField as Obj, nextParent));
+    } else {
+      buffer.write(_formatPrimitiveField(childField, nextParent));
+    }
+
+    buffer.write(' ');
+  }
+
+  return buffer.toString().trim();
+}
+
+String _formatGroupField(Group field, String parent) {
+  final fields = field.value;
+
+  if (fields.isEmpty) {
+    return '';
+  }
+
+  final buffer = StringBuffer();
+
+  for (final childField in fields) {
+    String nextParent = field.name;
+    if (parent.isNotEmpty) {
+      nextParent = '$parent.$nextParent';
+    }
+
+    if (childField.kind == FieldKind.object) {
+      buffer.write(_formatObjectField(childField as Obj, nextParent));
+    } else if (childField.kind == FieldKind.group) {
+      buffer.write(_formatGroupField(childField as Group, nextParent));
     } else {
       buffer.write(_formatPrimitiveField(childField, nextParent));
     }
@@ -65,10 +94,15 @@ String _defaultFormatPrimitiveField(Field field) =>
     _formatPrimitiveField(field, '');
 
 @pragma('vm:prefer-inline')
-String _defaultFormatObjectField(Field field) => _formatObjectField(field, '');
+String _defaultFormatObjectField(Field field) =>
+    _formatObjectField(field as Obj, '');
+
+@pragma('vm:prefer-inline')
+String _defaultFormatGroupField(Field field) =>
+    _formatGroupField(field as Group, '');
 
 /// [TextFormatter] is used to encode [Record] to formatted string.
-class TextFormatter with FormatterBase<String> {
+final class TextFormatter with FormatterBase<String> {
   /// Creates a new [TextFormatter] instance with [format] callback used to
   /// composite the final logging message.
   ///
@@ -105,6 +139,7 @@ class TextFormatter with FormatterBase<String> {
     setFieldFormatter(FieldKind.number, _defaultFormatPrimitiveField);
     setFieldFormatter(FieldKind.string, _defaultFormatPrimitiveField);
     setFieldFormatter(FieldKind.object, _defaultFormatObjectField);
+    setFieldFormatter(FieldKind.group, _defaultFormatGroupField);
   }
 
   @pragma('vm:prefer-inline')
