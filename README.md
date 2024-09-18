@@ -1,4 +1,4 @@
-# jetlog &middot; [![Test Status][gh-actions-image]][gh-actions-url] [![Code Coveraege][codecov-image]][codecov-url]
+# jetlog &middot; [![Test Status][gh-actions-image]][gh-actions-url]
 Fast, structured, leveled logging for Dart.
 
 jetlog's API is designed to provide great development experience
@@ -35,13 +35,9 @@ void main() async {
 // => '2019-06-27 15:37:38.046859 [INFO]: Greeting hello=world'
 ```
 
-
-
 ## License
 Released under the [MIT] license.
 
 [MIT]: ./LICENSE
-[gh-actions-image]: https://github.com/vanesyan/jetlog.dart/workflows/test/badge.svg
-[gh-actions-url]: https://github.com/vanesyan/jetlog.dart
-[codecov-image]: https://codecov.io/gh/vanesyan/jetlog.dart/branch/master/graph/badge.svg
-[codecov-url]: https://codecov.io/gh/vanesyan/jetlog.dart
+[gh-actions-image]: https://github.com/inoutgg/jetlog.dart/workflows/test/badge.svg
+[gh-actions-url]: https://github.com/inoutgg/jetlog.dart
