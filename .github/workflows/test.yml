@@ -3,13 +3,13 @@ name: test
 on:
   pull_request:
     paths-ignore:
-      - '**.md'
+      - "**.md"
   push:
     branches:
       - master
       - releases/*
     paths-ignore:
-      - '**.md'
+      - "**.md"
 
 jobs:
   test:
@@ -19,13 +19,13 @@ jobs:
       matrix:
         operating-system: [ubuntu-latest, windows-latest, macos-latest]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # Caching for Unix-like OPs
       - uses: actions/cache@v3
         if: ${{ !startsWith(matrix.operating-system, 'windows') }}
         with:
-          path: '~/.pub-cache'
+          path: "~/.pub-cache"
           key: ${{ runner.os }}-${{ hashFiles('pubspec.yaml') }}
 
       # Caching on Windows.
@@ -42,4 +42,3 @@ jobs:
       - run: dart format --output=none --set-exit-if-changed .
       - run: dart analyze
       - run: dart test
-
