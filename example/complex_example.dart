@@ -7,7 +7,8 @@ import 'dart:io' show stdout, stderr;
 
 import 'package:jetlog/formatters.dart' show TextFormatter;
 import 'package:jetlog/handlers.dart' show MultiHandler, StreamHandler;
-import 'package:jetlog/jetlog.dart' show Level, Logger, Record, Str, DefaultLog;
+import 'package:jetlog/jetlog.dart'
+    show Level, Logger, Record, Str, DefaultLog, Obj, Field, Loggable;
 
 bool _stderrOnlyFilter(Record record) =>
     record.level == Level.warning ||
@@ -30,11 +31,9 @@ final _logger = Logger.getLogger('example.stdout')
   ..handler = MultiHandler([_stdoutHandler, _stderrHandler]);
 
 Future<void> main() async {
-  final context = _logger.bind({
-    const Str('username', 'vanesyan'),
-    const Str('filename', 'avatar.png'),
-    const Str('mime', 'image/png'),
-  });
+  final file = File('avatar.png', 'image/png');
+  final context = _logger
+      .bind({const Str('username', 'roman-vanesyan'), Obj('file', file)});
 
   final tracer = context.startTimer('Uploading!', level: Level.info);
 
@@ -43,4 +42,14 @@ Future<void> main() async {
 
   tracer.stop('Aborting...');
   context.fatal('Failed to upload!');
+}
+
+final class File implements Loggable {
+  File(this.name, this.mime);
+
+  final String name;
+  final String mime;
+
+  @override
+  Iterable<Field<dynamic>> toFields() => [Str('name', name), Str('mime', mime)];
 }

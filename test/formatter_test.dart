@@ -41,4 +41,4 @@ void main() {
   });
 }
 
-class CustomFormatter with FormatterBase<String> {}
+final class CustomFormatter with FormatterBase<String> {}

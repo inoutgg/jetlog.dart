@@ -2,7 +2,7 @@ import 'dart:convert' show utf8;
 
 import 'package:jetlog/formatters.dart' show TextFormatter;
 import 'package:jetlog/jetlog.dart'
-    show DTM, Dur, Field, FieldKind, Level, Loggable, Obj, Str;
+    show DTM, Dur, Field, FieldKind, Level, Loggable, Obj, Str, Int, Group;
 import 'package:jetlog/src/record_impl.dart';
 import 'package:test/test.dart';
 
@@ -98,7 +98,12 @@ void main() {
           fields: [
             const Dur('dur', Duration.zero),
             DTM('dtm', timestamp),
-            Obj('klass', klass)
+            Obj('klass', klass),
+            Group('group', [
+              const Str('key', 'value'),
+              Obj('klass', klass),
+              const Group('subgroup', [Int('int', 10)])
+            ])
           ]);
 
       final result = encoder.call(record);
@@ -108,7 +113,13 @@ void main() {
           '${level.name} ${timestamp.toString()} $message '
           'dur=0:00:00.000000 dtm=$timestamp '
           'klass.name=__name__ klass.dur=0:00:00.000000 '
-          'klass.subclass.name=__name__ klass.subclass.dur=0:00:00.000000 klass.subclass.subclass=null\r\n');
+          'klass.subclass.name=__name__ klass.subclass.dur=0:00:00.000000 klass.subclass.subclass=null '
+          'group.key=value '
+          'group.klass.name=__name__ group.klass.dur=0:00:00.000000 '
+          'group.klass.subclass.name=__name__ '
+          'group.klass.subclass.dur=0:00:00.000000 group.klass.subclass.subclass=null '
+          'group.subgroup.int=10'
+          '\r\n');
     });
 
     test('uses custom level encoder', () {
@@ -177,6 +188,8 @@ void main() {
           () => formatter.getFieldFormatter(FieldKind.object), returnsNormally);
       expect(
           () => formatter.getFieldFormatter(FieldKind.string), returnsNormally);
+      expect(
+          () => formatter.getFieldFormatter(FieldKind.group), returnsNormally);
     });
   });
 }

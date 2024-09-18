@@ -602,7 +602,6 @@ void main() {
 
         await later(() {
           final records = handler.records;
-          print(records);
           expect(
               records
                   .elementAt(0)

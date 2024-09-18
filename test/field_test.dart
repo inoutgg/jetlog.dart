@@ -93,7 +93,7 @@ void main() {
     group('DTM', () {
       test('Sets correct `FieldKind`', () {
         final field = DTM('DTM', DateTime.now());
-        final lazyField = DTM.lazy('LazyDTM', () => DateTime.now());
+        final lazyField = DTM.lazy('LazyDTM', DateTime.now);
 
         expect(field.kind, FieldKind.dateTime);
         expect(lazyField.kind, FieldKind.dateTime);
@@ -107,6 +107,14 @@ void main() {
 
         expect(field.kind, FieldKind.object);
         expect(lazyField.kind, FieldKind.object);
+      });
+    });
+
+    group('Group', () {
+      test('Sets correct `FieldKind`', () {
+        const field = Group('Group', []);
+
+        expect(field.kind, FieldKind.group);
       });
     });
   });

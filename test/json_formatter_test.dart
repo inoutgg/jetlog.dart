@@ -1,4 +1,4 @@
-import 'dart:convert' show utf8, json, JsonEncoder;
+import 'dart:convert' show utf8, json;
 
 import 'package:jetlog/formatters.dart' show JsonFormatter;
 import 'package:jetlog/jetlog.dart'
@@ -12,6 +12,7 @@ import 'package:jetlog/jetlog.dart'
         Int,
         Level,
         Loggable,
+        Group,
         Num,
         Obj,
         Str;
@@ -158,26 +159,6 @@ void main() {
       expect(dict, equals(json.decode(utf8.decode(result))));
     });
 
-    test('support indentation', () {
-      final formatter = JsonFormatter.withIndent(4);
-      final result = formatter(record);
-
-      final dict = {
-        'level': {
-          'name': level.name,
-          'severity': level.value,
-        },
-        'message': message,
-        'name': null,
-        'timestamp': timestamp.toString(),
-        'dur': Duration.zero.toString(),
-        'dtm': timestamp.toString(),
-      };
-
-      expect(
-          utf8.decode(result), JsonEncoder.withIndent(' ' * 4).convert(dict));
-    });
-
     test('supports nested fields', () {
       final formatter = JsonFormatter();
       final record = RecordImpl(
@@ -190,8 +171,13 @@ void main() {
             DTM('dtm', timestamp),
             Obj(
                 'klass',
-                Klass(
-                    Duration.zero, 'test', Klass(Duration.zero, 'nested-test')))
+                Klass(Duration.zero, 'test',
+                    Klass(Duration.zero, 'nested-test'))),
+            Group('group', [
+              Obj('klass', Klass(Duration.zero, 'test')),
+              const Str('string', 'string-value'),
+              const Group('subgroup', [Str('string', 'string-value')])
+            ]),
           ]);
       final result = formatter(record);
 
@@ -213,7 +199,16 @@ void main() {
             'dur': Duration.zero.toString(),
             'klass': null,
           }
-        }
+        },
+        'group': {
+          'klass': {
+            'name': 'test',
+            'dur': Duration.zero.toString(),
+            'klass': null,
+          },
+          'string': 'string-value',
+          'subgroup': {'string': 'string-value'}
+        },
       };
 
       expect(utf8.decode(result), json.encode(dict));
@@ -238,25 +233,8 @@ void main() {
           returnsNormally);
       expect(() => formatter1.getFieldFormatter(FieldKind.string),
           returnsNormally);
-
-      final formatter2 = JsonFormatter.withIndent(4);
-
-      expect(() => formatter2.getFieldFormatter(FieldKind.boolean),
-          returnsNormally);
-      expect(() => formatter2.getFieldFormatter(FieldKind.dateTime),
-          returnsNormally);
-      expect(() => formatter2.getFieldFormatter(FieldKind.double),
-          returnsNormally);
-      expect(() => formatter2.getFieldFormatter(FieldKind.duration),
-          returnsNormally);
-      expect(() => formatter2.getFieldFormatter(FieldKind.integer),
-          returnsNormally);
-      expect(() => formatter2.getFieldFormatter(FieldKind.number),
-          returnsNormally);
-      expect(() => formatter2.getFieldFormatter(FieldKind.object),
-          returnsNormally);
-      expect(() => formatter2.getFieldFormatter(FieldKind.string),
-          returnsNormally);
+      expect(
+          () => formatter1.getFieldFormatter(FieldKind.group), returnsNormally);
     });
 
     test('should override duplicated fields', () {
