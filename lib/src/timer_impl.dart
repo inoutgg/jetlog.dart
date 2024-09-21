@@ -22,7 +22,7 @@ class TimerImpl implements Timer {
     _startGuard = true;
 
     startedAt = DateTime.now();
-    _context = _context.bind({DTM('started_at', startedAt)})
+    _context = _context.withFields({DTM('started_at', startedAt)})
       ..log(_level, message);
 
     _stopwatch.start();
@@ -33,7 +33,7 @@ class TimerImpl implements Timer {
     if (_stopwatch.isRunning) {
       _stopwatch.stop();
       stoppedAt = startedAt.add(_stopwatch.elapsed);
-      _context.bind({
+      _context.withFields({
         DTM('stopped_at', stoppedAt),
         Dur('duration', _stopwatch.elapsed),
         ...?fields

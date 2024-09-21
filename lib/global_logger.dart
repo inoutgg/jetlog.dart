@@ -1,14 +1,13 @@
-/// This package library provides a global logger.
+/// This library provides a global logger for easy logging across your application.
 ///
-/// To use this library in your code:
-///
+/// Usage:
 /// ```dart
 /// import 'package:jetlog/global_logger.dart';
 /// ```
 ///
-/// Severity level of global logger is set to [Level.debug], logging records
-/// handler is set to [ConsoleHandler] with default formatting to text
-/// using [TextFormatter.defaultFormatter].
+/// The global logger is preconfigured with:
+/// - Severity level: [Level.debug]
+/// - Handler: [ConsoleHandler] with [TextFormatter.defaultFormatter]
 library jetlog.global_logger;
 
 import 'package:jetlog/formatters.dart' show TextFormatter;
@@ -19,66 +18,43 @@ final Logger _logger = Logger.detached()
   ..level = Level.all
   ..handler = ConsoleHandler(formatter: TextFormatter.withDefaults());
 
-/// Retrieves minimum severity level global logger allows a [Record] to be emitted
-/// by it.
-///
-/// See more [Logger.level] getter.
+/// Gets the minimum severity level for records emitted by the global logger.
 Level get level => _logger.level;
 
-/// Sets a minimum severity level of a [Record] to be emitted by global logger.
-///
-/// See more [Logger.level] setter.
+/// Sets the minimum severity level for records emitted by the global logger.
 set level(Level level) => _logger.level = level;
 
-/// Sets global logger logs handler.
-///
-/// See more [Logger.handler] setter.
+/// Sets the handler for the global logger.
 set handler(Handler handler) => _logger.handler = handler;
 
-/// Set global logger filter.
-///
-/// See more [Logger.filter] setter.
+/// Sets the filter for the global logger.
 set filter(Filter filter) => _logger.filter = filter;
 
-/// Emits a record with [message] and [level] severity level.
-///
-/// See more [Interface.log].
+/// Logs a message with the specified severity level.
 void log(Level level, String message) => _logger.log(level, message);
 
-/// Emits a record with [message] and [Level.debug] severity level.
-///
-/// See more [Interface.debug].
+/// Logs a debug message.
 void debug(String message) => _logger.debug(message);
 
-/// Starts tracing and emits a record with [message] and [level]
-/// severity level; to stop tracing call [Timer.stop] on the returned tracer.
+/// Starts a timer and logs a message. Returns a [Timer] object.
 ///
-/// See more [Interface.startTimer].
+/// Call [Timer.stop] on the returned object to stop tracing.
 Timer trace(String message, {Level level = Level.debug}) =>
     _logger.startTimer(message, level: level);
 
-/// Emits a record with [message] and [Level.info] severity level.
-///
-/// See more [Interface.info].
+/// Logs an info message.
 void info(String message) => _logger.info(message);
 
-/// Emits a record with [message] and [Level.warning] severity level.
-///
-/// See more [Interface.warning].
+/// Logs a warning message.
 void warning(String message) => _logger.warning(message);
 
-/// Emits a record with [message] and [Level.danger] severity level.
-///
-/// See more [Interface.danger].
+/// Logs a danger (error) message.
 void danger(String message) => _logger.danger(message);
 
-/// Emits a record with [message] and [Level.fatal] severity level.
-///
-/// See more [Interface.fatal].
+/// Logs a fatal message.
 void fatal(String message) => _logger.fatal(message);
 
-/// Creates and returns a new logging context with bound [fields]
-/// added to existing one.
+/// Creates a new logging context with additional fields.
 ///
-/// See more [Interface.bind].
-Interface bind([Iterable<Field>? fields]) => _logger.bind(fields);
+/// Returns a new [Interface] with the specified fields added to the existing context.
+Interface withFields([Iterable<Field>? fields]) => _logger.withFields(fields);

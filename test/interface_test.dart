@@ -270,8 +270,8 @@ void main() {
       test('Always returns a new logging context', () async {
         final logger = Logger.detached();
 
-        final context1 = logger.bind();
-        final context2 = logger.bind();
+        final context1 = logger.withFields();
+        final context2 = logger.withFields();
 
         expect(context1, isNot(same(context2)));
       });
@@ -292,7 +292,7 @@ void main() {
           ..handler = aHandler
           ..level = Level.danger;
 
-        final context = abc.bind();
+        final context = abc.withFields();
 
         context
           ..info('ABC')
@@ -317,7 +317,7 @@ void main() {
           ..level = Level.warning
           ..handler = handler;
 
-        final context = logger.bind();
+        final context = logger.withFields();
 
         context.info('info');
         context.fatal('fatal');
@@ -337,7 +337,7 @@ void main() {
         final handler = MemoryHandler();
         final logger = Logger.detached()..handler = handler;
 
-        final context1 = logger.bind([
+        final context1 = logger.withFields([
           const Str('string', 'string1'),
           const Dur('duration', Duration.zero)
         ]);
@@ -367,7 +367,7 @@ void main() {
         final handler = MemoryHandler();
         final logger = Logger.detached()..handler = handler;
 
-        final context = logger.bind({
+        final context = logger.withFields({
           const Field<int>(
               name: 'custom-field', value: 0x10, kind: FieldKind(0x100)),
         });
@@ -394,7 +394,7 @@ void main() {
             ..handler = ConsoleHandler(
                 formatter: TextFormatter(
                     (name, timestamp, level, message, fields) => '$fields'));
-          final context = logger.bind({
+          final context = logger.withFields({
             const Bool('StaticBool', false),
             Bool.lazy('LazyBool', () => true),
             Double.lazy('LazyDouble', () => 0.2),
@@ -442,7 +442,7 @@ void main() {
           final logger = Logger.detached()..handler = handler;
           final dt = DateTime.now();
 
-          final context = logger.bind({
+          final context = logger.withFields({
             Any('f1', true),
             Any('f2', 1.0),
             Any('f3', dt),
@@ -481,7 +481,7 @@ void main() {
                       (name, timestamp, level, message, fields) => '$fields'));
             final dt = DateTime.now();
 
-            final context = logger.bind({
+            final context = logger.withFields({
               Any.lazy('f1', () => true),
               Any.lazy('f2', () => 1.0),
               Any.lazy('f3', () => dt),
@@ -516,14 +516,14 @@ void main() {
           ..handler = handler
           ..level = Level.info;
 
-        final context1 = logger.bind([
+        final context1 = logger.withFields([
           const Dur('dur', Duration.zero),
           const Str('str', 'str'),
         ]);
 
         context1.info('info');
 
-        final context2 = context1.bind([
+        final context2 = context1.withFields([
           const Int('int', 0x10),
           const Double('double', 0.3),
         ]);

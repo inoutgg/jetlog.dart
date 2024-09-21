@@ -10,7 +10,7 @@ description: >
 homepage: https://github.com/vanesyan/jetlog.dart
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   meta: ^1.15.0

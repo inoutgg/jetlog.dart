@@ -75,7 +75,8 @@ final class LoggerImpl with LoggerBase {
 
   @override
   @pragma('vm:prefer-inline')
-  Interface bind([Iterable<Field>? fields]) => _context.bind(fields);
+  Interface withFields([Iterable<Field>? fields]) =>
+      _context.withFields(fields);
 
   @override
   String toString() {

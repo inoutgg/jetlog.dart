@@ -188,9 +188,9 @@ void main() {
         expect(() => l.warning('test'), returnsNormally);
         expect(() => l.danger('test'), returnsNormally);
         expect(() => l.fatal('test'), returnsNormally);
-        expect(l.bind, returnsNormally);
+        expect(l.withFields, returnsNormally);
 
-        final b = l.bind();
+        final b = l.withFields();
 
         expect(() => b.log(Level.info, 'bind test'), returnsNormally);
         expect(() => b.debug('bind test'), returnsNormally);

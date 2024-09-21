@@ -12,7 +12,7 @@ final _logger = Logger.detached()
   ..handler = ConsoleHandler(formatter: TextFormatter.withDefaults());
 
 Future<void> main() async {
-  final context = _logger.bind({
+  final context = _logger.withFields({
     const Str('username', 'roman-vanesyan'),
     const Group('file', [
       Str('name', 'avatar.png'),

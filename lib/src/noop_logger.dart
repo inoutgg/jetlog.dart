@@ -33,7 +33,7 @@ final class NoopLogger with LoggerBase {
 
   @override
   @pragma('vm:prefer-inline')
-  Interface bind([Iterable<Field>? fields]) => _logger;
+  Interface withFields([Iterable<Field>? fields]) => _logger;
 
   @override
   set handler(Handler? handler) {

@@ -4,7 +4,7 @@ import 'package:jetlog/src/logger.dart';
 import 'package:jetlog/src/timer.dart';
 
 /// [Interface] represents a set of common methods that is implemented by both
-/// [Logger] and logging context returned by [Interface.bind].
+/// [Logger] and logging context returned by [Interface.withFields].
 abstract interface class Interface {
   /// Emits a record with [message] and [level] severity level.
   ///
@@ -17,12 +17,12 @@ abstract interface class Interface {
   Timer startTimer(String message, {Level level = Level.debug});
 
   /// Creates and returns a new logging context with bound collection of
-  /// [fields] added to existing one.
+  /// [fields] added to existing ones.
   ///
   /// Example:
   /// ```dart
-  /// final context = logger.bind({
-  ///   Str('username', 'vanesyan'),
+  /// final context = logger.withFields({
+  ///   Str('username', 'roman-vanesyan'),
   ///   Str('filename', 'avatar.png'),
   ///   Str('mime', 'image/png'),
   /// });
@@ -43,5 +43,5 @@ abstract interface class Interface {
   /// var context = logger.bind({Str('first', '1st'}); // => { "first": "1st" }
   /// context = context.bind({Str('second', '2nd'}); // => { "first": "1st", "second": "2nd" }
   /// ```
-  Interface bind([Iterable<Field>? fields]);
+  Interface withFields([Iterable<Field>? fields]);
 }

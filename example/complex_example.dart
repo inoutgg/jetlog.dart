@@ -33,7 +33,7 @@ final _logger = Logger.getLogger('example.stdout')
 Future<void> main() async {
   final file = File('avatar.png', 'image/png');
   final context = _logger
-      .bind({const Str('username', 'roman-vanesyan'), Obj('file', file)});
+      .withFields({const Str('username', 'roman-vanesyan'), Obj('file', file)});
 
   final tracer = context.startTimer('Uploading!', level: Level.info);
 

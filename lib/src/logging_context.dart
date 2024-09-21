@@ -28,7 +28,7 @@ class LoggingContext implements Interface {
 
   @override
   @pragma('vm:prefer-inline')
-  Interface bind([Iterable<Field>? fields]) => LoggingContext(_logger, {
+  Interface withFields([Iterable<Field>? fields]) => LoggingContext(_logger, {
         ...?fields,
         ..._fields,
       });
