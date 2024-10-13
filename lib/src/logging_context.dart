@@ -13,14 +13,21 @@ class LoggingContext implements Interface {
   final Set<Field> _fields;
 
   @override
-  void log(Level level, String message) {
+  void log(Level level, String message, [Iterable<Field>? fields]) {
     if (_logger.isEnabledFor(level)) {
+      late final Set<Field> recordFields;
+      if (fields == null) {
+        recordFields = _fields;
+      } else {
+        recordFields = {...fields, ..._fields};
+      }
+
       final record = RecordImpl(
           name: _logger.name,
           timestamp: DateTime.now(),
           level: level,
           message: message,
-          fields: _fields);
+          fields: recordFields);
 
       _logger.add(record);
     }
@@ -28,8 +35,8 @@ class LoggingContext implements Interface {
 
   @override
   @pragma('vm:prefer-inline')
-  Interface withFields([Iterable<Field>? fields]) => LoggingContext(_logger, {
-        ...?fields,
+  Interface withFields(Iterable<Field> fields) => LoggingContext(_logger, {
+        ...fields,
         ..._fields,
       });
 

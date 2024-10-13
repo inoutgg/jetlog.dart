@@ -190,7 +190,7 @@ void main() {
         expect(() => l.fatal('test'), returnsNormally);
         expect(l.withFields, returnsNormally);
 
-        final b = l.withFields();
+        final b = l.withFields({});
 
         expect(() => b.log(Level.info, 'bind test'), returnsNormally);
         expect(() => b.debug('bind test'), returnsNormally);

@@ -10,7 +10,7 @@ abstract interface class Interface {
   ///
   /// If [level] is either [Level.all] or [Level.off] it will immediately
   /// throw [ArgumentError].
-  void log(Level level, String message);
+  void log(Level level, String message, [Iterable<Field>? fields]);
 
   /// Starts tracing and emits a record with [message] and [level]
   /// severity level; to stop tracing call [Timer.stop] on the returned timer.
@@ -40,8 +40,8 @@ abstract interface class Interface {
   ///
   /// Example:
   /// ```dart
-  /// var context = logger.bind({Str('first', '1st'}); // => { "first": "1st" }
-  /// context = context.bind({Str('second', '2nd'}); // => { "first": "1st", "second": "2nd" }
+  /// var context = logger.withFields({Str('first', '1st'}); // => { "first": "1st" }
+  /// context = context.withFields({Str('second', '2nd'}); // => { "first": "1st", "second": "2nd" }
   /// ```
-  Interface withFields([Iterable<Field>? fields]);
+  Interface withFields(Iterable<Field> fields);
 }

@@ -1,5 +1,5 @@
 name: jetlog
-version: 1.0.0
+version: 2.0.0
 license: MIT
 description: >
   Compact and robust structured logger for Dart.
@@ -7,7 +7,7 @@ description: >
   This library provides a strongly typed APIs for logging records
   with structured data.
 
-homepage: https://github.com/vanesyan/jetlog.dart
+homepage: https://github.com/inoutgg/jetlog.dart
 
 environment:
   sdk: ">=3.0.0 <4.0.0"

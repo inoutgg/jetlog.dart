@@ -30,6 +30,31 @@ void main() {
         });
       });
 
+      test('Log assigned fields', () async {
+        final handler = MemoryHandler();
+        final logger = Logger.detached()
+          ..handler = handler
+          ..level = Level.all;
+
+        logger.log(Level.danger, '', {const Str('field', 'value')});
+
+        await later(() {
+          expect(handler.records, hasLength(1));
+
+          final record = handler.records.last;
+
+          expect(record, isNotNull);
+          expect(record.fields, hasLength(1));
+
+          final strField =
+              record.fields!.firstWhere((field) => field.name == 'field');
+
+          expect(strField, isNotNull);
+          expect(strField.name, 'field');
+          expect(strField.value, 'value');
+        });
+      });
+
       test('Correctly sets records fields', () async {
         final handler = MemoryHandler();
         final logger = Logger.detached()..handler = handler;
@@ -266,12 +291,12 @@ void main() {
       });
     });
 
-    group('#bind', () {
+    group('#withFields', () {
       test('Always returns a new logging context', () async {
         final logger = Logger.detached();
 
-        final context1 = logger.withFields();
-        final context2 = logger.withFields();
+        final context1 = logger.withFields({});
+        final context2 = logger.withFields({});
 
         expect(context1, isNot(same(context2)));
       });
@@ -292,7 +317,7 @@ void main() {
           ..handler = aHandler
           ..level = Level.danger;
 
-        final context = abc.withFields();
+        final context = abc.withFields({});
 
         context
           ..info('ABC')
@@ -317,7 +342,7 @@ void main() {
           ..level = Level.warning
           ..handler = handler;
 
-        final context = logger.withFields();
+        final context = logger.withFields({});
 
         context.info('info');
         context.fatal('fatal');
@@ -342,24 +367,33 @@ void main() {
           const Dur('duration', Duration.zero)
         ]);
 
-        context1.info('Message');
+        // Also override some context defined fields.
+        context1
+            .info('Message', const [Str('string', 'string2'), Int('int', 1)]);
 
         await later(() {
           final records = handler.records;
 
+          expect(records, hasLength(1));
+          expect(records.last.fields, hasLength(3));
+
           final record = records.elementAt(0);
-          final fields = record.fields?.toList();
-          final strField =
-              fields?.firstWhere((field) => field.name == 'string');
+          final fields = record.fields!.toList();
+          final strField = fields.firstWhere((field) => field.name == 'string');
           final durField =
-              fields?.firstWhere((field) => field.name == 'duration');
+              fields.firstWhere((field) => field.name == 'duration');
+          final intField = fields.firstWhere((field) => field.name == 'int');
 
           expect(strField, isNotNull);
-          expect(strField?.name, 'string');
-          expect(strField?.value, 'string1');
+          expect(strField.name, 'string');
+          // should override context's "string" fields with log-specific one.
+          expect(strField.value, 'string2');
           expect(durField, isNotNull);
-          expect(durField?.name, 'duration');
-          expect(durField?.value, Duration.zero);
+          expect(durField.name, 'duration');
+          expect(durField.value, Duration.zero);
+          expect(intField, isNotNull);
+          expect(intField.name, 'int');
+          expect(intField.value, 1);
         });
       });
 

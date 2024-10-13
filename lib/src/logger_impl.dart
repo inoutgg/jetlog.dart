@@ -67,7 +67,8 @@ final class LoggerImpl with LoggerBase {
 
   @override
   @pragma('vm:prefer-inline')
-  void log(Level level, String message) => _context.log(level, message);
+  void log(Level level, String message, [Iterable<Field>? fields]) =>
+      _context.log(level, message, fields);
 
   @override
   Timer startTimer(String message, {Level level = Level.debug}) =>
@@ -75,8 +76,7 @@ final class LoggerImpl with LoggerBase {
 
   @override
   @pragma('vm:prefer-inline')
-  Interface withFields([Iterable<Field>? fields]) =>
-      _context.withFields(fields);
+  Interface withFields(Iterable<Field> fields) => _context.withFields(fields);
 
   @override
   String toString() {

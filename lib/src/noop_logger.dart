@@ -49,7 +49,7 @@ final class NoopLogger with LoggerBase {
   Timer startTimer(String message, {Level level = Level.debug}) => _timer;
 
   @override
-  void log(Level level, String message) {
+  void log(Level level, String message, [Iterable<Field>? fields]) {
     // noop
   }
 
