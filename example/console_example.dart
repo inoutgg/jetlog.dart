@@ -1,6 +1,4 @@
-/// This example shows how to setup a logger that delegates logging records
-/// to the console (using builtin `print` function) preliminarily formatted
-/// with default [TextFormatter].
+/// This example shows how to setup a logger to log to console.
 library example.console;
 
 import 'package:jetlog/formatters.dart' show TextFormatter;

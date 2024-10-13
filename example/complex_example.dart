@@ -1,5 +1,5 @@
-/// This example shows how to setup a logger that delegates logging records
-/// either to `stdout` or `stderr` based on severity level of the emitted record.
+/// This example shows how to setup a logger that logs either to `stdout` or `stderr`
+/// based on severity level of the emitted record.
 library example.complex;
 
 import 'dart:async' show Future;
