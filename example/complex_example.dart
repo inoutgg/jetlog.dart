@@ -11,8 +11,8 @@ import 'package:jetlog/jetlog.dart'
     show Level, Logger, Record, Str, DefaultLog, Obj, Field, Loggable;
 
 bool _stderrOnlyFilter(Record record) =>
-    record.level == Level.warning ||
-    record.level == Level.danger ||
+    record.level == Level.warn ||
+    record.level == Level.error ||
     record.level == Level.fatal;
 
 @override

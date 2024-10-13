@@ -14,15 +14,15 @@ extension DefaultLog on Interface {
   void info(String message, [Iterable<Field>? fields]) =>
       log(Level.info, message, fields);
 
-  /// Emits a record with [message] and [Level.warning] severity level.
+  /// Emits a record with [message] and [Level.warn] severity level.
   @pragma('vm:prefer-inline')
-  void warning(String message, [Iterable<Field>? fields]) =>
-      log(Level.warning, message, fields);
+  void warn(String message, [Iterable<Field>? fields]) =>
+      log(Level.warn, message, fields);
 
-  /// Emits a record with [message] and [Level.danger] severity level.
+  /// Emits a record with [message] and [Level.error] severity level.
   @pragma('vm:prefer-inline')
-  void danger(String message, [Iterable<Field>? fields]) =>
-      log(Level.danger, message, fields);
+  void error(String message, [Iterable<Field>? fields]) =>
+      log(Level.error, message, fields);
 
   /// Emits a record with [message] and [Level.fatal] severity level.
   @pragma('vm:prefer-inline')

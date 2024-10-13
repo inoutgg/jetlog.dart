@@ -3,8 +3,8 @@ import 'package:jetlog/src/record.dart';
 
 /// Severity level of the record used to controls output of particular logger.
 ///
-/// There are 5 predefined levels: [Level.fatal], [Level.danger],
-/// [Level.warning], [Level.info] and [Level.debug] (sorted in ascending order
+/// There are 5 predefined levels: [Level.fatal], [Level.error],
+/// [Level.warn], [Level.info] and [Level.debug] (sorted in ascending order
 /// by their values).
 ///
 /// To prevent logger from emitting any records set [Logger.level] to
@@ -17,7 +17,7 @@ import 'package:jetlog/src/record.dart';
 /// to define a new severity level. Make sure that defined level's
 /// unique [value] is between `0x0` ([Level.all]) and `0xffff` ([Level.off]);
 /// and does not overlap with `0x100`, `0x200`, `0x300`, `0x400`, `0x500` and
-/// `0x600` reserved for [debug], [info], [warning], [danger] and [fatal]
+/// `0x600` reserved for [debug], [info], [warn], [error] and [fatal]
 /// levels respectively.
 final class Level implements Comparable<Level> {
   const Level({required this.name, required this.value});
@@ -64,15 +64,15 @@ final class Level implements Comparable<Level> {
   /// etc.
   static const Level info = Level(name: 'INFO', value: 0x200);
 
-  /// A severity level for *warning* records; often records with the warning
+  /// A severity level for *warn* records; often records with the warn
   /// level used to notify about events that may potentially cause application
   /// oddities.
-  static const Level warning = Level(name: 'WARNING', value: 0x300);
+  static const Level warn = Level(name: 'WARN', value: 0x300);
 
-  /// A severity level for *danger* records; often records with the error level
+  /// A severity level for *error* records; often records with the error level
   /// used to notify about fatal error in the operation without impact
   /// on the stability of a service or an application.
-  static const Level danger = Level(name: 'DANGER', value: 0x400);
+  static const Level error = Level(name: 'ERROR', value: 0x400);
 
   /// A severity level for *fatal* records; often after records with fatal
   /// severity level follows application process end e.g. `exit(1)`.

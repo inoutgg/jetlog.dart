@@ -55,13 +55,13 @@ Timer startTimer(String message, {Level level = Level.debug}) =>
 void info(String message, [Iterable<Field>? fields]) =>
     _logger.info(message, fields);
 
-/// Logs a warning message.
-void warning(String message, [Iterable<Field>? fields]) =>
-    _logger.warning(message, fields);
+/// Logs a warn message.
+void warn(String message, [Iterable<Field>? fields]) =>
+    _logger.warn(message, fields);
 
-/// Logs a danger (error) message.
-void danger(String message, [Iterable<Field>? fields]) =>
-    _logger.danger(message, fields);
+/// Logs a error (error) message.
+void error(String message, [Iterable<Field>? fields]) =>
+    _logger.error(message, fields);
 
 /// Logs a fatal message.
 void fatal(String message, [Iterable<Field>? fields]) =>

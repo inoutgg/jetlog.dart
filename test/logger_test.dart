@@ -107,9 +107,9 @@ void main() {
         expect(a.level, same(Logger.root.level));
         expect(b.level, same(Logger.root.level));
 
-        b.level = Level.danger;
+        b.level = Level.error;
 
-        expect(b.level, same(Level.danger));
+        expect(b.level, same(Level.error));
 
         a.level = Level.all;
         b.level = null; // explicitly set to null.
@@ -127,7 +127,7 @@ void main() {
 
         expect(f.level, same(e.level));
 
-        f.level = Level.warning;
+        f.level = Level.warn;
         final g = Logger.getLogger('e.f.g');
 
         expect(g.level, same(f.level));
@@ -152,11 +152,11 @@ void main() {
         expect(a.isEnabledFor(Level.info), isTrue);
         expect(a.isEnabledFor(Level.fatal), isTrue);
 
-        expect(b.isEnabledFor(Level.warning), isFalse);
-        expect(b.isEnabledFor(Level.danger), isFalse);
+        expect(b.isEnabledFor(Level.warn), isFalse);
+        expect(b.isEnabledFor(Level.error), isFalse);
 
         expect(c.isEnabledFor(Level.info), isTrue);
-        expect(c.isEnabledFor(Level.warning), isTrue);
+        expect(c.isEnabledFor(Level.warn), isTrue);
         expect(c.isEnabledFor(Level.debug), isFalse);
       });
 
@@ -185,8 +185,8 @@ void main() {
         expect(() => l.debug('test'), returnsNormally);
         expect(() => l.startTimer('test'), returnsNormally);
         expect(() => l.info('test'), returnsNormally);
-        expect(() => l.warning('test'), returnsNormally);
-        expect(() => l.danger('test'), returnsNormally);
+        expect(() => l.warn('test'), returnsNormally);
+        expect(() => l.error('test'), returnsNormally);
         expect(() => l.fatal('test'), returnsNormally);
         expect(l.withFields, returnsNormally);
 
@@ -196,8 +196,8 @@ void main() {
         expect(() => b.debug('bind test'), returnsNormally);
         expect(() => l.startTimer('test'), returnsNormally);
         expect(() => b.info('bind test'), returnsNormally);
-        expect(() => b.warning('bind test'), returnsNormally);
-        expect(() => b.danger('bind test'), returnsNormally);
+        expect(() => b.warn('bind test'), returnsNormally);
+        expect(() => b.error('bind test'), returnsNormally);
         expect(() => b.fatal('bind test'), returnsNormally);
 
         final t = l.startTimer('test trace');

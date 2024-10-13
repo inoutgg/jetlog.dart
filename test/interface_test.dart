@@ -14,14 +14,14 @@ void main() {
           ..handler = handler
           ..level = Level.all;
 
-        logger.log(Level.danger, '');
-        logger.log(Level.danger, '');
-        logger.log(Level.danger, '');
-        logger.log(Level.danger, '');
-        logger.log(Level.danger, '');
-        logger.log(Level.danger, '');
-        logger.log(Level.danger, '');
-        logger.log(Level.danger, '');
+        logger.log(Level.error, '');
+        logger.log(Level.error, '');
+        logger.log(Level.error, '');
+        logger.log(Level.error, '');
+        logger.log(Level.error, '');
+        logger.log(Level.error, '');
+        logger.log(Level.error, '');
+        logger.log(Level.error, '');
 
         await later(() {
           final records = handler.records;
@@ -36,7 +36,7 @@ void main() {
           ..handler = handler
           ..level = Level.all;
 
-        logger.log(Level.danger, '', {const Str('field', 'value')});
+        logger.log(Level.error, '', {const Str('field', 'value')});
 
         await later(() {
           expect(handler.records, hasLength(1));
@@ -78,21 +78,21 @@ void main() {
         final handler = MemoryHandler();
         final logger = Logger.detached()
           ..handler = handler
-          ..level = Level.warning;
+          ..level = Level.warn;
 
         logger
           ..log(Level.debug, 'debug')
           ..log(Level.info, 'info')
-          ..log(Level.warning, 'warning')
-          ..log(Level.danger, 'danger')
+          ..log(Level.warn, 'warn')
+          ..log(Level.error, 'error')
           ..log(Level.fatal, 'fatal');
 
         await later(() {
           final records = handler.records;
 
           expect(records, hasLength(3));
-          expect(records.elementAt(0).level, same(Level.warning));
-          expect(records.elementAt(1).level, same(Level.danger));
+          expect(records.elementAt(0).level, same(Level.warn));
+          expect(records.elementAt(1).level, same(Level.error));
           expect(records.elementAt(2).level, same(Level.fatal));
         });
       });
@@ -108,15 +108,15 @@ void main() {
           ..debug('debug')
           ..startTimer('trace')
           ..info('info')
-          ..warning('warning')
-          ..danger('danger')
+          ..warn('warn')
+          ..error('error')
           ..fatal('fatal');
 
         await later(() {
           final records = handler.records;
 
           expect(records, hasLength(1));
-          expect(records.elementAt(0).level, same(Level.danger));
+          expect(records.elementAt(0).level, same(Level.error));
         });
       });
 
@@ -128,11 +128,11 @@ void main() {
 
         logger
           ..info('1')
-          ..warning('2')
+          ..warn('2')
           ..debug('3')
           ..info('4')
           ..fatal('5')
-          ..danger('6')
+          ..error('6')
           ..debug('7');
 
         await later(() {
@@ -183,15 +183,15 @@ void main() {
           ..level = Level.all;
         Logger.getLogger('a.b')
           ..handler = abHandler
-          ..level = Level.warning;
+          ..level = Level.warn;
         Logger.getLogger('a')
           ..handler = aHandler
-          ..level = Level.danger;
+          ..level = Level.error;
 
         abc
           ..log(Level.info, 'Log')
-          ..log(Level.warning, 'Log')
-          ..log(Level.danger, 'Log')
+          ..log(Level.warn, 'Log')
+          ..log(Level.error, 'Log')
           ..log(Level.fatal, 'Log');
 
         await later(() {
@@ -240,36 +240,36 @@ void main() {
       });
     });
 
-    group('#warning', () {
+    group('#warn', () {
       test('Emits with corresponding severity level', () async {
         final handler = MemoryHandler();
         final logger = Logger.detached()
           ..handler = handler
           ..level = Level.all;
 
-        logger.warning('Message');
+        logger.warn('Message');
 
         await later(() {
           final records = handler.records;
 
-          expect(records.elementAt(0).level, same(Level.warning));
+          expect(records.elementAt(0).level, same(Level.warn));
         });
       });
     });
 
-    group('#danger', () {
+    group('#error', () {
       test('Emits with corresponding severity level', () async {
         final handler = MemoryHandler();
         final logger = Logger.detached()
           ..handler = handler
           ..level = Level.all;
 
-        logger.danger('Message');
+        logger.error('Message');
 
         await later(() {
           final records = handler.records;
 
-          expect(records.elementAt(0).level, same(Level.danger));
+          expect(records.elementAt(0).level, same(Level.error));
         });
       });
     });
@@ -312,17 +312,17 @@ void main() {
           ..level = Level.info;
         Logger.getLogger('a.b')
           ..handler = abHandler
-          ..level = Level.warning;
+          ..level = Level.warn;
         Logger.getLogger('a')
           ..handler = aHandler
-          ..level = Level.danger;
+          ..level = Level.error;
 
         final context = abc.withFields({});
 
         context
           ..info('ABC')
-          ..danger('ABC')
-          ..warning('ABC')
+          ..error('ABC')
+          ..warn('ABC')
           ..fatal('ABC');
 
         await later(() {
@@ -339,7 +339,7 @@ void main() {
       test('Respects loggers\' severity level threshold', () async {
         final handler = MemoryHandler();
         final logger = Logger.detached()
-          ..level = Level.warning
+          ..level = Level.warn
           ..handler = handler;
 
         final context = logger.withFields({});
@@ -347,14 +347,14 @@ void main() {
         context.info('info');
         context.fatal('fatal');
         context.debug('debug');
-        context.warning('warning');
+        context.warn('warn');
 
         await later(() {
           final records = handler.records;
 
           expect(records, hasLength(2));
           expect(records.elementAt(0).message, 'fatal');
-          expect(records.elementAt(1).message, 'warning');
+          expect(records.elementAt(1).message, 'warn');
         });
       });
 
@@ -731,7 +731,7 @@ const Level customLevel = Level(name: 'custom', value: 0x600);
 
 Future<void> later(void action()) => Future.delayed(Duration.zero, action);
 
-bool _testFilter(Record record) => record.level == Level.danger;
+bool _testFilter(Record record) => record.level == Level.error;
 
 class CustomObject implements Loggable {
   @override

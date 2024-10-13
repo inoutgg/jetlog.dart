@@ -26,9 +26,9 @@ void main() {
     test('Builtin levels to be sorted by severity', () {
       expect(Level.all < Level.debug, isTrue);
       expect(Level.debug < Level.info, isTrue);
-      expect(Level.info < Level.warning, isTrue);
-      expect(Level.warning < Level.danger, isTrue);
-      expect(Level.danger < Level.fatal, isTrue);
+      expect(Level.info < Level.warn, isTrue);
+      expect(Level.warn < Level.error, isTrue);
+      expect(Level.error < Level.fatal, isTrue);
       expect(Level.fatal < Level.off, isTrue);
     });
 
@@ -36,17 +36,17 @@ void main() {
       final sortedLevels = <Level>[
         Level.debug,
         Level.info,
-        Level.warning,
-        Level.danger,
+        Level.warn,
+        Level.error,
         Level.fatal,
       ];
 
       final levels = <Level>[
-        Level.danger,
+        Level.error,
         Level.info,
         Level.fatal,
         Level.debug,
-        Level.warning,
+        Level.warn,
       ];
 
       // before
@@ -63,16 +63,16 @@ void main() {
       final levels = <Level, int>{
         Level.debug: 1,
         Level.info: 2,
-        Level.warning: 3,
-        Level.danger: 4,
+        Level.warn: 3,
+        Level.error: 4,
         Level.fatal: 5,
         customLevel: 6,
       };
 
       expect(levels[Level.debug], 1);
       expect(levels[Level.info], 2);
-      expect(levels[Level.warning], 3);
-      expect(levels[Level.danger], 4);
+      expect(levels[Level.warn], 3);
+      expect(levels[Level.error], 4);
       expect(levels[Level.fatal], 5);
       expect(levels[customLevel], 6);
     });

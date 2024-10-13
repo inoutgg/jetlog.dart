@@ -57,7 +57,7 @@ void main() {
         handler.handle(RecordImpl(
             timestamp: DateTime.now(), level: Level.info, message: 'Test 1'));
         handler.handle(RecordImpl(
-            timestamp: DateTime.now(), level: Level.danger, message: 'Test 2'));
+            timestamp: DateTime.now(), level: Level.error, message: 'Test 2'));
 
         // ignore:unawaited_futures
         controller.close();
@@ -67,7 +67,7 @@ void main() {
             emitsInOrder(<Matcher>[
               neverEmits([
                 utf8.encode('${Level.info.name}: Test 1\r\n'),
-                utf8.encode('${Level.danger.name}: Test 2\r\n')
+                utf8.encode('${Level.error.name}: Test 2\r\n')
               ]),
               emits(utf8.encode('${Level.debug.name}: Test\r\n')),
               emitsDone,
