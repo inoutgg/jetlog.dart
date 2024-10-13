@@ -51,9 +51,7 @@ void main() {
         handler.handle(RecordImpl(
             timestamp: DateTime.now(), level: Level.error, message: 'Test 1'));
         handler.handle(RecordImpl(
-            timestamp: DateTime.now(),
-            level: Level.warn,
-            message: 'Test 1'));
+            timestamp: DateTime.now(), level: Level.warn, message: 'Test 1'));
         handler.handle(RecordImpl(
             timestamp: DateTime.now(), level: Level.debug, message: 'Test 2'));
       }, zoneSpecification: zoneSpec);
