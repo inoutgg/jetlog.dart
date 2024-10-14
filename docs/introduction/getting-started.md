@@ -43,7 +43,7 @@ final _defaultFormatter = TextFormatter.withDefaults();
 void main() {
     final logger = Logger.detached()..handler = ConsoleHandler(formatter: _defaultFormatter); 
 
-    logger.info('A new log with bound PID appears on a screen', [Str('pid', pid)]);
+    logger.info('A new log with bound PID appears on a screen', [Int('pid', pid)]);
 }
 ```
 
