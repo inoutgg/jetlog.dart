@@ -23,6 +23,7 @@ library jetlog;
 
 export 'src/default_log.dart';
 export 'src/field.dart';
+export 'src/fields_redact.dart';
 export 'src/filter.dart';
 export 'src/handler.dart';
 export 'src/interface.dart';
