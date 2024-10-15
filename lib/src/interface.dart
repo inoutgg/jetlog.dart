@@ -14,7 +14,7 @@ abstract interface class Interface {
 
   /// Starts tracing and emits a record with [message] and [level]
   /// severity level; to stop tracing call [Timer.stop] on the returned timer.
-  Timer startTimer(String message, {Level level = Level.debug});
+  Timer startTimer(String message, {Level level = Level.info});
 
   /// Creates and returns a new logging context with bound collection of
   /// [fields] added to existing ones.

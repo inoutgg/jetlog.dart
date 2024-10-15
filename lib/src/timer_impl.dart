@@ -4,7 +4,7 @@ import 'package:jetlog/src/level.dart';
 import 'package:jetlog/src/timer.dart';
 
 class TimerImpl implements Timer {
-  TimerImpl(this._context, [this._level = Level.debug])
+  TimerImpl(this._context, [this._level = Level.info])
       : _stopwatch = Stopwatch();
 
   late final DateTime startedAt;

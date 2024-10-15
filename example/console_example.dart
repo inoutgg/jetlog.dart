@@ -10,6 +10,7 @@ final _logger = Logger.detached()
   ..handler = ConsoleHandler(formatter: TextFormatter.withDefaults());
 
 Future<void> main() async {
+  // Create a new logging context
   final context = _logger.withFields({
     const Str('username', 'roman-vanesyan'),
     const Group('file', [
@@ -18,7 +19,7 @@ Future<void> main() async {
     ])
   });
 
-  final tracer = context.startTimer('Uploading!', level: Level.info);
+  final tracer = context.startTimer('Uploading!');
 
   // Emulate uploading, wait for 1 sec.
   await Future<void>.delayed(const Duration(seconds: 1));
