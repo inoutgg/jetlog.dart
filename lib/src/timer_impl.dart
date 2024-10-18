@@ -10,7 +10,7 @@ class TimerImpl implements Timer {
   late final DateTime startedAt;
   DateTime? stoppedAt;
   Interface _context;
-  bool _startGuard = false;
+  bool _isStarted = false;
 
   final Stopwatch _stopwatch;
   final Level _level;
@@ -18,8 +18,8 @@ class TimerImpl implements Timer {
   @pragma('vm:prefer-inline')
   void start(String message) {
     // Prevent multiple calls to [start].
-    if (_startGuard) return;
-    _startGuard = true;
+    if (_isStarted) return;
+    _isStarted = true;
 
     startedAt = DateTime.now();
     _context = _context.withFields({DTM('started_at', startedAt)})
@@ -29,7 +29,7 @@ class TimerImpl implements Timer {
   }
 
   @override
-  void stop(String message, {Level? level, Iterable<Field>? fields}) {
+  void stop(String message, [Iterable<Field>? fields]) {
     if (_stopwatch.isRunning) {
       _stopwatch.stop();
       stoppedAt = startedAt.add(_stopwatch.elapsed);
@@ -37,7 +37,7 @@ class TimerImpl implements Timer {
         DTM('stopped_at', stoppedAt),
         Dur('duration', _stopwatch.elapsed),
         ...?fields
-      }).log(level ?? _level, message);
+      }).log(_level, message);
     }
   }
 

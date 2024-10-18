@@ -9,7 +9,7 @@ import 'package:jetlog/src/timer.dart';
 final class NoopTimer implements Timer {
   @override
   @pragma('vm:prefer-inline')
-  void stop(String message, {Level? level, Iterable<Field>? fields}) {}
+  void stop(String message, [Iterable<Field>? fields]) {}
 }
 
 final class NoopLogger with LoggerBase {
