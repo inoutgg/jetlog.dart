@@ -1,41 +1,71 @@
 # jetlog &middot; [![Test Status][gh-actions-image]][gh-actions-url]
-Fast, structured, leveled logging for Dart.
 
-jetlog's API is designed to provide great development experience
-without losing performance. jetlog allows to format logging records
-into different representations and supports formatting to JSON and text
-out of the box.
+Structured, hierarchical, leveled logging for Dart.
 
-There are a couple of features developer may benefit from:
-* Blazing fast logging
-* Efficient logging of structured data (with support to lazy evaluation)
-* Unambiguous support for loggers hierarchy
-* Exchangeable logging handlers
-* Logging filters
+Features:
 
-## Installation
-To get mostly up to date package install it through `pub`.
+- Built-in primitives for bound structured record context
+- Leveled records
+- Built-in configurable text and JSON log formatters
+- Built-in support for filtering records
+- Dozens of log record handlers out of the box
 
-`pub get jetlog`
+The jetlog package exposes three types of loggers: hierarchical, detached, and noop loggers.
 
-## Getting started
-The easiest way to get up and running is to use global logger provided
-in `global_logger` package library.
+A hierarchical logger is a tree-like logging structure allowing child loggers to forward records to higher-level loggers, all the way up to the highest-level logger, i.e., the root logger. The hierarchy of loggers is defined based on the logger name. The name represents a dot-separated string, where each part defines a hierarchy level.
+
+In contrast, a detached logger is a hierarchy-free logger, meaning that it does not have a parent or children.
+
+Lastly, a noop logger discards any records it receives.
+
+## Usage
+
+Use `dart pub` to get the package:
+
+```sh
+$ dart pub add jetlog
+```
+
+Once the package is installed, it's ready to be used.
+
+### Getting started
+
+The easiest way to start logging records is to use the global logger provided in the `global_logger` package library. The global logger comes preconfigured to print logs to the console using `print`.
 
 ```dart
 import 'package:jetlog/global_logger.dart' as logger;
-import 'package:jetlog/jetlog.dart' as log show Str;
+import 'package:jetlog/jetlog.dart' as log;
 
 void main() async {
-  logger.bind({
-    const log.Str('hello', 'world')
-  }).info('Greeting');
+  logger.info('Greeting', const [log.Str('hello', 'world')]);
 }
 
 // => '2019-06-27 15:37:38.046859 [INFO]: Greeting hello=world'
 ```
 
+To override the default logger, you can use the `set` function exposed by the global_logger package:
+
+```dart
+import 'package:jetlog/formatters.dart';
+import 'package:jetlog/global_logger.dart' as logger;
+import 'package:jetlog/handlers.dart';
+import 'package:jetlog/jetlog.dart' as log;
+
+final _logger = log.Logger.getLogger('jetlog.example')
+  ..handler = ConsoleHandler(formatter: JsonFormatter.withDefaults());
+
+void main() async {
+  // Set the newly created logger as the global one.
+  logger.set(_logger);
+
+  logger.info('Greeting', const [log.Str('hello', 'world')]);
+}
+```
+
+For more detailed information, check out the documentation at [jetlog.inout.gg](https://jetlog.inout.gg).
+
 ## License
+
 Released under the [MIT] license.
 
 [MIT]: ./LICENSE
