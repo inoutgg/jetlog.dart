@@ -27,7 +27,7 @@
       {
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
-            dartpkgs.default
+            dartpkgs.dev
           ];
         };
 

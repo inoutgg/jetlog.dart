@@ -6,16 +6,16 @@ library example.console;
 import 'package:jetlog/formatters.dart' show TextFormatter;
 import 'package:jetlog/handlers.dart' show ConsoleHandler;
 import 'package:jetlog/jetlog.dart' show DefaultLog, Level, Logger, Str, Obj;
-import 'package:jetlog/macros.dart' show Loggable, field;
+import 'package:jetlog/macros.dart' show Loggable, Field;
 
 @Loggable()
 class File {
   File(this.name, this.mime);
 
-  @field
+  @Field("name")
   final String name;
 
-  @field
+  @Field("mime")
   final String mime;
 }
 
