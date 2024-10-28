@@ -2,7 +2,7 @@
 ///
 /// Usage:
 /// ```dart
-/// import 'package:jetlog/global_logger.dart';
+/// import 'package:strlog/global_logger.dart';
 /// ```
 ///
 /// The global logger is preconfigured with:
@@ -12,11 +12,11 @@
 /// Even-thought the global logger comes fully configured, it is possible to
 /// override it via [set]. It might be particulary useful to specify configured
 /// logger once at the main entrypoint and use it as sigleton across the app.
-library jetlog.global_logger;
+library strlog.global_logger;
 
-import 'package:jetlog/formatters.dart' show TextFormatter;
-import 'package:jetlog/handlers.dart' show ConsoleHandler;
-import 'package:jetlog/jetlog.dart';
+import 'package:strlog/formatters.dart' show TextFormatter;
+import 'package:strlog/handlers.dart' show ConsoleHandler;
+import 'package:strlog/strlog.dart';
 
 var _logger = Logger.detached()
   ..level = Level.all

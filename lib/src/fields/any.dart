@@ -1,4 +1,4 @@
-part of jetlog.fields;
+part of strlog.fields;
 
 class _Any {
   const _Any();

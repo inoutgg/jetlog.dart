@@ -1,6 +1,6 @@
-import 'package:jetlog/handlers.dart' show MultiHandler, MemoryHandler;
-import 'package:jetlog/jetlog.dart' show Level, Record;
-import 'package:jetlog/src/record_impl.dart' show RecordImpl;
+import 'package:strlog/handlers.dart' show MultiHandler, MemoryHandler;
+import 'package:strlog/strlog.dart' show Level, Record;
+import 'package:strlog/src/record_impl.dart' show RecordImpl;
 import 'package:test/test.dart';
 
 class _DebugOnlyFilter {

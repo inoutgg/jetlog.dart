@@ -1,6 +1,6 @@
 import 'dart:async' show Future, StreamController;
 
-import 'package:jetlog/jetlog.dart' show Filter, Handler, Record;
+import 'package:strlog/strlog.dart' show Filter, Handler, Record;
 
 /// [MultiHandler] composites multiple handlers into one handler; any logging
 /// records that are delegated to this handler will be propagated to composed

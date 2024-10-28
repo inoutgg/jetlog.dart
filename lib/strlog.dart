@@ -1,9 +1,9 @@
-/// Package library `jetlog` provides fast, structured, leveled logger.
+/// Package library `strlog` provides fast, structured, leveled logger.
 ///
 /// To use this library in your code
 ///
 /// ```dart
-/// import 'package:jetlog/jetlog.dart';
+/// import 'package:strlog/strlog.dart';
 /// ```
 ///
 /// This package exposes the main class [Logger] used to instantiate both
@@ -13,13 +13,13 @@
 ///
 /// Example
 /// ```dart
-/// final logger = Logger.getLogger('jetlog.example.hierarchical');
+/// final logger = Logger.getLogger('strlog.example.hierarchical');
 ///
 /// logger.context({
 ///   Str('hello', 'world'),
 /// }).info('Example');
 /// ```
-library jetlog;
+library strlog;
 
 export 'src/default_log.dart';
 export 'src/field.dart';

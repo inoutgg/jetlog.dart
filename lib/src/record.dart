@@ -1,6 +1,6 @@
-import 'package:jetlog/src/field.dart' show Field;
-import 'package:jetlog/src/level.dart';
-import 'package:jetlog/src/logger.dart';
+import 'package:strlog/src/field.dart' show Field;
+import 'package:strlog/src/level.dart';
+import 'package:strlog/src/logger.dart';
 
 /// A single record emitted by a [Logger].
 abstract interface class Record {

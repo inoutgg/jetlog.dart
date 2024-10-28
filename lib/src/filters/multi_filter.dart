@@ -1,4 +1,4 @@
-import 'package:jetlog/jetlog.dart' show Filter, Record;
+import 'package:strlog/strlog.dart' show Filter, Record;
 
 /// [MultiFilter] composites multiple filters, each of enclosing filters
 /// receives incoming record. Record is discarded once one of the filters

@@ -4,9 +4,9 @@
 /// To use this library in your code:
 ///
 /// ```dart
-/// import 'package:jetlog/handlers.dart';
+/// import 'package:strlog/handlers.dart';
 /// ```
-library jetlog.handlers;
+library strlog.handlers;
 
 export 'src/handlers/console_handler.dart';
 export 'src/handlers/memory_handler.dart';

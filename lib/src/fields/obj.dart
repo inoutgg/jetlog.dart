@@ -1,4 +1,4 @@
-part of jetlog.fields;
+part of strlog.fields;
 
 final class _StaticObj extends _StaticField<Iterable<Field>?> implements Obj {
   _StaticObj(String name, Loggable? value)

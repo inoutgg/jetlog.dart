@@ -1,4 +1,4 @@
-import 'package:jetlog/jetlog.dart' show Handler, Record;
+import 'package:strlog/strlog.dart' show Handler, Record;
 
 /// [MemoryHandler] is used to keep records in memory; it keeps sequence
 /// of records in the emitting order.

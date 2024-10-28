@@ -9,8 +9,8 @@ Typically, a handler is associated with a formatter. The formatter formats recor
 To assign multiple handlers with a single logger, use `MultiHandler` handler.
 
 ```dart
-import 'package:jetlog/jetlog.dart';
-import 'package:jetlog/handlers.dart' show MultiHandler, StreamHandler, ConsoleHandler;
+import 'package:strlog/strlog.dart';
+import 'package:strlog/handlers.dart' show MultiHandler, StreamHandler, ConsoleHandler;
 
 final logger = Logger.getLogger('docs.multi_handler');
 

@@ -6,19 +6,19 @@ Requirements:
 
 ### Installation
 
-To start using `jetlog` add the package via `pub`
+To start using `strlog` add the package via `pub`
 
 ```shell-session
-dart pub add jetlog
+dart pub add strlog
 ```
 
 ### Hello world
 
-The simplest way to get started with the jetlog is by using a global logger
+The simplest way to get started with the strlog is by using a global logger
 
 ```dart
-import 'package:jetlog/global_logger.dart' as log;
-import 'package:jetlog/jetlog.dart';
+import 'package:strlog/global_logger.dart' as log;
+import 'package:strlog/strlog.dart';
 
 void main() {
     log.info('Greeting', const [Str('who', 'world'), Str('what', 'hello')]);
@@ -34,9 +34,9 @@ void main() {
 ```dart
 import 'dart:io';
 
-import 'package:jetlog/jetlog.dart';
-import 'package:jetlog/handlers.dart';
-import 'package:jetlog/formatters.dart';
+import 'package:strlog/strlog.dart';
+import 'package:strlog/handlers.dart';
+import 'package:strlog/formatters.dart';
 
 final _defaultFormatter = TextFormatter.withDefaults();
 
@@ -47,4 +47,4 @@ void main() {
 }
 ```
 
-Check out [reference documentation](https://pub.dev/documentation/jetlog) for a detailed overview of the API.
+Check out [reference documentation](https://pub.dev/documentation/strlog) for a detailed overview of the API.

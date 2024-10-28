@@ -1,7 +1,7 @@
-import 'package:jetlog/src/field.dart' show Field, Dur, DTM;
-import 'package:jetlog/src/interface.dart';
-import 'package:jetlog/src/level.dart';
-import 'package:jetlog/src/timer.dart';
+import 'package:strlog/src/field.dart' show Field, Dur, DTM;
+import 'package:strlog/src/interface.dart';
+import 'package:strlog/src/level.dart';
+import 'package:strlog/src/timer.dart';
 
 class TimerImpl implements Timer {
   TimerImpl(this._context, [this._level = Level.info])

@@ -1,5 +1,5 @@
-import 'package:jetlog/src/field.dart' show Field;
-import 'package:jetlog/src/interface.dart';
+import 'package:strlog/src/field.dart' show Field;
+import 'package:strlog/src/interface.dart';
 
 /// [Timer] is used to measure time between [Interface.startTimer] and [Timer.stop]
 /// calls.

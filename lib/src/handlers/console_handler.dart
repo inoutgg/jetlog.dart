@@ -1,7 +1,7 @@
 import 'dart:convert' show utf8;
 
-import 'package:jetlog/formatters.dart' show Formatter;
-import 'package:jetlog/jetlog.dart' show Filter, Handler, Logger, Record;
+import 'package:strlog/formatters.dart' show Formatter;
+import 'package:strlog/strlog.dart' show Filter, Handler, Logger, Record;
 
 /// [ConsoleHandler] prints log records using built-in [print].
 class ConsoleHandler extends Handler {

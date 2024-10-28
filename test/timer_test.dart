@@ -1,5 +1,5 @@
-import 'package:jetlog/jetlog.dart' show Logger;
-import 'package:jetlog/src/timer_impl.dart';
+import 'package:strlog/strlog.dart' show Logger;
+import 'package:strlog/src/timer_impl.dart';
 import 'package:test/test.dart';
 
 void main() {

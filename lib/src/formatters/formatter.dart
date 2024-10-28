@@ -1,4 +1,4 @@
-import 'package:jetlog/jetlog.dart' show Record, Level, Field, FieldKind;
+import 'package:strlog/strlog.dart' show Record, Level, Field, FieldKind;
 
 typedef LevelFormatter<R> = R Function(Level);
 typedef TimestampFormatter<R> = R Function(DateTime);

@@ -1,4 +1,4 @@
-import 'package:jetlog/jetlog.dart';
+import 'package:strlog/strlog.dart';
 import 'package:test/test.dart';
 
 void main() {

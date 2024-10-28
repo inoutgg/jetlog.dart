@@ -2,13 +2,13 @@
 
 ### Forward error logs to stderr, while the rest to stdout
 
-To split logging of records between stderr and stdout, we basically need two constructions provided out of the box by jetlog: `Filter` and `MultiHandler`.
+To split logging of records between stderr and stdout, we basically need two constructions provided out of the box by strlog: `Filter` and `MultiHandler`.
 
 ```dart
 import 'dart:io' show stderr, stdout;
-import 'package:jetlog/formatters.dart';
-import 'package:jetlog/handlers.dart';
-import 'package:jetlog/jetlog.dart';
+import 'package:strlog/formatters.dart';
+import 'package:strlog/handlers.dart';
+import 'package:strlog/strlog.dart';
 
 final _logger = Logger.detached();
 final _defaultFormatter = TextFormatter.withDefaults();

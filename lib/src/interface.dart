@@ -1,7 +1,7 @@
-import 'package:jetlog/src/field.dart' show Field;
-import 'package:jetlog/src/level.dart';
-import 'package:jetlog/src/logger.dart';
-import 'package:jetlog/src/timer.dart';
+import 'package:strlog/src/field.dart' show Field;
+import 'package:strlog/src/level.dart';
+import 'package:strlog/src/logger.dart';
+import 'package:strlog/src/timer.dart';
 
 /// [Interface] represents a set of common methods that is implemented by both
 /// [Logger] and logging context returned by [Interface.withFields].

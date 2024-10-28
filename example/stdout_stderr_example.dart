@@ -1,7 +1,7 @@
 import 'dart:io' show stderr, stdout;
-import 'package:jetlog/formatters.dart';
-import 'package:jetlog/handlers.dart';
-import 'package:jetlog/jetlog.dart';
+import 'package:strlog/formatters.dart';
+import 'package:strlog/handlers.dart';
+import 'package:strlog/strlog.dart';
 
 final _logger = Logger.detached();
 final _defaultFormatter = TextFormatter.withDefaults();

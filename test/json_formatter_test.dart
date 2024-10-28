@@ -1,7 +1,7 @@
 import 'dart:convert' show utf8, json;
 
-import 'package:jetlog/formatters.dart' show JsonFormatter;
-import 'package:jetlog/jetlog.dart'
+import 'package:strlog/formatters.dart' show JsonFormatter;
+import 'package:strlog/strlog.dart'
     show
         Bool,
         DTM,
@@ -16,7 +16,7 @@ import 'package:jetlog/jetlog.dart'
         Num,
         Obj,
         Str;
-import 'package:jetlog/src/record_impl.dart';
+import 'package:strlog/src/record_impl.dart';
 import 'package:test/test.dart';
 
 class Klass extends Loggable {

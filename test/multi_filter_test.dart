@@ -1,6 +1,6 @@
-import 'package:jetlog/filters.dart' show MultiFilter;
-import 'package:jetlog/jetlog.dart';
-import 'package:jetlog/src/record_impl.dart';
+import 'package:strlog/filters.dart' show MultiFilter;
+import 'package:strlog/strlog.dart';
+import 'package:strlog/src/record_impl.dart';
 import 'package:test/test.dart';
 
 class _TestFilter1 {

@@ -1,9 +1,9 @@
 import 'dart:convert' show utf8;
 
-import 'package:jetlog/formatters.dart' show TextFormatter;
-import 'package:jetlog/jetlog.dart'
+import 'package:strlog/formatters.dart' show TextFormatter;
+import 'package:strlog/strlog.dart'
     show DTM, Dur, Field, FieldKind, Level, Loggable, Obj, Str, Int, Group;
-import 'package:jetlog/src/record_impl.dart';
+import 'package:strlog/src/record_impl.dart';
 import 'package:test/test.dart';
 
 class Klass extends Loggable {

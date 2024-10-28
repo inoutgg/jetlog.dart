@@ -1,6 +1,6 @@
-import 'package:jetlog/src/field.dart';
-import 'package:jetlog/src/level.dart';
-import 'package:jetlog/src/record.dart';
+import 'package:strlog/src/field.dart';
+import 'package:strlog/src/level.dart';
+import 'package:strlog/src/record.dart';
 import 'package:meta/meta.dart' show immutable;
 
 @immutable

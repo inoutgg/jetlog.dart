@@ -1,9 +1,9 @@
-import 'package:jetlog/formatters.dart';
-import 'package:jetlog/global_logger.dart' as logger;
-import 'package:jetlog/handlers.dart';
-import 'package:jetlog/jetlog.dart' as log;
+import 'package:strlog/formatters.dart';
+import 'package:strlog/global_logger.dart' as logger;
+import 'package:strlog/handlers.dart';
+import 'package:strlog/strlog.dart' as log;
 
-final _logger = log.Logger.getLogger('jetlog.example')
+final _logger = log.Logger.getLogger('strlog.example')
   ..handler = ConsoleHandler(formatter: JsonFormatter.withDefaults());
 
 void main() async {

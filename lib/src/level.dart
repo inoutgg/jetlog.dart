@@ -1,5 +1,5 @@
-import 'package:jetlog/src/logger.dart';
-import 'package:jetlog/src/record.dart';
+import 'package:strlog/src/logger.dart';
+import 'package:strlog/src/record.dart';
 
 /// Severity level of the record used to controls output of particular logger.
 ///

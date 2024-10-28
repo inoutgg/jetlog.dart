@@ -1,4 +1,4 @@
-import 'package:jetlog/src/level.dart';
+import 'package:strlog/src/level.dart';
 import 'package:test/test.dart';
 
 void main() {

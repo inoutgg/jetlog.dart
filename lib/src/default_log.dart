@@ -1,6 +1,6 @@
-import 'package:jetlog/src/field.dart';
-import 'package:jetlog/src/interface.dart';
-import 'package:jetlog/src/level.dart';
+import 'package:strlog/src/field.dart';
+import 'package:strlog/src/interface.dart';
+import 'package:strlog/src/level.dart';
 
 /// [DefaultLog] defines [Interface.log] aliases on [Interface] for some predefined [Level]s.
 extension DefaultLog on Interface {

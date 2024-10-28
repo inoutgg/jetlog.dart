@@ -1,11 +1,11 @@
 import 'dart:async' show StreamController;
 import 'dart:convert' show utf8;
 
-import 'package:jetlog/formatters.dart';
-import 'package:jetlog/formatters.dart' show TextFormatter;
-import 'package:jetlog/handlers.dart' show StreamHandler;
-import 'package:jetlog/jetlog.dart' show Level, Record;
-import 'package:jetlog/src/record_impl.dart' show RecordImpl;
+import 'package:strlog/formatters.dart';
+import 'package:strlog/formatters.dart' show TextFormatter;
+import 'package:strlog/handlers.dart' show StreamHandler;
+import 'package:strlog/strlog.dart' show Level, Record;
+import 'package:strlog/src/record_impl.dart' show RecordImpl;
 import 'package:test/test.dart';
 
 class _DebugOnlyFilter {

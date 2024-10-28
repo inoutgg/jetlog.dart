@@ -1,13 +1,17 @@
-name: jetlog
+name: strlog
 version: 2.0.0
 license: MIT
 description: >
-  Compact and robust structured logger for Dart.
+  Structured, hierarchical, leveled logging for Dart.
 
-  This library provides a strongly typed APIs for logging records
-  with structured data.
+  Features:
+  - Built-in primitives for bound structured record context
+  - Leveled records
+  - Built-in configurable text and JSON log formatters
+  - Built-in support for filtering records
+  - Dozens of log record handlers out of the box
 
-homepage: https://github.com/inoutgg/jetlog.dart
+homepage: https://github.com/inoutgg/strlog.dart
 
 environment:
   sdk: ">=3.0.0 <4.0.0"

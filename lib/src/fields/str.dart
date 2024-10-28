@@ -1,4 +1,4 @@
-part of jetlog.fields;
+part of strlog.fields;
 
 final class _StaticStr extends _StaticField<String?> implements Str {
   const _StaticStr(String name, String? value)

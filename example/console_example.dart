@@ -1,9 +1,9 @@
 /// This example shows how to setup a logger to log to console.
 library example.console;
 
-import 'package:jetlog/formatters.dart' show TextFormatter;
-import 'package:jetlog/handlers.dart' show ConsoleHandler;
-import 'package:jetlog/jetlog.dart' show DefaultLog, Level, Logger, Str, Group;
+import 'package:strlog/formatters.dart' show TextFormatter;
+import 'package:strlog/handlers.dart' show ConsoleHandler;
+import 'package:strlog/strlog.dart' show DefaultLog, Level, Logger, Str, Group;
 
 final _logger = Logger.detached()
   ..level = Level.all

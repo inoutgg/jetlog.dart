@@ -1,4 +1,4 @@
-import 'package:jetlog/src/record.dart';
+import 'package:strlog/src/record.dart';
 
 /// [Filter] used to filter [Record]s by criteria.
 ///

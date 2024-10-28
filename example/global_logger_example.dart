@@ -1,8 +1,8 @@
 /// This example shows how to use a global logger.
 library example.global_logger;
 
-import 'package:jetlog/global_logger.dart' as log;
-import 'package:jetlog/jetlog.dart';
+import 'package:strlog/global_logger.dart' as log;
+import 'package:strlog/strlog.dart';
 
 Future<void> main() async {
   final context = log.withFields({

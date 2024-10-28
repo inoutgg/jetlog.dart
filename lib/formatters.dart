@@ -1,4 +1,4 @@
-library jetlog.formatters;
+library strlog.formatters;
 
 export 'src/formatters/formatter.dart'
     show Formatter, TimestampFormatter, LevelFormatter, FormatterBase;

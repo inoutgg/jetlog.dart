@@ -1,10 +1,10 @@
-import 'package:jetlog/src/field.dart' show Field;
-import 'package:jetlog/src/filter.dart';
-import 'package:jetlog/src/handler.dart';
-import 'package:jetlog/src/interface.dart';
-import 'package:jetlog/src/level.dart';
-import 'package:jetlog/src/logger.dart';
-import 'package:jetlog/src/timer.dart';
+import 'package:strlog/src/field.dart' show Field;
+import 'package:strlog/src/filter.dart';
+import 'package:strlog/src/handler.dart';
+import 'package:strlog/src/interface.dart';
+import 'package:strlog/src/level.dart';
+import 'package:strlog/src/logger.dart';
+import 'package:strlog/src/timer.dart';
 
 final class NoopTimer implements Timer {
   @override

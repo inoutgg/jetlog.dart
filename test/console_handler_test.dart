@@ -1,9 +1,9 @@
 import 'dart:async' show runZoned, Zone, ZoneDelegate, ZoneSpecification;
 
-import 'package:jetlog/formatters.dart';
-import 'package:jetlog/handlers.dart' show ConsoleHandler;
-import 'package:jetlog/jetlog.dart';
-import 'package:jetlog/src/record_impl.dart';
+import 'package:strlog/formatters.dart';
+import 'package:strlog/handlers.dart' show ConsoleHandler;
+import 'package:strlog/strlog.dart';
+import 'package:strlog/src/record_impl.dart';
 import 'package:test/test.dart';
 
 class _DebugOnlyFilter {

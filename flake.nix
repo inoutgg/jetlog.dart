@@ -1,5 +1,5 @@
 {
-  description = "jetlog.dart - fast, structured, leveled logging for Dart";
+  description = "strlog.dart - fast, structured, leveled logging for Dart";
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";

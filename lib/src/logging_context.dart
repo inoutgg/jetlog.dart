@@ -1,10 +1,10 @@
-import 'package:jetlog/src/field.dart';
-import 'package:jetlog/src/interface.dart';
-import 'package:jetlog/src/level.dart';
-import 'package:jetlog/src/logger_impl.dart';
-import 'package:jetlog/src/record_impl.dart';
-import 'package:jetlog/src/timer.dart';
-import 'package:jetlog/src/timer_impl.dart';
+import 'package:strlog/src/field.dart';
+import 'package:strlog/src/interface.dart';
+import 'package:strlog/src/level.dart';
+import 'package:strlog/src/logger_impl.dart';
+import 'package:strlog/src/record_impl.dart';
+import 'package:strlog/src/timer.dart';
+import 'package:strlog/src/timer_impl.dart';
 
 class LoggingContext implements Interface {
   LoggingContext(this._logger, [this._fields = const {}]);

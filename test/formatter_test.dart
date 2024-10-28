@@ -1,5 +1,5 @@
-import 'package:jetlog/formatters.dart' show FormatterBase;
-import 'package:jetlog/jetlog.dart' show Field, FieldKind;
+import 'package:strlog/formatters.dart' show FormatterBase;
+import 'package:strlog/strlog.dart' show Field, FieldKind;
 import 'package:test/test.dart';
 
 void main() {

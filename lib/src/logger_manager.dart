@@ -1,4 +1,4 @@
-import 'package:jetlog/src/logger_impl.dart';
+import 'package:strlog/src/logger_impl.dart';
 
 final class LoggerManager {
   LoggerManager(this.root) : _loggers = {};

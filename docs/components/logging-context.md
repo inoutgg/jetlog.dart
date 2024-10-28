@@ -1,6 +1,6 @@
 # Logging context
 
-A logging context is an object that carries a set of fields that is bound to every single log emitted. It is one of the core concepts of the jetlog logger.
+A logging context is an object that carries a set of fields that is bound to every single log emitted. It is one of the core concepts of the strlog logger.
 
 When a new logger instance is created via
 
