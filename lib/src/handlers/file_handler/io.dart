@@ -9,16 +9,8 @@ import 'dart:io'
         IOSink,
         Platform;
 import 'dart:typed_data' show Uint8List;
-
 import 'package:jetlog/formatters.dart' show Formatter;
-<<<<<<< HEAD
-import 'package:jetlog/jetlog.dart' show Handler, Record;
-import 'package:meta/meta.dart' show required;
-||||||| parent of 73f9b03 (refactor: various improvements to the file handler (need tests))
-import 'package:jetlog/jetlog.dart' show Handler, Record;
-=======
-import 'package:jetlog/jetlog.dart' show Filter, Handler, Record;
->>>>>>> 73f9b03 (refactor: various improvements to the file handler (need tests))
+import 'package:jetlog/jetlog.dart' show Filter;
 
 const int minSize = 1024;
 const Duration minInterval = Duration(seconds: 1);
@@ -31,29 +23,19 @@ class _State {
 }
 
 class Stat {
-  const Stat._({@required this.size, @required this.modified, this.newSize});
+  const Stat._(
+      {required this.size, required this.modified, required this.newSize});
 
   final int size;
-
   final int newSize;
-
   final DateTime modified;
 }
 
 abstract class RotationPolicy {
   const factory RotationPolicy.never() = _NeverRotationPolicy;
-
   const factory RotationPolicy.interval(Duration interval) =
       _IntervalRotationPolicy;
-
-<<<<<<< HEAD
-  const factory RotationPolicy.sized({int maxSize}) = _SizedRotatePolicy;
-||||||| parent of 73f9b03 (refactor: various improvements to the file handler (need tests))
-  const factory RotationPolicy.sized({required int maxSize}) =
-      _SizedRotatePolicy;
-=======
   const factory RotationPolicy.sized(int maxSize) = _SizedRotationPolicy;
->>>>>>> 73f9b03 (refactor: various improvements to the file handler (need tests))
 
   bool shouldRotate(Stat stat);
 }
@@ -65,20 +47,8 @@ class _NeverRotationPolicy implements RotationPolicy {
   bool shouldRotate(_) => false;
 }
 
-<<<<<<< HEAD
-class _SizedRotatePolicy implements RotationPolicy {
-  const _SizedRotatePolicy({
-    @required this.maxSize,
-  }) : assert(maxSize >= minSize);
-||||||| parent of 73f9b03 (refactor: various improvements to the file handler (need tests))
-class _SizedRotatePolicy implements RotationPolicy {
-  const _SizedRotatePolicy({
-    required this.maxSize,
-  }) : assert(maxSize >= minSize);
-=======
 class _SizedRotationPolicy implements RotationPolicy {
   const _SizedRotationPolicy(this.maxSize) : assert(maxSize >= minSize);
->>>>>>> 73f9b03 (refactor: various improvements to the file handler (need tests))
 
   final int maxSize;
 
@@ -117,7 +87,7 @@ FutureOr<void> rotator(String src, String dest) async {
 
 class FileHandler extends Handler {
   FileHandler(this._uri,
-      {@required Formatter formatter,
+      {required Formatter formatter,
       RotationPolicy rotationPolicy = const RotationPolicy.never(),
       Rotator rotator = rotator,
       bool compress = false,
@@ -155,16 +125,11 @@ class FileHandler extends Handler {
   DateTime _modified;
   int _size;
 
-<<<<<<< HEAD
   Stat get stat => Stat._(
         size: _size,
         modified: _modified,
       );
-||||||| parent of 73f9b03 (refactor: various improvements to the file handler (need tests))
-  Stat get stat => Stat._(size: _size, modified: _modified, newSize: 0);
-=======
   set filter(Filter filter) => _filter = filter;
->>>>>>> 73f9b03 (refactor: various improvements to the file handler (need tests))
 
   void _processFileName() {
     final segments = _uri.pathSegments;
@@ -246,13 +211,7 @@ class FileHandler extends Handler {
 
   Future<void> _rotate() async {
     if (_state & _State.rotating > 0) {
-<<<<<<< HEAD
       throw StateError('Logging file is already been rotated!');
-||||||| parent of 73f9b03 (refactor: various improvements to the file handler (need tests))
-      throw StateError('Logging file has already been rotated!');
-=======
-      return;
->>>>>>> 73f9b03 (refactor: various improvements to the file handler (need tests))
     }
 
     _state |= _State.rotating;

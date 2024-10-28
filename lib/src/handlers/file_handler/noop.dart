@@ -1,14 +1,7 @@
 import 'dart:async' show FutureOr;
 
 import 'package:jetlog/formatters.dart' show Formatter;
-<<<<<<< HEAD
 import 'package:jetlog/jetlog.dart' show Handler, Record;
-import 'package:meta/meta.dart' show required;
-||||||| parent of 73f9b03 (refactor: various improvements to the file handler (need tests))
-import 'package:jetlog/jetlog.dart' show Handler, Record;
-=======
-import 'package:jetlog/jetlog.dart' show Filter, Handler, Record;
->>>>>>> 73f9b03 (refactor: various improvements to the file handler (need tests))
 
 /// Minimum allowed value of `maxSize` for [RotationPolicy.sized].
 const int minSize = 1024; // 1kb
@@ -43,13 +36,7 @@ abstract class RotationPolicy {
   /// Creates a new rotation policy to rotate logging file based
   /// on its size. Once size is equal or bigger than [maxSize]
   /// the logging file must be rotated.
-<<<<<<< HEAD
-  const factory RotationPolicy.sized({int maxSize}) = _SizedRotatePolicy;
-||||||| parent of 73f9b03 (refactor: various improvements to the file handler (need tests))
-  const factory RotationPolicy.sized({required int maxSize}) = _SizedRotatePolicy;
-=======
   const factory RotationPolicy.sized(int maxSize) = _SizedRotationPolicy;
->>>>>>> 73f9b03 (refactor: various improvements to the file handler (need tests))
 
   /// Determines whether logging file should be rotated.
   bool shouldRotation(Stat stat);
@@ -64,22 +51,10 @@ class _NeverRotationPolicy implements RotationPolicy {
   }
 }
 
-<<<<<<< HEAD
-class _SizedRotatePolicy implements RotationPolicy {
-  const _SizedRotatePolicy({
-    @required this.maxSize,
-  }) : assert(maxSize >= minSize);
-||||||| parent of 73f9b03 (refactor: various improvements to the file handler (need tests))
-class _SizedRotatePolicy implements RotationPolicy {
-  const _SizedRotatePolicy({
-    required this.maxSize,
-  }) : assert(maxSize >= minSize);
-=======
 class _SizedRotationPolicy implements RotationPolicy {
   const _SizedRotationPolicy(
     this.maxSize,
   ) : assert(maxSize >= minSize);
->>>>>>> 73f9b03 (refactor: various improvements to the file handler (need tests))
 
   final int maxSize;
 
@@ -134,7 +109,7 @@ class FileHandler extends Handler {
   /// If [maxBackUps] is non-zero, at most [maxBackUps] backup files will be
   /// kept.
   FileHandler(Uri uri,
-      {@required Formatter formatter,
+      {required Formatter formatter,
       RotationPolicy rotationPolicy = const RotationPolicy.never(),
       Rotator rotator = rotator,
       int maxBackUps = 0});
