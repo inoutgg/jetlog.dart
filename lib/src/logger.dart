@@ -41,7 +41,7 @@ abstract interface class Logger implements Interface {
   factory Logger.detached([String? name]) => LoggerImpl.detached(name);
 
   /// Creates a new noop logger which never emits logs or delegates records to handlers.
-  factory Logger.noop([String? name]) => NoopLogger(name);
+  factory Logger.noop() => NoopLogger();
 
   /// Retrieves or creates a logger with the given [name].
   ///

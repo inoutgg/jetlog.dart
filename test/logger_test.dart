@@ -90,12 +90,9 @@ void main() {
 
       test('returns correct string representation for noop logger', () {
         const level = Level.fatal;
-        final logger = Logger.noop('NOOP_LOGGER')..level = level;
-        final unnamedLogger = Logger.noop()..level = level;
+        final logger = Logger.noop()..level = level;
 
-        expect(logger.toString(),
-            'NoopLogger(name=NOOP_LOGGER, level=${level.name})');
-        expect(unnamedLogger.toString(), 'NoopLogger(level=${level.name})');
+        expect(logger.toString(), 'NoopLogger(level=${level.name})');
       });
     });
 

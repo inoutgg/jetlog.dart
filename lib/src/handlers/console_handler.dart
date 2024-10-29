@@ -12,14 +12,16 @@ class ConsoleHandler extends Handler {
   final Formatter _formatter;
   Filter? _filter;
 
-  /// Sets records filterer.
+  /// Sets records filter.
   ///
-  /// Set filterer behaves the same way as a [Logger] filter.
+  /// Set filter behaves the same way as a [Logger] filter.
   set filter(Filter filter) => _filter = filter;
 
   @override
   void handle(Record record) {
-    if (_filter != null && !_filter!(record)) {
+    final filter = _filter;
+    final shouldFilter = filter != null && !filter(record);
+    if (shouldFilter) {
       return;
     }
 

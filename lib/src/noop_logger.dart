@@ -13,11 +13,12 @@ final class NoopTimer implements Timer {
 }
 
 final class NoopLogger with LoggerBase {
-  NoopLogger([this.name]);
+  factory NoopLogger() => _logger;
+  NoopLogger._();
 
   Level? _level;
 
-  static final NoopLogger _logger = NoopLogger();
+  static final NoopLogger _logger = NoopLogger._();
   static final NoopTimer _timer = NoopTimer();
 
   @override
@@ -29,42 +30,29 @@ final class NoopLogger with LoggerBase {
   Level get level => _level ?? Level.info;
 
   @override
-  final String? name;
+  String? get name => null;
 
   @override
   @pragma('vm:prefer-inline')
   Interface withFields([Iterable<Field>? fields]) => _logger;
 
   @override
-  set handler(Handler? handler) {
-    // noop
-  }
+  set handler(Handler? handler) {/* noop */}
 
   @override
-  set filter(Filter? handler) {
-    // noop
-  }
+  set filter(Filter? handler) {/* noop */}
 
   @override
   Timer startTimer(String message, {Level level = Level.debug}) => _timer;
 
   @override
-  void log(Level level, String message, [Iterable<Field>? fields]) {
-    // noop
-  }
+  void log(Level level, String message, [Iterable<Field>? fields]) {/* noop */}
 
   @override
   String toString() {
     final buffer = StringBuffer();
 
     buffer.write('NoopLogger(');
-
-    if (name != null) {
-      buffer
-        ..write('name=')
-        ..write(name)
-        ..write(', ');
-    }
 
     buffer
       ..write('level=')

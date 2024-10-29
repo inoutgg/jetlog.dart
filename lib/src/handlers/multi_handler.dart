@@ -23,9 +23,9 @@ class MultiHandler extends Handler {
 
   final StreamController<Record> _controller;
 
-  /// Sets records filterer.
+  /// Sets records filter.
   ///
-  /// Set filterer behaves the same way as a [Logger] filter.
+  /// Set filter behaves the same way as a [Logger] filter.
   set filter(Filter filter) => _filter = filter;
 
   @override
