@@ -1,4 +1,4 @@
-part of strlog.fields;
+part of '../field.dart';
 
 final class _StaticDur extends _StaticField<Duration?> implements Dur {
   const _StaticDur(String name, Duration? value)

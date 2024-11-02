@@ -1,4 +1,4 @@
-part of strlog.fields;
+part of '../field.dart';
 
 final class _StaticDouble extends _StaticField<double?> implements Double {
   const _StaticDouble(String name, double? value)

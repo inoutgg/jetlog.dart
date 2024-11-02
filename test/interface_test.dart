@@ -427,7 +427,7 @@ void main() {
           final logger = Logger.detached()
             ..handler = ConsoleHandler(
                 formatter: TextFormatter(
-                    (name, timestamp, level, message, fields) => '$fields'));
+                    (name, timestamp, level, message, fields) => fields).call);
           final context = logger.withFields({
             const Bool('StaticBool', false),
             Bool.lazy('LazyBool', () => true),
@@ -512,7 +512,8 @@ void main() {
             final logger = Logger.detached()
               ..handler = ConsoleHandler(
                   formatter: TextFormatter(
-                      (name, timestamp, level, message, fields) => '$fields'));
+                          (name, timestamp, level, message, fields) => fields)
+                      .call);
             final dt = DateTime.now();
 
             final context = logger.withFields({
@@ -588,7 +589,7 @@ void main() {
     });
 
     group('#timer', () {
-      test('returns a non-null tracer', () async {
+      test('returns a non-null timer', () async {
         final logger = Logger.detached();
         final trace = logger.startTimer('Trace');
 
@@ -601,8 +602,8 @@ void main() {
           ..level = Level.all
           ..handler = handler;
 
-        final tracer = logger.startTimer('start trace');
-        tracer.stop('stop trace');
+        final timer = logger.startTimer('start trace');
+        timer.stop('stop trace');
 
         await later(() {
           final records = handler.records;
@@ -673,7 +674,7 @@ void main() {
         });
       });
 
-      test('ignores further tracer stop calls after the first one', () {
+      test('ignores further timer stop calls after the first one', () {
         final logger = Logger.detached()..level = Level.all;
         final t = logger.startTimer('start')..stop('stop');
 
@@ -715,7 +716,8 @@ void main() {
 
 const Level customLevel = Level(name: 'custom', value: 0x600);
 
-Future<void> later(void action()) => Future.delayed(Duration.zero, action);
+Future<void> later(void Function() action) =>
+    Future.delayed(Duration.zero, action);
 
 bool _testFilter(Record record) => record.level == Level.error;
 

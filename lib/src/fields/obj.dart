@@ -1,4 +1,4 @@
-part of strlog.fields;
+part of '../field.dart';
 
 final class _StaticObj extends _StaticField<Iterable<Field>?> implements Obj {
   _StaticObj(String name, Loggable? value)

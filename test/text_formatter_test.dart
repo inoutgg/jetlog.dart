@@ -124,7 +124,7 @@ void main() {
 
     test('uses custom level encoder', () {
       final encoder = TextFormatter(
-          (name, timestamp, level, message, fields) => '$level',
+          (name, timestamp, level, message, fields) => level,
           formatLevel: (level) => '$level');
 
       const level = Level.info;
@@ -138,7 +138,7 @@ void main() {
 
     test('uses custom time encoder', () {
       final encoder = TextFormatter(
-          (name, timestamp, level, message, fields) => '$timestamp',
+          (name, timestamp, level, message, fields) => timestamp,
           formatTimestamp: (timestamp) =>
               timestamp.millisecondsSinceEpoch.toString());
 
@@ -153,7 +153,7 @@ void main() {
 
     test('uses custom field encoder', () {
       final encoder =
-          TextFormatter((name, timestamp, level, message, fields) => '$fields')
+          TextFormatter((name, timestamp, level, message, fields) => fields)
             ..setFieldFormatter(FieldKind.duration, (field) => 'custom-field');
 
       final timestamp = DateTime.now();

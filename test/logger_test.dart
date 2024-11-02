@@ -175,7 +175,7 @@ void main() {
         expect(() => l.handler = MemoryHandler(), returnsNormally);
         expect(() => l.handler = null, returnsNormally);
 
-        expect(() => l.filter = _Filter(), returnsNormally);
+        expect(() => l.filter = _Filter().call, returnsNormally);
         expect(() => l.filter = null, returnsNormally);
 
         expect(() => l.log(Level.info, 'test'), returnsNormally);

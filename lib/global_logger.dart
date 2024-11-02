@@ -12,7 +12,7 @@
 /// Even-thought the global logger comes fully configured, it is possible to
 /// override it via [set]. It might be particulary useful to specify configured
 /// logger once at the main entrypoint and use it as sigleton across the app.
-library strlog.global_logger;
+library;
 
 import 'package:strlog/formatters.dart' show TextFormatter;
 import 'package:strlog/handlers.dart' show ConsoleHandler;
@@ -20,7 +20,7 @@ import 'package:strlog/strlog.dart';
 
 var _logger = Logger.detached()
   ..level = Level.all
-  ..handler = ConsoleHandler(formatter: TextFormatter.withDefaults());
+  ..handler = ConsoleHandler(formatter: TextFormatter.withDefaults().call);
 
 // Sets the global logger to the provided one.
 void set(Logger logger) => _logger = logger;

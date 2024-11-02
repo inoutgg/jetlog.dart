@@ -21,7 +21,7 @@ void main() {
         final handler = StreamHandler(controller,
             formatter: TextFormatter(
                 (name, timestamp, level, message, fields) =>
-                    '$level: $message'));
+                    '$level: $message').call);
 
         handler.handle(RecordImpl(
             timestamp: DateTime.now(),
@@ -47,9 +47,9 @@ void main() {
         final handler = StreamHandler(controller,
             formatter: TextFormatter(
                 (name, timestamp, level, message, fields) =>
-                    '$level: $message'));
+                    '$level: $message').call);
 
-        handler.filter = _DebugOnlyFilter();
+        handler.filter = _DebugOnlyFilter().call;
 
         handler.handle(RecordImpl(
             timestamp: DateTime.now(), level: Level.debug, message: 'Test'));

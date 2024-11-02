@@ -6,11 +6,11 @@
 /// ```dart
 /// import 'package:strlog/handlers.dart';
 /// ```
-library strlog.handlers;
+library;
 
 export 'src/handlers/console_handler.dart';
 export 'src/handlers/file_handler/noop.dart'
-    if (dart.libary.io) 'src/handlers/file_handler/io.dart';
+    if (dart.library.io) 'src/handlers/file_handler/io.dart';
 export 'src/handlers/file_handler/policy.dart';
 export 'src/handlers/memory_handler.dart';
 export 'src/handlers/multi_handler.dart';

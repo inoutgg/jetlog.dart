@@ -19,8 +19,9 @@ void main() {
 
     final zoneSpec = ZoneSpecification(print: newPrint);
     final handler = ConsoleHandler(
-        formatter: TextFormatter(
-            (name, timestamp, level, message, fields) => message));
+        formatter:
+            TextFormatter((name, timestamp, level, message, fields) => message)
+                .call);
 
     setUp(records.clear);
 
@@ -37,7 +38,7 @@ void main() {
     });
 
     test('filters record conditionally', () {
-      handler.filter = _DebugOnlyFilter();
+      handler.filter = _DebugOnlyFilter().call;
       runZoned<void>(() {
         handler.handle(RecordImpl(
             timestamp: DateTime.now(), level: Level.debug, message: 'Test'));

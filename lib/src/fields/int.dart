@@ -1,4 +1,4 @@
-part of strlog.fields;
+part of '../field.dart';
 
 final class _StaticInt extends _StaticField<int?> implements Int {
   const _StaticInt(String name, int? value)

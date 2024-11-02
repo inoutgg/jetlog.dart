@@ -1,4 +1,4 @@
-part of strlog.fields;
+part of '../field.dart';
 
 final class _StaticDTM extends _StaticField<DateTime?> implements DTM {
   const _StaticDTM(String name, DateTime? value)

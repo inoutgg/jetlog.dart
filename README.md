@@ -1,5 +1,7 @@
 # strlog &middot; [![Test Status][gh-actions-image]][gh-actions-url]
 
+![strlog.dart demo][DEMO]
+
 Structured, hierarchical, leveled logging for Dart.
 
 Features:
@@ -51,14 +53,16 @@ import 'package:strlog/global_logger.dart' as logger;
 import 'package:strlog/handlers.dart';
 import 'package:strlog/strlog.dart' as log;
 
-final _logger = log.Logger.getLogger('strlog.example')
-  ..handler = ConsoleHandler(formatter: JsonFormatter.withDefaults());
+final handler = ConsoleHandler(formatter: JsonFormatter.withDefaults());
+final _logger = log.Logger.getLogger('strlog.example')..handler = handler;
 
 void main() async {
   // Set the newly created logger as the global one.
   logger.set(_logger);
 
   logger.info('Greeting', const [log.Str('hello', 'world')]);
+
+  await handler.close();
 }
 ```
 
@@ -71,3 +75,4 @@ Released under the [MIT] license.
 [MIT]: ./LICENSE
 [gh-actions-image]: https://github.com/inoutgg/strlog.dart/workflows/test/badge.svg
 [gh-actions-url]: https://github.com/inoutgg/strlog.dart
+[DEMO]: ./docs/assets/demo.gif

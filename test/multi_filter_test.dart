@@ -43,7 +43,7 @@ void main() {
     test('delegates record to all filters', () {
       final filter1 = _TestFilter1();
       final filter2 = _TestFilter2();
-      final filter = MultiFilter({filter1, filter2});
+      final filter = MultiFilter({filter1.call, filter2.call});
 
       final record1 = RecordImpl(
           timestamp: DateTime.now(),

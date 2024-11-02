@@ -1,4 +1,4 @@
-part of strlog.fields;
+part of '../field.dart';
 
 class _Any {
   const _Any();

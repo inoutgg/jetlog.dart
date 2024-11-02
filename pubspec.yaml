@@ -14,11 +14,14 @@ description: >
 homepage: https://github.com/inoutgg/strlog.dart
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=3.5.0 <4.0.0"
 
 dependencies:
   meta: ^1.15.0
   file: ^7.0.1
+  path: ^1.9.1
 
 dev_dependencies:
   test: ^1.25.8
+  lints: ^5.0.0
+  ansicolor: ^2.0.3

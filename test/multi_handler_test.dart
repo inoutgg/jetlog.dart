@@ -56,7 +56,7 @@ void main() {
         final h3 = MemoryHandler();
         final handler = MultiHandler([h1, h2, h3]);
 
-        handler.filter = _DebugOnlyFilter();
+        handler.filter = _DebugOnlyFilter().call;
 
         handler.handle(RecordImpl(
             timestamp: DateTime.now(), level: Level.debug, message: 'Test'));

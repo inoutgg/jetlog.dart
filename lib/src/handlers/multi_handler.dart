@@ -8,7 +8,8 @@ import 'package:strlog/strlog.dart' show Filter, Handler, Record;
 class MultiHandler extends Handler {
   /// Creates a new [MultiHandler] with given handlers.
   MultiHandler(Iterable<Handler> handlers)
-      : _controller = StreamController.broadcast(sync: true) {
+      : _controller = StreamController.broadcast(sync: true),
+        _isClosed = false {
     if (handlers.isEmpty) {
       throw ArgumentError.value(
           handlers, 'handlers', 'Must be non empty iterable collection');
@@ -21,6 +22,7 @@ class MultiHandler extends Handler {
 
   Filter? _filter;
 
+  bool _isClosed;
   final StreamController<Record> _controller;
 
   /// Sets records filter.
@@ -37,10 +39,20 @@ class MultiHandler extends Handler {
     _controller.add(record);
   }
 
+  /// Closes the handler.
+  ///
+  /// After closing the handler, it can't handle any new records.
+  /// Calling close() multiple times has no effect.
+  ///
+  /// All managed handlers will be automatically closed when this handler is closed.
   @override
   Future<void> close() async {
-    await _controller.close();
+    if (_isClosed) {
+      return;
+    }
 
-    return super.close();
+    _isClosed = true;
+    await super.close();
+    await _controller.close();
   }
 }

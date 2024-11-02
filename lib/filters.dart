@@ -6,6 +6,6 @@
 /// ```dart
 /// import 'package:strlog/filters.dart';
 /// ```
-library strlog.filters;
+library;
 
 export 'src/filters/multi_filter.dart';

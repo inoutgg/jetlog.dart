@@ -1,4 +1,4 @@
-library strlog.fields;
+library;
 
 part 'fields/any.dart';
 

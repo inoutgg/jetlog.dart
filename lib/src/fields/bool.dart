@@ -1,4 +1,4 @@
-part of strlog.fields;
+part of '../field.dart';
 
 final class _StaticBool extends _StaticField<bool?> implements Bool {
   // ignore:avoid_positional_boolean_parameters

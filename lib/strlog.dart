@@ -19,7 +19,7 @@
 ///   Str('hello', 'world'),
 /// }).info('Example');
 /// ```
-library strlog;
+library;
 
 export 'src/default_log.dart';
 export 'src/field.dart';
