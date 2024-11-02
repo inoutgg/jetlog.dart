@@ -1,7 +1,7 @@
 /// [LogFileStat] represents statistics about a log file, including its size and modification time.
 abstract class LogFileStat {
-  /// The last time this log file was modified.
-  DateTime get modified;
+  /// Time of the first modification of the log file.
+  DateTime get firstChanged;
 
   /// The current size of the log file in bytes.
   int get size;
@@ -57,7 +57,7 @@ class _PeriodicLogFileRotationPolicy implements LogFileRotationPolicy {
   @override
   bool shouldRotate(LogFileStat stat) {
     final now = DateTime.now();
-    final diff = now.difference(stat.modified);
+    final diff = now.difference(stat.firstChanged);
 
     return period < diff;
   }

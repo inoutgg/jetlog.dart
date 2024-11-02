@@ -7,7 +7,7 @@ import 'package:strlog/handlers.dart' show FileHandler, LogFileRotationPolicy;
 
 final formatter = TextFormatter.withDefaults();
 final handler = FileHandler(LogFileRotationPolicy.never(),
-    path: './file_example.log', maxBackupsCount: 1, formatter: formatter.call);
+    path: './file_example.log', formatter: formatter.call);
 
 final logger = Logger.detached()..handler = handler;
 

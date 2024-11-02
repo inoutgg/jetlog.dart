@@ -7,11 +7,13 @@ import 'package:strlog/handlers.dart' show FileHandler, LogFileRotationPolicy;
 
 final formatter = TextFormatter.withDefaults();
 final handler = FileHandler(
+    // rotates log file if either log file is older than 5m, or size exceeds 10kb.
     LogFileRotationPolicy.union([
-      LogFileRotationPolicy.periodic(Duration(minutes: 5)), // each 5 minutes
-      LogFileRotationPolicy.sized(1024 * 1024) // if exceeds 1mb.
+      LogFileRotationPolicy.periodic(Duration(minutes: 5)), // older than 5m
+      LogFileRotationPolicy.sized(1024 * 10) // exceeds 10kb.
     ]),
-    formatter: formatter.call);
+    formatter: formatter.call,
+    path: './file_rotation_periodic_example.log');
 
 final logger = Logger.detached()..handler = handler;
 

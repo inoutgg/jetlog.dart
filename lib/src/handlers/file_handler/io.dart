@@ -8,14 +8,15 @@ import 'package:path/path.dart'
 import 'package:strlog/formatters.dart' show Formatter;
 import 'package:strlog/strlog.dart' show Handler, Record, Filter;
 import 'package:strlog/src/handlers/file_handler/policy.dart';
+import 'package:strlog/src/handlers/file_handler/defaults.dart' as defaults;
 
 const _localFs = LocalFileSystem();
 
 class _LogFileStat implements LogFileStat {
-  _LogFileStat({required this.modified, required this.size});
+  _LogFileStat({required this.firstChanged, required this.size});
 
   @override
-  DateTime modified;
+  DateTime firstChanged;
 
   @override
   int size;
@@ -30,15 +31,16 @@ class _LogFileStat implements LogFileStat {
 /// and can maintain a maximum number of backup files. When rotation occurs, the current
 /// log file is archived with a timestamp and a new file is created.
 class FileHandler extends Handler {
-  FileHandler(this._policy,
-      {required Formatter formatter,
-      required String path,
-      required int maxBackupsCount,
-      FileSystem? fs})
-      : assert(path != ""),
+  FileHandler(
+    this._policy, {
+    required Formatter formatter,
+    required String path,
+    FileSystem? fs,
+    int? maxBackupsCount,
+  })  : assert(path != ""),
         _formatter = formatter,
         _fs = fs ?? _localFs,
-        _maxBackupsCount = maxBackupsCount,
+        _maxBackupsCount = maxBackupsCount ?? defaults.maxBackupCount,
         _isClosed = false,
         _path = _ParsedPath.fromString(path) {
     _open();
@@ -52,10 +54,10 @@ class FileHandler extends Handler {
   bool _isClosed;
 
   final FileSystem _fs;
+  final _ParsedPath _path;
   late File _file; // created in _open
   late IOSink _sink; // created in _open
   late _LogFileStat _stat; // created in _open
-  final _ParsedPath _path;
 
   /// Sets records filter.
   ///
@@ -76,7 +78,7 @@ class FileHandler extends Handler {
       case FileSystemEntityType.file:
         {
           final nextStat =
-              _LogFileStat(size: stat.size, modified: stat.modified);
+              _LogFileStat(size: stat.size, firstChanged: stat.changed);
           if (_policy.shouldRotate(nextStat)) {
             _rotate();
           } else {
@@ -87,7 +89,7 @@ class FileHandler extends Handler {
 
       case FileSystemEntityType.notFound:
         _file.createSync(recursive: true);
-        _stat = _LogFileStat(size: 0, modified: DateTime.now());
+        _stat = _LogFileStat(size: 0, firstChanged: DateTime.now());
         break;
 
       default:
@@ -141,7 +143,6 @@ class FileHandler extends Handler {
 
     _sink.add(bytes);
     _stat.size += bytes.lengthInBytes;
-    _stat.modified = DateTime.now();
   }
 
   /// Closes the file handler and underlying file sink.

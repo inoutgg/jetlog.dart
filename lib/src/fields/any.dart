@@ -57,5 +57,5 @@ class _Any {
 ///
 /// As [Any] makes runtime type checking make sure that it is used only
 /// where it is necessary, otherwise use one of predefined fields.
-// ignore:constant_identifier_names
+// ignore:library_private_types_in_public_api,constant_identifier_names
 const _Any Any = _Any();
