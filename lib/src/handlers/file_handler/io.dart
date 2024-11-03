@@ -102,9 +102,11 @@ class FileHandler extends Handler {
   /// [_gc] performs garbage collection on old backup files.
   void _gc() {
     final dir = _fs.directory(_path._dirname);
-    final files = List.of(dir
-        .listSync(followLinks: false)
-        .where((file) => file.statSync().type == FileSystemEntityType.file));
+    final files = List.of(dir.listSync(followLinks: false).where((file) =>
+        file.statSync().type == FileSystemEntityType.file &&
+        // Only delete files with matching basename and log extension
+        file.basename.contains(_path._basename) &&
+        extension(file.basename) == _path._extension));
 
     if (files.length > _maxBackupsCount) {
       files.sort((a, b) => _ParsedPath.fromString(a.path)
@@ -187,7 +189,7 @@ class _ParsedPath implements Comparable<_ParsedPath> {
     final normalizedPath = normalize(path);
 
     final baseName = basenameWithoutExtension(normalizedPath);
-    final tagIndex = baseName.lastIndexOf('_');
+    final tagIndex = baseName.lastIndexOf('.');
     String tag = '';
     late final String finalBaseName;
     if (tagIndex != -1) {
