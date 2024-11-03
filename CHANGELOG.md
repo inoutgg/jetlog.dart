@@ -1,6 +1,6 @@
 # CHANGELOG.md
 
-# 2.0.0
+# 2.0.0-rc.1
 
 - **BREAKING CHANGE** Package renamed to `strlog`
 - **BREAKING CHANGE** `Tracer` renamed to `Timer`
