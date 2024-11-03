@@ -7,7 +7,7 @@ import 'package:strlog/src/interface.dart';
 abstract interface class Timer {
   /// Stops timer and outputs a log record containing a [message] and the measured time between
   /// the [Interface.startTimer] call and this [stop] call.
-  /// 
+  ///
   /// An optional [level] can be specified to control the output log level, and
   /// additional [fields] can be added to provide extra context in the log record.
   void stop(String message, {Level? level, Iterable<Field>? fields});
