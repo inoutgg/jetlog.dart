@@ -11,7 +11,8 @@ description: >
   - Built-in support for filtering records
   - Dozens of log record handlers out of the box
 
-homepage: https://github.com/inoutgg/strlog.dart
+repository: https://github.com/inoutgg/strlog.dart
+homepage: https://strlog.inout.gg/
 
 environment:
   sdk: ">=3.5.0 <4.0.0"
