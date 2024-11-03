@@ -75,4 +75,4 @@ Released under the [MIT] license.
 [MIT]: ./LICENSE
 [gh-actions-image]: https://github.com/inoutgg/strlog.dart/workflows/test/badge.svg
 [gh-actions-url]: https://github.com/inoutgg/strlog.dart
-[DEMO]: ./docs/assets/demo.gif
+[DEMO]: ./doc/assets/demo.gif
