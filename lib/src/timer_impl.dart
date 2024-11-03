@@ -29,7 +29,7 @@ class TimerImpl implements Timer {
   }
 
   @override
-  void stop(String message, [Iterable<Field>? fields]) {
+  void stop(String message, {Level? level, Iterable<Field>? fields}) {
     if (_stopwatch.isRunning) {
       _stopwatch.stop();
       stoppedAt = startedAt.add(_stopwatch.elapsed);
@@ -37,7 +37,7 @@ class TimerImpl implements Timer {
         DTM('stopped_at', stoppedAt),
         Dur('duration', _stopwatch.elapsed),
         ...?fields
-      }).log(_level, message);
+      }).log(level ?? _level, message);
     }
   }
 

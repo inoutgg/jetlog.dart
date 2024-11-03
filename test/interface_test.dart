@@ -691,11 +691,25 @@ void main() {
         ..level = Level.all;
 
       const fields = [Str('test1', 'test1'), Str('test2', 'test2')];
-      logger.startTimer('start').stop('stop', fields);
+      logger.startTimer('start').stop('stop', fields: fields);
 
       await later(() {
         final record = handler.records.elementAt(1);
         expect(List<Field>.from(record.fields!), containsAll(fields));
+      });
+    });
+
+    test('accepts custom level on stop', () async {
+      final handler = MemoryHandler();
+      final logger = Logger.detached()
+        ..handler = handler
+        ..level = Level.all;
+
+      logger.startTimer('start').stop('stop', level: Level.warn);
+
+      await later(() {
+        final record = handler.records.elementAt(1);
+        expect(record.level, Level.warn);
       });
     });
 

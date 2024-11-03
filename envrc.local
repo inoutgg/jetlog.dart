@@ -1,0 +1,3 @@
+if use flake; then
+  use flake
+fi

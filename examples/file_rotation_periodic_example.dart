@@ -1,5 +1,7 @@
 library;
 
+import 'dart:math' show Random;
+
 import 'package:strlog/formatters.dart' show TextFormatter;
 import 'package:strlog/global_logger.dart' as log;
 import 'package:strlog/strlog.dart';
@@ -10,12 +12,12 @@ final handler = FileHandler(
     LogFileRotationPolicy.periodic(Duration(seconds: 30)), // each 30 seconds
     path: './file_rotation_periodic_example.log',
     formatter: formatter.call);
-final logger = Logger.detached()
+final _logger = Logger.detached()
   ..handler = handler
   ..level = Level.all;
 
 Future<void> main() async {
-  log.set(logger);
+  log.set(_logger);
 
   final context = log.withFields({
     const Str('username', 'roman-vanesyan'),
@@ -29,25 +31,28 @@ Future<void> main() async {
 
   // Emulate exponential backoff retry
   final maxAttempts = 5;
+  var cooldown = Duration(seconds: 0);
   for (int attempt = 1; attempt <= maxAttempts; attempt++) {
+    await Future<void>.delayed(cooldown);
+
     try {
       final attemptTimer = context.withFields({
         Int('attempt', attempt),
-      }).startTimer('Uploading attempt', level: Level.debug);
+      }).startTimer('Attempt to upload...', level: Level.debug);
 
-      final waitFor = Duration(seconds: (2.5 * attempt).toInt());
-      await Future<void>.delayed(waitFor);
+      await Future<void>.delayed(Duration(seconds: Random().nextInt(5)));
+      cooldown = Duration(seconds: attempt);
 
       // resolve on the last attempt.
       if (attempt != maxAttempts) {
-        attemptTimer.stop('Failed attempt');
-        context.warn('Failed to upload, retrying...',
-            {Int('attempt', attempt), Dur('waited_for', waitFor)});
+        attemptTimer.stop('Failed to upload!',
+            level: Level.warn,
+            fields: {Int('attempt', attempt), Dur('next_cooldown', cooldown)});
 
-        throw Exception('failed');
+        throw Exception('Upload failed');
       }
 
-      attemptTimer.stop('Succeeded');
+      attemptTimer.stop('Upload succeeded!');
 
       break; // Success, exit loop
     } catch (e) {

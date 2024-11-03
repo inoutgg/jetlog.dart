@@ -29,7 +29,4 @@ Future<void> main() async {
 
   timer.stop('Aborting...');
   context.fatal('Failed to upload!', {const Str('reason', 'Timeout')});
-
-  // close handler.
-  // await handler.close();
 }

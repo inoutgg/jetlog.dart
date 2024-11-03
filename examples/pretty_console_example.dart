@@ -1,10 +1,13 @@
 /// This examples show how to setup prettified console logger.
 library;
 
+import 'dart:math' show Random;
+
 import 'package:ansicolor/ansicolor.dart' show AnsiPen;
 import 'package:strlog/formatters.dart' show TextFormatter;
 import 'package:strlog/handlers.dart' show ConsoleHandler;
-import 'package:strlog/strlog.dart' show DefaultLog, Level, Logger, Str, Group;
+import 'package:strlog/strlog.dart';
+import 'package:strlog/global_logger.dart' as log;
 
 class _Ansi {
   static final boldBlack = AnsiPen()..black(bold: true);
@@ -50,25 +53,53 @@ final _logger = Logger.detached()
   ..handler = handler;
 
 Future<void> main() async {
-  var context = _logger.withFields({
+  log.set(_logger);
+
+  final context = log.withFields({
     const Str('username', 'roman-vanesyan'),
-  });
-
-  context.info('Received upload request');
-
-  // Create a new logging context
-  context = context.withFields({
     const Group('file', [
       Str('name', 'avatar.png'),
       Str('mime', 'image/png'),
     ])
   });
 
-  final timer = context.startTimer('Uploading!');
+  final uploadingTimer = context.startTimer('Uploading!', level: Level.info);
 
-  // Emulate uploading, wait for 1 sec.
-  await Future<void>.delayed(const Duration(seconds: 1));
+  // Emulate exponential backoff retry
+  final maxAttempts = 5;
+  var cooldown = Duration(seconds: 0);
+  for (int attempt = 1; attempt <= maxAttempts; attempt++) {
+    await Future<void>.delayed(cooldown);
 
-  timer.stop('Aborting...');
-  context.error('Failed to upload!', {const Str('reason', 'Timeout')});
+    try {
+      final attemptTimer = context.withFields({
+        Int('attempt', attempt),
+      }).startTimer('Attempt to upload...', level: Level.debug);
+
+      await Future<void>.delayed(Duration(seconds: Random().nextInt(5)));
+      cooldown = Duration(seconds: attempt);
+
+      // resolve on the last attempt.
+      if (attempt != maxAttempts) {
+        attemptTimer.stop('Failed to upload!',
+            level: Level.warn,
+            fields: {Int('attempt', attempt), Dur('next_cooldown', cooldown)});
+
+        throw Exception('Upload failed');
+      }
+
+      attemptTimer.stop('Upload succeeded!');
+
+      break; // Success, exit loop
+    } catch (e) {
+      if (attempt == maxAttempts) {
+        uploadingTimer.stop('Aborting...');
+        context.error('Failed to upload!', {const Str('reason', 'Timeout')});
+
+        rethrow; // Last attempt failed
+      }
+    }
+  }
+
+  uploadingTimer.stop('Uploaded!');
 }

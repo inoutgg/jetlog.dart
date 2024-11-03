@@ -1,13 +1,14 @@
 import 'package:strlog/src/field.dart' show Field;
+import 'package:strlog/src/level.dart';
 import 'package:strlog/src/interface.dart';
 
 /// [Timer] is used to measure time between [Interface.startTimer] and [Timer.stop]
 /// calls.
 abstract interface class Timer {
-  /// Stops tracing; immediately emits a record with a [message] and
-  /// measured time.
-  ///
-  /// If [stop] is called more than once a [TracerStoppedError]
-  /// will be raised.
-  void stop(String message, [Iterable<Field>? fields]);
+  /// Stops timer and outputs a log record containing a [message] and the measured time between
+  /// the [Interface.startTimer] call and this [stop] call.
+  /// 
+  /// An optional [level] can be specified to control the output log level, and
+  /// additional [fields] can be added to provide extra context in the log record.
+  void stop(String message, {Level? level, Iterable<Field>? fields});
 }
