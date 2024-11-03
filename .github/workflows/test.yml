@@ -35,8 +35,7 @@ jobs:
           path: '%LOCALAPPDATA%\Pub\Cache'
           key: ${{ runner.os }}-${{ hashFiles('pubspec.yaml') }}
 
-      - name: Setup Dart VM
-        uses: dart-lang/setup-dart@v1
+      - uses: dart-lang/setup-dart@v1
 
       - run: dart pub get
       - run: dart format --output=none --set-exit-if-changed .

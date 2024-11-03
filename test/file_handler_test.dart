@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io' show Platform;
 
 import 'package:file/memory.dart';
 import 'package:path/path.dart' as path;
@@ -16,10 +17,19 @@ void main() {
     late Formatter formatter;
 
     setUp(() {
-      fs = MemoryFileSystem();
+      fs = MemoryFileSystem(
+          style: Platform.isWindows
+              ? FileSystemStyle.windows
+              : FileSystemStyle.posix);
       logPath = path.join('logs', 'test.log');
       formatter = (record) => '${record.message}\n'.codeUnits;
     });
+
+    String normalizePath(String p) => path.normalize(p);
+
+    bool pathEquals(String path1, String path2) {
+      return normalizePath(path1) == normalizePath(path2);
+    }
 
     test('creates log file and directory if they do not exist', () {
       final handler = FileHandler(
@@ -196,7 +206,7 @@ void main() {
         final files = directory
             .listSync()
             .where((f) => f.path.endsWith('.log'))
-            .map((f) => f.path)
+            .map((f) => normalizePath(f.path))
             .toList();
 
         // Store newly created backup file
@@ -213,13 +223,13 @@ void main() {
       final remainingFiles = directory
           .listSync()
           .where((f) => f.path.endsWith('.log'))
-          .map((f) => f.path)
+          .map((f) => normalizePath(f.path))
           .toList();
 
       // Extract timestamps from filenames to verify chronological order
       List<String> extractTimestamps(List<String> files) {
         return files
-            .where((f) => f != logPath) // Exclude current log file
+            .where((f) => !pathEquals(f, logPath))
             .map((f) {
               final match = RegExp(r'_(\d{14})\.log$').firstMatch(f);
               return match?.group(1) ?? '';
