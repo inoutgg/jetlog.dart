@@ -1,3 +1,5 @@
+/// This example shows how to set up logging to a file with rotation policy
+/// based on file size.
 library;
 
 import 'package:strlog/formatters.dart' show TextFormatter;

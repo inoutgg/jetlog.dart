@@ -1,0 +1,10 @@
+- `console_example.dart` - Shows how to set up a logger to log to the console
+- `file_example.dart` - Demonstrates how to configure log records to be written to a file
+- `file_rotation_periodic_example.dart` - Shows how to set up file logging with a time-based rotation policy
+- `file_rotation_periodic_sized_example.dart` - Shows how to set up logging to a file with size-based rotation policy
+- `global_logger_example.dart` - Demonstrates how to use a global logger
+- `global_logger_override_example.dart` - Demonstrates how to replace the default global logger
+- `hierarchy/` - Demonstrates a simple hierarchy of loggers
+- `pretty_console_example.dart` - Shows how to setup a prettified console logger with colors
+- `simple_example.dart` - Shows how to simply log to the console
+- `stdout_stderr_example.dart` - Demonstrates how to filter log records and direct them to stdout/stderr based on severity

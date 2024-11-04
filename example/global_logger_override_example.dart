@@ -1,4 +1,4 @@
-// Examples shows how to replace the default global logger.
+// This example demonstrates how to replace the default global logger.
 library;
 
 import 'package:strlog/formatters.dart';

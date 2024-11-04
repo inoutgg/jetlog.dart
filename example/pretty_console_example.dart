@@ -1,4 +1,4 @@
-/// This examples show how to setup prettified console logger.
+/// This example shows how to setup a prettified console logger.
 library;
 
 import 'dart:math' show Random;

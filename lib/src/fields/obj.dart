@@ -10,7 +10,7 @@ final class _LazyObj extends _LazyField<Iterable<Field>?> implements Obj {
       : super(name: name, producer: producer, kind: FieldKind.object);
 }
 
-/// A field with value of custom type (i.e. class that implements
+/// A field with a value of a custom type (i.e., a class that implements
 /// [Loggable]).
 abstract class Obj extends Field<Iterable<Field>?> {
   factory Obj(String name, Loggable? value) => _StaticObj(name, value);
@@ -19,7 +19,7 @@ abstract class Obj extends Field<Iterable<Field>?> {
       _LazyObj(name, () => producer()?.toFields());
 }
 
-/// [Loggable] provides the ability to object to be logged as part of
+/// [Loggable] provides the ability for an object to be logged as part of a
 /// logging context field set.
 ///
 /// Example:
@@ -42,11 +42,11 @@ abstract class Obj extends Field<Iterable<Field>?> {
 ///
 /// final user = User(
 ///    name: 'Roman Vanesyan',
-///    email: 'roman@vanesyan.me',
+///    email: 'me@romanvanesyan.com',
 ///    createdAt: DateTime.now());
 ///
 ///  logger
-///      .bind(Obj('user', user), DTM('authenticatedAt', DateTime.now()))
+///      .bind(Obj('user', user), DTM('authenticated_at', DateTime.now()))
 ///      .info('successfully authenticated');
 /// ```
 abstract class Loggable {

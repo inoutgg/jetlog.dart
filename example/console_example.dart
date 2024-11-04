@@ -1,4 +1,4 @@
-/// This example shows how to setup a logger to log to console.
+/// This example shows how to set up a logger to log to the console.
 library;
 
 import 'package:strlog/formatters.dart' show TextFormatter;

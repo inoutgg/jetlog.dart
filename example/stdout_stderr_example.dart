@@ -1,3 +1,7 @@
+/// This example demonstrates how to filter log records and direct them to stdout
+/// or stderr based on severity level.
+library;
+
 import 'dart:io' show stderr, stdout;
 import 'package:strlog/formatters.dart';
 import 'package:strlog/handlers.dart';

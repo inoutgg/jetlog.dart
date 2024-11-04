@@ -1,4 +1,4 @@
-/// This example shows how to use a global logger.
+/// This example demonstrates how to use a global logger.
 library;
 
 // Import global logger as `log`.

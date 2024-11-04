@@ -1,3 +1,5 @@
+/// This example shows how to set up file logging with a time-based
+/// log rotation policy.
 library;
 
 import 'dart:math' show Random;

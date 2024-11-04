@@ -1,3 +1,4 @@
+/// This example demonstrates how to configure log records to be written to a file. The log file is never rotated.
 library;
 
 import 'package:strlog/formatters.dart' show TextFormatter;

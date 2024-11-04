@@ -1,3 +1,6 @@
+/// This example shows how to simply log to the console.
+library;
+
 import 'dart:io' show pid;
 
 import 'package:strlog/formatters.dart';
