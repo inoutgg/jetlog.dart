@@ -1,5 +1,9 @@
 # CHANGELOG.md
 
+# 2.0.0-rc.2
+
+- Removed no-op implementation for `FileHandler`
+
 # 2.0.0-rc.1
 
 - **BREAKING CHANGE** Package renamed to `strlog`

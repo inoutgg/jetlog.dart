@@ -1,15 +1,7 @@
 name: strlog
-version: 2.0.0-rc.1
+version: 2.0.0-rc.2
 license: MIT
-description: >
-  Structured, hierarchical, leveled logging for Dart.
-
-  Features:
-  - Built-in primitives for bound structured record context
-  - Leveled records
-  - Built-in configurable text and JSON log formatters
-  - Built-in support for filtering records
-  - Dozens of log record handlers out of the box
+description: Structured, hierarchical, leveled logger with dozens of log record handlers out of the box.
 
 repository: https://github.com/inoutgg/strlog.dart
 homepage: https://strlog.inout.gg/
