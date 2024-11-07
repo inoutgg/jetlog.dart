@@ -4,6 +4,8 @@
 
 To split logging of records between stderr and stdout, we basically need two constructions provided out of the box by strlog: `Filter` and `MultiHandler`.
 
+The filter needs to be configured 
+
 ```dart
 import 'dart:io' show stderr, stdout;
 import 'package:strlog/formatters.dart';
